@@ -8,6 +8,10 @@ A runtime inspector for the godot game engine.
 I made this to learn about Godot Engine [1] and Dear ImGui [2].
 
 The files here are a c# godot project, if you want to use it:
+</p>
+
+<p>
+<code>
 
 -) Create a C# solution (if you haven't already) for your project from, Project > Tools > C# > Create C# solution.
 
@@ -20,11 +24,10 @@ The files here are a c# godot project, if you want to use it:
 -) Copy the GodotRunTimeInspector folder from this repository to your project
 
 -) Add GodotRunTimeInspector/Scripts/GodotRunTimeInspector.cs to a node in your Scene. 
-or
+<p>or</p>
 -) The Scene GodotRunTimeInspector/GodotRuntimeInspector.tscn has a demo.
-
+</code>
 </p>
-
 
 <p>[1] https://github.com/godotengine/godot </p>
 <p>[2] https://github.com/ocornut/imgui </p>
