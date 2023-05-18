@@ -11,7 +11,6 @@ The files here are a c# godot project, if you want to use it:
 </p>
 
 <p>
-
 - Create a C# solution (if you haven't already) for your project from, Project > Tools > C# > Create C# solution.
 
 - Open the solution and allow unsafe code, and install ImGui.NET [3] with NuGet.
@@ -23,9 +22,9 @@ The files here are a c# godot project, if you want to use it:
 - Copy the GodotRunTimeInspector folder from this repository to your project
 
 - Add GodotRunTimeInspector/Scripts/GodotRunTimeInspector.cs to a node in your Scene. 
-<p>or</p>
-- The Scene GodotRunTimeInspector/GodotRuntimeInspector.tscn has a demo.
 </p>
+
+The Scene GodotRunTimeInspector/GodotRuntimeInspector.tscn has a demo.
 
 <p>[1] https://github.com/godotengine/godot </p>
 <p>[2] https://github.com/ocornut/imgui </p>
