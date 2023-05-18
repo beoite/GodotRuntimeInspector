@@ -72,34 +72,16 @@ namespace GodotRuntimeInspector.Scripts
             style.TabRounding = 0f;
             style.CellPadding = new System.Numerics.Vector2(0f, 0f);
 
-            ImGuiCond always = ImGuiCond.Always;
-            ImGuiCond appearing = ImGuiCond.Appearing;
-
             System.Numerics.Vector2 nextWindowSize = new System.Numerics.Vector2(MAINVIEWPORTPTR.Size.X / 2f, MAINVIEWPORTPTR.Size.Y / 2f);
             System.Numerics.Vector2 nextWindowPos = System.Numerics.Vector2.Zero;
 
-            //ImGui.SetNextWindowSize(MainViewport.Size, always);
-            //ImGui.SetNextWindowPos(MainViewport.Pos, always);
-            //ImGui.SetNextWindowBgAlpha(0.0f);
-            //Myimgui.HUD.Update();
-
-            //nextWindowPos.Y += 200f;
-            //ImGui.SetNextWindowSize(nextWindowSize, appearing);
-            //ImGui.SetNextWindowPos(nextWindowPos, appearing);
-            //Myimgui.Input.Update(inputEvent);
-
-            ImGui.SetNextWindowSize(nextWindowSize, appearing);
-            ImGui.SetNextWindowPos(nextWindowPos, appearing);
+            ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);
+            ImGui.SetNextWindowPos(nextWindowPos, ImGuiCond.Appearing);
             Myimgui.MyPropertyNode.Update(this);
 
-            //nextWindowPos.Y += 200f;
-            //ImGui.SetNextWindowSize(nextWindowSize, appearing);
-            //ImGui.SetNextWindowPos(nextWindowPos, appearing);
-            //Myimgui.Container.Update();
-
-            ImGui.SetNextWindowSize(nextWindowSize, appearing);
-            ImGui.SetNextWindowPos(nextWindowPos, appearing);
-            ImGui.ShowDemoWindow();
+            //ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);
+            //ImGui.SetNextWindowPos(nextWindowPos, ImGuiCond.Appearing);
+            //ImGui.ShowDemoWindow();
         }
 
         public override void _Input(Godot.InputEvent @event)
