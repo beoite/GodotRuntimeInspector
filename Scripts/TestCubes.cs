@@ -2,8 +2,25 @@
 
 namespace GodotRuntimeInspector.Scripts
 {
-    public static class CubeCreator
+    public static class TestCubes
     {
+        public static System.Collections.Generic.List<Godot.StaticBody3D> cubes = new System.Collections.Generic.List<Godot.StaticBody3D>();
+
+        public static void Create(Godot.Node parent)
+        {
+            for (int i = 0; i < 33; i++)
+            {
+                float range = 10f;
+                Godot.StaticBody3D testCube = CreateCube(nameof(testCube) + i);
+                float x = new Godot.RandomNumberGenerator().RandfRange(-range, range);
+                float y = new Godot.RandomNumberGenerator().RandfRange(-range, range);
+                float z = new Godot.RandomNumberGenerator().RandfRange(-range, range);
+                testCube.GlobalTransform = new Godot.Transform3D(Godot.Basis.Identity, new Godot.Vector3(x, y, z));
+                parent.AddChild(testCube);
+                cubes.Add(testCube);
+            }
+        }
+
         //StaticBody3D staticBody3D = CubeCreator.CreateCube();
         //AddChild(staticBody3D);
         public static StaticBody3D CreateCube(string name)

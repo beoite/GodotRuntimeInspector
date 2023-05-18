@@ -25,6 +25,7 @@ namespace GodotRuntimeInspector.Scripts
             var arrow = Godot.ResourceLoader.Load("res://arrow.png");
             Godot.Input.SetCustomMouseCursor(arrow);
             cam = (Godot.Camera3D)GetChild(0);
+            TestCubes.Create(this);
         }
 
         public override void _PhysicsProcess(double delta)

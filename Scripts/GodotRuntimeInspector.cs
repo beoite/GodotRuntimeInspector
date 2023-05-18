@@ -12,26 +12,11 @@ namespace GodotRuntimeInspector.Scripts
         public static ImGuiViewportPtr MAINVIEWPORTPTR = new ImGuiViewportPtr();
         public static ImGuiIOPtr IOPTR = null;
 
-        private static Godot.InputEvent? inputEvent = null;
-        private static System.Collections.Generic.List<Godot.StaticBody3D> cubes = new System.Collections.Generic.List<Godot.StaticBody3D>();
-
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
             Godot.DisplayServer.WindowSetVsyncMode(Godot.DisplayServer.VSyncMode.Disabled);
             int result = Godot.Engine.MaxFps = MaxFps;
-
-            for (int i = 0; i < 33; i++)
-            {
-                float range = 10f;
-                Godot.StaticBody3D testCube = CubeCreator.CreateCube(nameof(testCube) + i);
-                float x = new Godot.RandomNumberGenerator().RandfRange(-range, range);
-                float y = new Godot.RandomNumberGenerator().RandfRange(-range, range);
-                float z = new Godot.RandomNumberGenerator().RandfRange(-range, range);
-                testCube.GlobalTransform = new Godot.Transform3D(Godot.Basis.Identity, new Godot.Vector3(x, y, z));
-                this.AddChild(testCube);
-                cubes.Add(testCube);
-            }
 
             MyInputMap.Init();
 
@@ -86,8 +71,7 @@ namespace GodotRuntimeInspector.Scripts
 
         public override void _Input(Godot.InputEvent @event)
         {
-            inputEvent = @event;
-
+            // stops input from propagating down through each _Input call (improves performance)
             //GetViewport().SetInputAsHandled();
         }
 
