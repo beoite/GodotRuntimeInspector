@@ -16,26 +16,45 @@ namespace GodotRuntimeInspector.Scripts
         public override void _Ready()
         {
             Godot.DisplayServer.WindowSetVsyncMode(Godot.DisplayServer.VSyncMode.Disabled);
-            int result = Godot.Engine.MaxFps = MaxFps;
+            Godot.Engine.MaxFps = MaxFps;
 
-            // C# has no preload, so you have to always use ResourceLoader.Load<PackedScene>().
-            //Godot.Node scene = Godot.ResourceLoader.Load<Godot.PackedScene>("res://" + nameof(GodotRuntimeInspector) + "/" + nameof(SimpleCamera) + ".tscn").Instantiate();
-            // Add the node as a child of the node the script is attached to.
-            //AddChild(scene);
+            string res = "res://";
+            string extension = ".tscn";
+            string debugPath = res + nameof(GodotRuntimeInspector) + "/" + nameof(GodotRuntimeInspector) + extension;
+            string simpleCamera = res + nameof(GodotRuntimeInspector) + "/" + nameof(SimpleCamera) + extension;
+
+            bool isDebug = System.String.Equals(debugPath, SceneFilePath, System.StringComparison.InvariantCultureIgnoreCase);
+
+            string diff = SceneFilePath.Length + " " + debugPath.Length;
+
+            Godot.GD.Print(nameof(SceneFilePath) + " " + SceneFilePath);
+            Godot.GD.Print(nameof(debugPath) + " " + debugPath);
+            Godot.GD.Print(nameof(isDebug) + " " + isDebug);
+            Godot.GD.Print(nameof(diff) + " " + diff);
+
+            if (isDebug == true)
+            {
+
+                // C# has no preload, so you have to always use ResourceLoader.Load<PackedScene>().
+                Godot.Node scene = Godot.ResourceLoader.Load<Godot.PackedScene>(simpleCamera).Instantiate();
+                // Add the node as a child of the node the script is attached to.
+                AddChild(scene);
+            }
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.
         public override void _Process(double delta)
         {
+            if (Enabled == false)
+            {
+                return;
+            }
+
             FPS = 1.0 / delta;
             MAINVIEWPORTPTR = ImGui.GetMainViewport();
             IOPTR = ImGui.GetIO();
             IOPTR.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
             IOPTR.DeltaTime = (float)delta;
-            if (Enabled == false)
-            {
-                return;
-            }
 
             // make the central node invisible and inputs pass-thru
             ImGuiDockNodeFlags dockNodeFlags = ImGuiDockNodeFlags.PassthruCentralNode;

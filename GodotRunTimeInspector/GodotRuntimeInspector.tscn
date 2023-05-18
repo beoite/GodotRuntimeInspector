@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" path="res://GodotRunTimeInspector/Scripts/GodotRuntimeInspector.cs" id="1_me0lj"]
 
-[node name="Main" type="Node"]
+[node name="GodotRuntimeInspector" type="Node"]
 script = ExtResource("1_me0lj")
