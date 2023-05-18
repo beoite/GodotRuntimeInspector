@@ -25,12 +25,11 @@ or
 
 </p>
 
-<p>
-[1] https://github.com/godotengine/godot
-[2] https://github.com/ocornut/imgui 
-[3] https://github.com/ImGuiNET/ImGui.NET
-[4] https://github.com/pkdawson/imgui-godot
-</p>
+
+<p>[1] https://github.com/godotengine/godot </p>
+<p>[2] https://github.com/ocornut/imgui </p>
+<p>[3] https://github.com/ImGuiNET/ImGui.NET</p>
+<p>[4] https://github.com/pkdawson/imgui-godot </p>
 
 <img src="Untitled.png"
      alt="Screenshot"
