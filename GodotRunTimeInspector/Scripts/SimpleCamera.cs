@@ -26,6 +26,7 @@ namespace GodotRuntimeInspector.Scripts
             Godot.Input.SetCustomMouseCursor(arrow);
             cam = (Godot.Camera3D)GetChild(0);
             TestCubes.Create(this);
+            MyInputMap.Init();
         }
 
         public override void _PhysicsProcess(double delta)

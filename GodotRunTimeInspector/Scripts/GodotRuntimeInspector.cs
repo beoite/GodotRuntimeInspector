@@ -18,12 +18,10 @@ namespace GodotRuntimeInspector.Scripts
             Godot.DisplayServer.WindowSetVsyncMode(Godot.DisplayServer.VSyncMode.Disabled);
             int result = Godot.Engine.MaxFps = MaxFps;
 
-            MyInputMap.Init();
-
             // C# has no preload, so you have to always use ResourceLoader.Load<PackedScene>().
-            Godot.Node scene = Godot.ResourceLoader.Load<Godot.PackedScene>("res://" + nameof(SimpleCamera) + ".tscn").Instantiate();
+            //Godot.Node scene = Godot.ResourceLoader.Load<Godot.PackedScene>("res://" + nameof(GodotRuntimeInspector) + "/" + nameof(SimpleCamera) + ".tscn").Instantiate();
             // Add the node as a child of the node the script is attached to.
-            AddChild(scene);
+            //AddChild(scene);
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.

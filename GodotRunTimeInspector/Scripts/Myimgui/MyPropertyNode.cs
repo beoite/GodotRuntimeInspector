@@ -53,7 +53,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
         public static void Update(Godot.Node node)
         {
-            sceneTree = node.GetTree();
+            sceneTree = node.GetTree().Root.GetTree();
             if (selected.Name == nameof(selected))
             {
                 selected = sceneTree.CurrentScene;

@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://b8k1n2uj2nvv3"]
-
-[ext_resource type="Script" path="res://Scripts/GodotRuntimeInspector.cs" id="1_hujpa"]
-
-[node name="Main" type="Node"]
-script = ExtResource("1_hujpa")

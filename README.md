@@ -5,19 +5,31 @@ A runtime inspector for the godot game engine.
 </p>
 
 <p>
-I made this to learn about Dear ImGui[1], and godot.
+I made this to learn about Godot Engine [1] and Dear ImGui [2].
 
 This is currently a c# godot project, but I'll try to get it working as an addon so its eaiser to import, but for now, if you want to use it:
 
-1) Install imgui-godot[2], (copy the addons folder to your project)
+-) Create a C# solution (if you haven't already) from Project > Tools > C# > Create C# solution.
 
-2) Add the files from this project to your own, the ui is created in Scripts/GodotRuntimeInspector.cs 
+-) Open the solution and allow unsafe code, and install ImGui.NET [3] with NuGet.
+
+-) Install imgui-godot [4], (copy the addons folder to your project).
+
+-) Enable the imgui-godot plugin in Godot, Project > Project Settings > Plugins.
+
+-) Copy the GodotRunTimeInspector folder to your project
+
+-) Add GodotRunTimeInspector/Scripts/GodotRunTimeInspector.cs to a node in your Scene.
+
+The Scene GodotRunTimeInspector/GodotRuntimeInspector.tscn has a demo.
 
 </p>
 
 <p>
-[1] https://github.com/ocornut/imgui 
-[2] https://github.com/pkdawson/imgui-godot
+[1] https://github.com/godotengine/godot
+[2] https://github.com/ocornut/imgui 
+[3] https://github.com/ImGuiNET/ImGui.NET
+[4] https://github.com/pkdawson/imgui-godot
 </p>
 
 <img src="https://i.imgur.com/XXBmZXB.png"
