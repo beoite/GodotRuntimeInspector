@@ -70,9 +70,6 @@ namespace GodotRuntimeInspector.Scripts
             System.Numerics.Vector2 nextWindowSize = new System.Numerics.Vector2(MAINVIEWPORTPTR.Size.X / 2f, MAINVIEWPORTPTR.Size.Y / 2f);
             System.Numerics.Vector2 nextWindowPos = System.Numerics.Vector2.Zero;
 
-            ImGui.TextColored(Palette.SKYBLUE.ToVector4(), nameof(SceneFilePath) + " " + SceneFilePath);
-            ImGui.TextColored(Palette.SKYBLUE.ToVector4(), nameof(IsDebug) + " " + IsDebug);
-
             ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);
             ImGui.SetNextWindowPos(nextWindowPos, ImGuiCond.Appearing);
             Myimgui.MyPropertyNode.Update(this);
