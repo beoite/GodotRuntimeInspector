@@ -7,3 +7,7 @@ script = ExtResource("1_82ndq")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 fov = 90.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.684547, -0.368883, -0.628745, 0, -0.862514, 0.506034, -0.728969, -0.346404, -0.590431, 0, 0, 0)
+light_color = Color(0.929412, 0.878431, 0.568627, 1)

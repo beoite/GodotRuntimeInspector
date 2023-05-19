@@ -69,6 +69,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 {
                     ImGui.TextColored(Palette.GREEN.ToVector4(), selected.Name + " | " + selected.GetPath());
                     ImGui.TextColored(Palette.SKYBLUE.ToVector4(), MyPropertyTable.SelectedValue);
+                    //Godot.DisplayServer.ClipboardSet(SelectedValue);
                     ImGui.EndChild();
                 }
                 int numCols = 2;

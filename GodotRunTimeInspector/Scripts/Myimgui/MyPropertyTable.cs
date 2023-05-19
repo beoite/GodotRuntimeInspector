@@ -89,7 +89,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                             {
                                 SelectedValue = PrettyJson(SelectedValue);
                             }
-                            Godot.DisplayServer.ClipboardSet(SelectedValue);
                         }
                     }
                     ImGui.EndTable();
