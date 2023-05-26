@@ -19,12 +19,12 @@ The files here are a c# godot project, if you want to use it:
 
 - Enable the imgui-godot plugin in Godot, Project > Project Settings > Plugins.
 
-- Copy the RuntimeInspector folder from this repository to your project
+- Copy the GodotRuntimeInspector folder from this repository to your project
 
-- Add RuntimeInspector/Scripts/GodotRunTimeInspector.cs to a node in your Scene. 
+- Add GodotRuntimeInspector/Scripts/GodotRunTimeInspector.cs to a node in your Scene. 
 </p>
 
-The Scene RuntimeInspector/GodotRuntimeInspector.tscn has a demo.
+The Scene GodotRuntimeInspector/GodotRuntimeInspector.tscn has a demo.
 
 <p>[1] https://github.com/godotengine/godot </p>
 <p>[2] https://github.com/ocornut/imgui </p>
