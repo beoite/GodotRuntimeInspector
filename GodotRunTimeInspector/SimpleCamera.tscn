@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://cogi7cec1ud7k"]
+[gd_scene load_steps=2 format=3 uid="uid://b1cnx6sx06qfd"]
 
-[ext_resource type="Script" path="res://GodotRunTimeInspector/Scripts/SimpleCamera.cs" id="1_82ndq"]
+[ext_resource type="Script" path="res://GodotRuntimeInspector/Scripts/SimpleCamera.cs" id="1_ga3n2"]
 
 [node name="SimpleCamera" type="Node3D"]
-script = ExtResource("1_82ndq")
+script = ExtResource("1_ga3n2")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 fov = 90.0

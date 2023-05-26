@@ -1,7 +1,7 @@
 ﻿using ImGuiNET;
 using System;
 
-namespace GodotRuntimeInspector.Scripts.Myimgui
+namespace RuntimeInspector.Scripts.Myimgui
 {
     public static class MyPropertyTable
     {

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GodotRuntimeInspector"
-run/main_scene="res://GodotRunTimeInspector/GodotRuntimeInspector.tscn"
+run/main_scene="res://GodotRuntimeInspector/GodotRuntimeInspector.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 config/icon="res://App.ico"
 config/windows_native_icon="res://App.ico"

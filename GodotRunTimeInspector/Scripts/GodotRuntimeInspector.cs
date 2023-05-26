@@ -1,15 +1,9 @@
 using ImGuiNET;
 
-namespace GodotRuntimeInspector.Scripts
+namespace RuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
     {
-        public static double FPS = 0;
-        public static int MaxFps = 30;
-        public static bool Enabled = true;
-        public static float MinRowHeight = 10f;
-        public static ImGuiViewportPtr MAINVIEWPORTPTR = new ImGuiViewportPtr();
-        public static ImGuiIOPtr IOPTR = null;
         public const string ResourcePrefix = "res://";
         public const string Extension = ".tscn";
         public static string DebugPath = ResourcePrefix + nameof(GodotRuntimeInspector) + "/" + nameof(GodotRuntimeInspector) + Extension;
@@ -17,6 +11,13 @@ namespace GodotRuntimeInspector.Scripts
         public static string SimpleCameraPath = ResourcePrefix + nameof(GodotRuntimeInspector) + "/" + nameof(SimpleCamera) + Extension;
         public static Godot.PackedScene SimpleCameraPackedScene = (Godot.PackedScene)Godot.ResourceLoader.Load<Godot.PackedScene>(SimpleCameraPath);
         public static Godot.Node SimpleCameraNode = new Godot.Node();
+
+        public static double FPS = 0;
+        public static int MaxFps = 30;
+        public static bool Enabled = true;
+        public static float MinRowHeight = 10f;
+        public static ImGuiViewportPtr MAINVIEWPORTPTR = new ImGuiViewportPtr();
+        public static ImGuiIOPtr IOPTR = null;
 
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()

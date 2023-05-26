@@ -1,4 +1,4 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace RuntimeInspector.Scripts.Myimgui
 {
     public class MyProperty
     {

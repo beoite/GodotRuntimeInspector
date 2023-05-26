@@ -1,6 +1,6 @@
 ﻿using ImGuiNET;
 
-namespace GodotRuntimeInspector.Scripts
+namespace RuntimeInspector.Scripts
 {
     public partial class SimpleCamera : Godot.Node
     {

@@ -1,4 +1,4 @@
-﻿namespace GodotRuntimeInspector.Scripts
+﻿namespace RuntimeInspector.Scripts
 {
     public static class Widget
     {

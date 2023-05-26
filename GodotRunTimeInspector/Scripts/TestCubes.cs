@@ -1,6 +1,6 @@
 ﻿using Godot;
 
-namespace GodotRuntimeInspector.Scripts
+namespace RuntimeInspector.Scripts
 {
     public static class TestCubes
     {

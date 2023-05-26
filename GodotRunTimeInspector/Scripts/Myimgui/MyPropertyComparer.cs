@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace GodotRuntimeInspector.Scripts.Myimgui
+namespace RuntimeInspector.Scripts.Myimgui
 {
     public class MyPropertyComparer : Comparer<MyProperty>
     {

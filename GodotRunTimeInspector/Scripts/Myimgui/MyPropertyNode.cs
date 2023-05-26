@@ -1,7 +1,7 @@
 ﻿using System;
 using ImGuiNET;
 
-namespace GodotRuntimeInspector.Scripts.Myimgui
+namespace RuntimeInspector.Scripts.Myimgui
 {
     public static class MyPropertyNode
     {

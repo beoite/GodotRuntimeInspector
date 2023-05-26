@@ -1,6 +1,6 @@
 ﻿using ImGuiNET;
 
-namespace GodotRuntimeInspector.Scripts.Myimgui
+namespace RuntimeInspector.Scripts.Myimgui
 {
     public static class HUD
     {

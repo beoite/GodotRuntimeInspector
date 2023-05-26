@@ -2,7 +2,7 @@
 using ImGuiNET;
 using System.Reflection;
 
-namespace GodotRuntimeInspector.Scripts.Myimgui
+namespace RuntimeInspector.Scripts.Myimgui
 {
     public static class Input
     {
