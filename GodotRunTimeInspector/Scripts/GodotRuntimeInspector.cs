@@ -16,7 +16,8 @@ namespace RuntimeInspector.Scripts
         public static int MaxFps = 30;
         public static bool Enabled = true;
         public static float MinRowHeight = 10f;
-        public static ImGuiViewportPtr MAINVIEWPORTPTR = new ImGuiViewportPtr();
+
+        public static ImGuiViewportPtr MainviewPortPTR = new ImGuiViewportPtr();
         public static ImGuiIOPtr IOPTR = null;
 
         // Called when the node enters the scene tree for the first time.
@@ -34,6 +35,9 @@ namespace RuntimeInspector.Scripts
                 // Add the node as a child of the node the script is attached to.
                 AddChild(SimpleCameraNode);
             }
+            MainviewPortPTR = ImGui.GetMainViewport();
+            IOPTR = ImGui.GetIO();
+            IOPTR.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -45,14 +49,11 @@ namespace RuntimeInspector.Scripts
             }
 
             FPS = 1.0 / delta;
-            MAINVIEWPORTPTR = ImGui.GetMainViewport();
-            IOPTR = ImGui.GetIO();
-            IOPTR.ConfigFlags |= ImGuiConfigFlags.DockingEnable;
             IOPTR.DeltaTime = (float)delta;
 
             // make the central node invisible and inputs pass-thru
             ImGuiDockNodeFlags dockNodeFlags = ImGuiDockNodeFlags.PassthruCentralNode;
-            uint id = ImGui.DockSpaceOverViewport(MAINVIEWPORTPTR, dockNodeFlags);
+            uint id = ImGui.DockSpaceOverViewport(MainviewPortPTR, dockNodeFlags);
 
             ImGuiStylePtr style = ImGui.GetStyle();
             style.WindowPadding = new System.Numerics.Vector2(1f, 1f);
@@ -68,7 +69,7 @@ namespace RuntimeInspector.Scripts
             style.TabRounding = 0f;
             style.CellPadding = new System.Numerics.Vector2(0f, 0f);
 
-            System.Numerics.Vector2 nextWindowSize = new System.Numerics.Vector2(MAINVIEWPORTPTR.Size.X / 2f, MAINVIEWPORTPTR.Size.Y / 2f);
+            System.Numerics.Vector2 nextWindowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
             System.Numerics.Vector2 nextWindowPos = System.Numerics.Vector2.Zero;
 
             ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);

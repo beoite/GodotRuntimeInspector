@@ -18,7 +18,7 @@ namespace RuntimeInspector.Scripts.Myimgui
             for (int i = 0; i < props.Length; i++)
             {
                 System.Reflection.PropertyInfo prop = props[i];
-                object? val = prop.GetValue(GodotRuntimeInspector.MAINVIEWPORTPTR, null);
+                object? val = prop.GetValue(GodotRuntimeInspector.MainviewPortPTR, null);
                 MyProperty myProperty = new MyProperty
                 {
                     Index = i,
@@ -31,7 +31,7 @@ namespace RuntimeInspector.Scripts.Myimgui
 
         public static void Update()
         {
-            props = GodotRuntimeInspector.MAINVIEWPORTPTR.GetType().GetProperties();
+            props = GodotRuntimeInspector.MainviewPortPTR.GetType().GetProperties();
 
             if (myProperties.Length == 0)
             {

@@ -19,7 +19,7 @@ namespace RuntimeInspector.Scripts.Myimgui
 
             ImGui.Begin(header, MyPropertyFlags.HUDWindowFlags());
 
-            System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(GodotRuntimeInspector.MAINVIEWPORTPTR.Size.X, numRows * rowHeight);
+            System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(GodotRuntimeInspector.MainviewPortPTR.Size.X, numRows * rowHeight);
             if (ImGui.BeginTable(header + nameof(ImGui.BeginTable), numCols, MyPropertyFlags.HUDTableFlags(), tableSize))
             {
                 ImGui.TableSetupColumn("1", MyPropertyFlags.HUDTableColumnFlags(), colWidth);
@@ -69,9 +69,9 @@ namespace RuntimeInspector.Scripts.Myimgui
 
                 ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
                 ImGui.TableNextColumn();
-                ImGui.Text(nameof(GodotRuntimeInspector.MAINVIEWPORTPTR.Size));
+                ImGui.Text(nameof(GodotRuntimeInspector.MainviewPortPTR.Size));
                 ImGui.TableNextColumn();
-                ImGui.Text(GodotRuntimeInspector.MAINVIEWPORTPTR.Size.ToString());
+                ImGui.Text(GodotRuntimeInspector.MainviewPortPTR.Size.ToString());
 
                 ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
                 ImGui.TableNextColumn();
