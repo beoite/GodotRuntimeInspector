@@ -24,7 +24,7 @@ The files here are a c# godot project, if you want to use it:
 - Add GodotRuntimeInspector/Scripts/GodotRunTimeInspector.cs to a node in your Scene. 
 </p>
 
-The Scene GodotRuntimeInspector/GodotRuntimeInspector.tscn has a demo.
+The Scene GodotRuntimeInspector/GodotRuntimeInspector.tscn has a demo, or you can get a windows build here, https://lackendara.itch.io/godotruntimeinspector
 
 <p>[1] https://github.com/godotengine/godot </p>
 <p>[2] https://github.com/ocornut/imgui </p>

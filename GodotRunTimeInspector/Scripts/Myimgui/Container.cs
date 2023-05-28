@@ -1,5 +1,5 @@
-﻿using System;
-using ImGuiNET;
+﻿using ImGuiNET;
+using System;
 using System.Reflection;
 
 namespace RuntimeInspector.Scripts.Myimgui

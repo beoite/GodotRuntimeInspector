@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace RuntimeInspector.Scripts.Myimgui
 {
     public class MyProperty
     {

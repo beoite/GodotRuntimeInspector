@@ -28,7 +28,6 @@ namespace RuntimeInspector.Scripts
             Godot.Input.SetCustomMouseCursor(arrow);
             CAM = (Godot.Camera3D)GetChild(0);
             TestCubes.Create(this);
-            MyInputMap.Init();
             mainviewPortPTR = ImGui.GetMainViewport();
         }
 
@@ -123,13 +122,13 @@ namespace RuntimeInspector.Scripts
                 {
                     if (btn.IsPressed())
                     {
-                        GodotRuntimeInspector.DisableUI();
-                        Enabled = true;
+                        GodotRuntimeInspector.Hide = true;
+                        Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Captured;
                     }
                     else
                     {
-                        Enabled = false;
-                        GodotRuntimeInspector.EnableUI();
+                        GodotRuntimeInspector.Hide = false;
+                        Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Visible;
                     }
                 }
             }

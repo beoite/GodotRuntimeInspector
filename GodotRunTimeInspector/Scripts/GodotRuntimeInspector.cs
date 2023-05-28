@@ -1,6 +1,5 @@
 using ImGuiNET;
 using System.Collections.Generic;
-using System.Net.NetworkInformation;
 
 namespace RuntimeInspector.Scripts
 {
@@ -16,6 +15,8 @@ namespace RuntimeInspector.Scripts
         public static double FPS = 0;
         public static int MaxFps = 30;
         public static bool Enabled = true;
+        public static bool Hide = false;
+        public static bool ShowDemoWindow = false;
         public static float MinRowHeight = 33f;
         public static float WindowIndent = 33f;
         public static ImGuiViewportPtr MainviewPortPTR = new ImGuiViewportPtr();
@@ -59,12 +60,15 @@ namespace RuntimeInspector.Scripts
             style.GrabRounding = 0f;
             style.TabRounding = 0f;
             style.CellPadding = new System.Numerics.Vector2(0f, 0f);
+
+            // input setup
+            MyInputMap.Init();
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.
         public override void _Process(double delta)
         {
-            if (Enabled == false)
+            if (Enabled == false || Hide == true)
             {
                 return;
             }
@@ -89,30 +93,26 @@ namespace RuntimeInspector.Scripts
             {
                 ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);
                 ImGui.SetNextWindowPos(nextWindowPos, ImGuiCond.Appearing);
-                MyPropertyInspectors[key].Update(key);
+                //MyPropertyInspectors[key].Update(key);
             }
 
-            ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);
-            ImGui.SetNextWindowPos(nextWindowPos, ImGuiCond.Appearing);
-            ImGui.ShowDemoWindow();
+            if (ShowDemoWindow == true)
+            {
+                ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);
+                ImGui.SetNextWindowPos(nextWindowPos, ImGuiCond.Appearing);
+                ImGui.ShowDemoWindow();
+            }
         }
 
         public override void _Input(Godot.InputEvent @event)
         {
             // stops input from propagating down through each _Input call (improves performance)
             //GetViewport().SetInputAsHandled();
-        }
 
-        public static void DisableUI()
-        {
-            Enabled = false;
-            Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Captured;
-        }
-
-        public static void EnableUI()
-        {
-            Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Visible;
-            Enabled = true;
+            if (Godot.Input.IsActionPressed(MyInputMap.F1))
+            {
+                Enabled = !Enabled;
+            }
         }
     }
 }
