@@ -49,25 +49,5 @@ namespace RuntimeInspector.Scripts.Myimgui
             if (y == null) return -1;
             return y.Name.CompareTo(x.Name);
         }
-
-        public int CompareValueAscending(MyProperty? x, MyProperty? y)
-        {
-            //     Less than zero – This instance is less than value.
-            //     Zero – This instance is equal to value.
-            //     Greater than zero – This instance is greater than value.
-            if (x == null) return -1;
-            if (y == null) return 1;
-            return x.Value.CompareTo(y.Value);
-        }
-
-        public int CompareValueDescending(MyProperty? x, MyProperty? y)
-        {
-            //     Less than zero – This instance is less than value.
-            //     Zero – This instance is equal to value.
-            //     Greater than zero – This instance is greater than value.
-            if (x == null) return 1;
-            if (y == null) return -1;
-            return y.Value.CompareTo(x.Value);
-        }
     }
 }

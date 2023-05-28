@@ -12,6 +12,8 @@ namespace RuntimeInspector.Scripts.Myimgui
 
         private static string animatedTitle = string.Empty;
 
+        private static MyPropertyTable myPropertyTable = new MyPropertyTable();
+
         private static void Init()
         {
             myProperties = new MyProperty[props.Length];
@@ -23,7 +25,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 {
                     Index = i,
                     Name = prop.Name,
-                    Value = Utility.GetStr(val)
+                    Instance = val
                 };
                 myProperties[i] = myProperty;
             }
@@ -56,7 +58,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 }
 
                 string tableID = MethodBase.GetCurrentMethod()?.DeclaringType?.Name + "TABLE";
-                MyPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
+                myPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
                 ImGui.End();
             }
         }

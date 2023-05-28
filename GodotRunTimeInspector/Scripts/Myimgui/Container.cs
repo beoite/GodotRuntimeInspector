@@ -25,6 +25,7 @@ namespace RuntimeInspector.Scripts.Myimgui
         private static string info = string.Empty;
         private static string? name = string.Empty;
         private static bool dropdown = false;
+        private static MyPropertyTable myPropertyTable = new MyPropertyTable();
 
         static Container()
         {
@@ -75,7 +76,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 {
                     Index = i,
                     Name = images[selectedImage].GetType().Namespace + "." + images[selectedImage].GetType().Name + "." + prop.Name,
-                    Value = Utility.GetStr(val)
+                    Instance = val
                 };
                 myProperties[i] = myProperty;
             }
@@ -120,7 +121,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                     ImGui.TableNextColumn();
 
                     string tableID = name + "TABLE";
-                    MyPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), halfContainerTableSize);
+                    myPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), halfContainerTableSize);
 
                     ImGui.TableNextColumn();
 
@@ -138,7 +139,8 @@ namespace RuntimeInspector.Scripts.Myimgui
                         }
                         if (ImGui.BeginTabItem("Text"))
                         {
-                            bool result = ImGui.InputTextMultiline("##source", ref MyPropertyTable.SelectedValue, 8192, halfContainerTableSize, MyPropertyFlags.ContainerInputTextFlags());
+                            string input = myPropertyTable.SelectedProperty.Name;
+                            bool result = ImGui.InputTextMultiline("##source", ref input, 8192, halfContainerTableSize, MyPropertyFlags.ContainerInputTextFlags());
                             ImGui.EndTabItem();
                         }
                         ImGui.EndTabBar();

@@ -9,6 +9,7 @@ namespace RuntimeInspector.Scripts.Myimgui
         private static MyProperty[] myProperties = new MyProperty[0];
         private static System.Reflection.PropertyInfo[] props = new System.Reflection.PropertyInfo[0];
         private static System.Reflection.MethodInfo[] methods = new System.Reflection.MethodInfo[0];
+        private static MyPropertyTable myPropertyTable = new MyPropertyTable();
 
         private static void Init(InputEvent inputEvent)
         {
@@ -22,7 +23,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 {
                     Index = i,
                     Name = prop.Name,
-                    Value = Utility.GetStr(val)
+                    Instance = val
                 };
                 myProperties[i] = myProperty;
             }
@@ -42,7 +43,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                     val += " " + methodparams[j].DefaultValue;
                     val += " )";
                 }
-                myProperty.Value = val;
+                myProperty.Instance = val;
 
                 myProperties[props.Length + i] = myProperty;
             }
@@ -67,7 +68,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 ImGui.Text(nameof(windowSize) + " " + windowSize.ToString());
 
                 string tableID = MethodBase.GetCurrentMethod()?.DeclaringType?.Name + "TABLE";
-                MyPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
+                myPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
 
                 ImGui.End();
             }

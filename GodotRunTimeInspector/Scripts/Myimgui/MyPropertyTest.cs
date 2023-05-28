@@ -6,6 +6,7 @@ namespace RuntimeInspector.Scripts.Myimgui
     public static class MyPropertyTest
     {
         private static MyProperty[] myProperties = new MyProperty[0];
+        private static MyPropertyTable myPropertyTable = new MyPropertyTable();
 
         static MyPropertyTest()
         {
@@ -22,7 +23,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 {
                     Index = i,
                     Name = Rng().ToString(),
-                    Value = i.ToString() + nameof(MyProperty.Value)
+                    Instance = new object()
                 };
                 myProperties[i] = newProperty;
             }
@@ -49,7 +50,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 }
 
                 string tableID = MethodBase.GetCurrentMethod()?.DeclaringType?.Name + "TABLE";
-                MyPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
+                myPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
                 ImGui.End();
             }
         }

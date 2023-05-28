@@ -10,6 +10,7 @@ namespace RuntimeInspector.Scripts.Myimgui
         private static Godot.Node selected = new Godot.Node() { Name = nameof(selected) };
         private static Godot.SceneTree? sceneTree = null;
         private static int counter = -1;
+        private static MyPropertyTable myPropertyTable = new MyPropertyTable();
 
         static MyPropertyNode()
         {
@@ -23,6 +24,7 @@ namespace RuntimeInspector.Scripts.Myimgui
             int length = fields.Length + props.Length;
             myProperties = new MyProperty[length];
             int combinedIndex = -1;
+            // Fields
             for (int i = 0; i < fields.Length; i++)
             {
                 combinedIndex++;
@@ -30,12 +32,15 @@ namespace RuntimeInspector.Scripts.Myimgui
                 object? val = field.GetValue(selected);
                 MyProperty myProperty = new MyProperty
                 {
-                    Index = combinedIndex,
+                    Index = i,
+                    Tag = Tag.Field,
                     Name = field.Name,
-                    Value = field.FieldType.ToString() + " | " + Utility.GetStr(val)
+                    Type = field.FieldType,
+                    Instance = val
                 };
                 myProperties[combinedIndex] = myProperty;
             }
+            // Properties
             for (int i = 0; i < props.Length; i++)
             {
                 combinedIndex++;
@@ -43,9 +48,11 @@ namespace RuntimeInspector.Scripts.Myimgui
                 object? val = prop.GetValue(selected, null);
                 MyProperty myProperty = new MyProperty
                 {
-                    Index = combinedIndex,
+                    Index = i,
+                    Tag = Tag.Property,
                     Name = prop.Name,
-                    Value = prop.PropertyType.FullName + " | " + Utility.GetStr(val)
+                    Type = prop.PropertyType,
+                    Instance = val
                 };
                 myProperties[combinedIndex] = myProperty;
             }
@@ -58,30 +65,20 @@ namespace RuntimeInspector.Scripts.Myimgui
             {
                 selected = sceneTree.CurrentScene;
             }
-            string windowName = Utility.GetAnimatedTitle(sceneTree.CurrentScene.Name);
+            string windowName = Utility.GetAnimatedTitle(sceneTree.CurrentScene.SceneFilePath);
             if (ImGui.Begin(windowName, MyPropertyFlags.ContainerWindowFlags()))
             {
                 System.Numerics.Vector2 windowSize = ImGui.GetWindowSize();
-                string console = nameof(console);
-                System.Numerics.Vector2 consoleSize = new System.Numerics.Vector2(windowSize.X, GodotRuntimeInspector.MinRowHeight * 4f);
-                bool consoleBorder = true;
-                if (ImGui.BeginChild(console, consoleSize, consoleBorder, MyPropertyFlags.TreeNodeWindowFlags()))
-                {
-                    ImGui.TextColored(Palette.GREEN.ToVector4(), selected.Name + " | " + selected.GetPath());
-                    ImGui.TextColored(Palette.SKYBLUE.ToVector4(), MyPropertyTable.SelectedValue);
-                    //Godot.DisplayServer.ClipboardSet(SelectedValue);
-                    ImGui.EndChild();
-                }
+                System.Numerics.Vector2 outerTableSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - GodotRuntimeInspector.MinRowHeight);
                 int numCols = 2;
-
-                if (ImGui.BeginTable(nameof(MyPropertyNode), numCols, MyPropertyFlags.ContainerTableFlags(), windowSize))
+                if (ImGui.BeginTable(nameof(MyPropertyNode), numCols, MyPropertyFlags.ContainerTableFlags(), outerTableSize))
                 {
                     BuildMyProperties();
                     float width40 = 0.4f * windowSize.X;
                     float width60 = 0.6f * windowSize.X;
                     ImGui.TableSetupColumn("Scene", MyPropertyFlags.ContainerTableColumnFlags(), width40);
                     ImGui.TableSetupColumn("Properties", MyPropertyFlags.ContainerTableColumnFlags(), width60);
-                    ImGui.TableHeadersRow();
+                    //ImGui.TableHeadersRow();
 
                     ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
                     if (ImGui.TableNextColumn())
@@ -99,8 +96,8 @@ namespace RuntimeInspector.Scripts.Myimgui
                     if (ImGui.TableNextColumn())
                     {
                         float columnWidth = ImGui.GetColumnWidth();
-                        System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(columnWidth, windowSize.Y);
-                        MyPropertyTable.DrawTable(myProperties, nameof(myProperties), MyPropertyFlags.ContainerTableFlags(), tableSize);
+                        System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(columnWidth, windowSize.Y - GodotRuntimeInspector.MinRowHeight);
+                        myPropertyTable.DrawTable(myProperties, nameof(myProperties), MyPropertyFlags.ContainerTableFlags(), tableSize);
                     }
                     ImGui.EndTable();
                 }

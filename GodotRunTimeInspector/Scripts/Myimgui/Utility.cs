@@ -31,5 +31,34 @@ namespace RuntimeInspector.Scripts.Myimgui
             animatedTitle = animatedTitle + staticIdentifier;
             return animatedTitle;
         }
+
+        public static string PrettyJson(string unPrettyJson)
+        {
+            var options = new System.Text.Json.JsonSerializerOptions()
+            {
+                WriteIndented = true
+            };
+
+            var jsonElement = System.Text.Json.JsonSerializer.Deserialize<System.Text.Json.JsonElement>(unPrettyJson);
+
+            return System.Text.Json.JsonSerializer.Serialize(jsonElement, options);
+        }
+
+        public static bool IsJsonValid(string json)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+            {
+                return false;
+            }
+            try
+            {
+                using System.Text.Json.JsonDocument jsonDoc = System.Text.Json.JsonDocument.Parse(json);
+                return true;
+            }
+            catch (System.Text.Json.JsonException)
+            {
+                return false;
+            }
+        }
     }
 }
