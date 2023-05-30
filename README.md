@@ -1,7 +1,7 @@
 # GodotRuntimeInspector
 
 <p>
-A runtime inspector for the godot game engine.
+View Fields and Properties for scripts attached to Nodes in the godot game engine.
 </p>
 
 <p>

@@ -9,6 +9,12 @@ namespace RuntimeInspector.Scripts.Myimgui
 
         public void Update(MyProperty myProperty)
         {
+            if (myProperty.Clicks > 0)
+            {
+                ImGui.SetNextWindowFocus();
+                myProperty.Clicks = 0;
+            }
+
             if (!ImGui.Begin(myProperty.Name, MyPropertyFlags.WindowFlags()))
             {
                 ImGui.End();

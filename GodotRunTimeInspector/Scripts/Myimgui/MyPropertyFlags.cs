@@ -282,7 +282,6 @@ namespace RuntimeInspector.Scripts.Myimgui
         {
             ImGuiTableColumnFlags tableColumnFlags = new ImGuiTableColumnFlags();
             tableColumnFlags |= ImGuiTableColumnFlags.NoReorder;
-            tableColumnFlags |= ImGuiTableColumnFlags.NoSort;
             tableColumnFlags |= ImGuiTableColumnFlags.IsVisible;
             tableColumnFlags |= ImGuiTableColumnFlags.WidthStretch;
             tableColumnFlags |= ImGuiTableColumnFlags.NoClip;

@@ -105,7 +105,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 }
                 ImGui.EndTable();
             }
-
+            ImGui.End();
         }
 
         private static void Traverse(Godot.Node node)

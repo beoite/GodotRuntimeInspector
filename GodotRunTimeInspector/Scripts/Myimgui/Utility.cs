@@ -60,5 +60,15 @@ namespace RuntimeInspector.Scripts.Myimgui
                 return false;
             }
         }
+
+        public static string SHA256String(byte[] buffer)
+        {
+            System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
+            foreach (byte b in buffer)
+            {
+                stringBuilder.Append(b.ToString("x2"));
+            }
+            return stringBuilder.ToString();
+        }
     }
 }

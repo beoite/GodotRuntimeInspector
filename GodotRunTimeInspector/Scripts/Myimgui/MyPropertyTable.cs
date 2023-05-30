@@ -5,9 +5,17 @@ namespace RuntimeInspector.Scripts.Myimgui
 {
     public class MyPropertyTable
     {
-        private void Sort(ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
+        private unsafe void Sort(ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
         {
             if (myPropertyInfo.Length == 0 || myPropertyInfo.Length < 2)
+            {
+                return;
+            }
+            if (sortsSpecs.NativePtr == null)
+            {
+                return;
+            }
+            if (sortsSpecs.SpecsCount == 0)
             {
                 return;
             }
@@ -141,8 +149,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                         bool clicked = ImGui.Button(Utility.GetStr(myProperty.Instance) + "###" + myProperty.Name, size);
                         if (clicked)
                         {
-                            myProperty.Clicks += 1;
-                            myProperties[i] = myProperty;
+                            myProperty.Clicks++;
                             if (GodotRuntimeInspector.MyProperties.ContainsKey(myProperty.Name) == false)
                             {
                                 GodotRuntimeInspector.MyProperties.Add(myProperty.Name, myProperty);

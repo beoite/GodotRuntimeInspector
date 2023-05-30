@@ -10,7 +10,7 @@ namespace RuntimeInspector.Scripts.Myimgui
         //     Greater than zero – This instance is greater than value.
         public override int Compare(MyProperty? x, MyProperty? y)
         {
-            throw new NotImplementedException();
+            return 0;
         }
 
         //Index

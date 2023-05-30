@@ -6,7 +6,6 @@ namespace RuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
     {
-        public static int TotalClicks = 0;
         public const string ResourcePrefix = "res://";
         public const string Extension = ".tscn";
         public static string DebugPath = ResourcePrefix + nameof(GodotRuntimeInspector) + "/" + nameof(GodotRuntimeInspector) + Extension;
@@ -19,6 +18,7 @@ namespace RuntimeInspector.Scripts
         public static bool Enabled = true;
         public static bool Hide = false;
         public static bool ShowDemoWindow = false;
+        public static bool ShowDebugWindow = false;
         public static float MinRowHeight = 25f;
         public static float WindowIndent = 33f;
         public static ImGuiViewportPtr MainviewPortPTR = new ImGuiViewportPtr();
@@ -92,25 +92,22 @@ namespace RuntimeInspector.Scripts
             ImGui.SetNextWindowPos(windowPos, ImGuiCond.Appearing);
             Myimgui.MyPropertyNode.Update(this);
 
-            windowPos = new System.Numerics.Vector2(0f, MainviewPortPTR.Size.Y / 2f);
-            ImGui.SetNextWindowSize(windowSize, ImGuiCond.Appearing);
-            ImGui.SetNextWindowPos(windowPos, ImGuiCond.Appearing);
-            Myimgui.MyPropertyTest.Update();
+            if (ShowDebugWindow == true)
+            {
+                windowPos = new System.Numerics.Vector2(0f, MainviewPortPTR.Size.Y / 2f);
+                ImGui.SetNextWindowSize(windowSize, ImGuiCond.Appearing);
+                ImGui.SetNextWindowPos(windowPos, ImGuiCond.Appearing);
+                Myimgui.MyPropertyTest.Update();
+            }
 
             windowPos = new System.Numerics.Vector2(windowSize.X, 0f);
             string[] keys = MyProperties.Keys.ToArray();
             for (int i = 0; i < keys.Length; i++)
             {
-                Myimgui.MyProperty myProperty = MyProperties[keys[i]];
-                ImGuiCond imGuiCond = ImGuiCond.Appearing;
-                TotalClicks += myProperty.Clicks;
-                if (myProperty.Clicks > 0)
-                {
-                    imGuiCond = ImGuiCond.Always;
-                }
-                ImGui.SetNextWindowSize(windowSize, imGuiCond);
-                ImGui.SetNextWindowPos(windowPos, imGuiCond);
-
+                string key = keys[i];
+                Myimgui.MyProperty myProperty = MyProperties[key];
+                ImGui.SetNextWindowSize(windowSize, ImGuiCond.Appearing);
+                ImGui.SetNextWindowPos(windowPos, ImGuiCond.Appearing);
                 myProperty.MyPropertyImgui.Update(myProperty);
             }
 
