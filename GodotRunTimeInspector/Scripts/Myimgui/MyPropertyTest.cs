@@ -42,15 +42,21 @@ namespace RuntimeInspector.Scripts.Myimgui
             if (ImGui.Begin(MethodBase.GetCurrentMethod()?.DeclaringType?.Name, MyPropertyFlags.WindowFlags()))
             {
                 System.Numerics.Vector2 windowSize = ImGui.GetWindowSize();
-                ImGui.Text(nameof(windowSize) + " " + windowSize.ToString());
-
                 if (ImGui.SmallButton(nameof(Init)))
                 {
                     Init();
                 }
 
+
                 string tableID = MethodBase.GetCurrentMethod()?.DeclaringType?.Name + "TABLE";
-                myPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
+                string name = nameof(name);
+                bool border = true;
+                System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - GodotRuntimeInspector.MinRowHeight);
+                if (ImGui.BeginChild(name, tableSize, border, MyPropertyFlags.TreeNodeWindowFlags()))
+                {
+                    myPropertyTable.DrawTable(ref myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
+                    ImGui.EndChild();
+                }
                 ImGui.End();
             }
         }

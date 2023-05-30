@@ -66,12 +66,6 @@ namespace RuntimeInspector.Scripts.Myimgui
         {
             ImGuiWindowFlags windowFlags = new ImGuiWindowFlags();
             windowFlags |= ImGuiWindowFlags.NoSavedSettings;
-            windowFlags |= ImGuiWindowFlags.AlwaysVerticalScrollbar;
-            windowFlags |= ImGuiWindowFlags.AlwaysHorizontalScrollbar;
-            windowFlags |= ImGuiWindowFlags.HorizontalScrollbar;
-            windowFlags |= ImGuiWindowFlags.MenuBar;
-            windowFlags |= ImGuiWindowFlags.NoFocusOnAppearing;
-            windowFlags |= ImGuiWindowFlags.NoNavFocus;
             return windowFlags;
         }
 

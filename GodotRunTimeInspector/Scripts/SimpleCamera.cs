@@ -124,11 +124,13 @@ namespace RuntimeInspector.Scripts
                     {
                         GodotRuntimeInspector.Hide = true;
                         Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Captured;
+                        Enabled = true;
                     }
                     else
                     {
                         GodotRuntimeInspector.Hide = false;
                         Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Visible;
+                        Enabled = false;
                     }
                 }
             }

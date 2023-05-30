@@ -68,7 +68,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 ImGui.Text(nameof(windowSize) + " " + windowSize.ToString());
 
                 string tableID = MethodBase.GetCurrentMethod()?.DeclaringType?.Name + "TABLE";
-                myPropertyTable.DrawTable(myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
+                myPropertyTable.DrawTable(ref myProperties, tableID, MyPropertyFlags.TableFlags(), windowSize);
 
                 ImGui.End();
             }

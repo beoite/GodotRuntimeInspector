@@ -1,10 +1,12 @@
 using ImGuiNET;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
     {
+        public static int TotalClicks = 0;
         public const string ResourcePrefix = "res://";
         public const string Extension = ".tscn";
         public static string DebugPath = ResourcePrefix + nameof(GodotRuntimeInspector) + "/" + nameof(GodotRuntimeInspector) + Extension;
@@ -17,11 +19,11 @@ namespace RuntimeInspector.Scripts
         public static bool Enabled = true;
         public static bool Hide = false;
         public static bool ShowDemoWindow = false;
-        public static float MinRowHeight = 33f;
+        public static float MinRowHeight = 25f;
         public static float WindowIndent = 33f;
         public static ImGuiViewportPtr MainviewPortPTR = new ImGuiViewportPtr();
         public static ImGuiIOPtr IOPTR = null;
-        public static Dictionary<Myimgui.MyProperty, Myimgui.MyPropertyInspector> MyPropertyInspectors = new Dictionary<Myimgui.MyProperty, Myimgui.MyPropertyInspector>();
+        public static Dictionary<string, Myimgui.MyProperty> MyProperties = new Dictionary<string, Myimgui.MyProperty>();
 
         private static uint dockspaceID = 0;
 
@@ -81,25 +83,41 @@ namespace RuntimeInspector.Scripts
             dockspaceID = ImGui.DockSpaceOverViewport(MainviewPortPTR, dockNodeFlags);
 
             // size of next appearing window
-            System.Numerics.Vector2 nextWindowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
-            System.Numerics.Vector2 nextWindowPos = System.Numerics.Vector2.Zero;
+            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
+            System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
 
             // each window
-            ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);
-            ImGui.SetNextWindowPos(nextWindowPos, ImGuiCond.Appearing);
+            windowPos = new System.Numerics.Vector2(0f, 0f);
+            ImGui.SetNextWindowSize(windowSize, ImGuiCond.Appearing);
+            ImGui.SetNextWindowPos(windowPos, ImGuiCond.Appearing);
             Myimgui.MyPropertyNode.Update(this);
 
-            foreach (var key in MyPropertyInspectors.Keys)
+            windowPos = new System.Numerics.Vector2(0f, MainviewPortPTR.Size.Y / 2f);
+            ImGui.SetNextWindowSize(windowSize, ImGuiCond.Appearing);
+            ImGui.SetNextWindowPos(windowPos, ImGuiCond.Appearing);
+            Myimgui.MyPropertyTest.Update();
+
+            windowPos = new System.Numerics.Vector2(windowSize.X, 0f);
+            string[] keys = MyProperties.Keys.ToArray();
+            for (int i = 0; i < keys.Length; i++)
             {
-                ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);
-                ImGui.SetNextWindowPos(nextWindowPos, ImGuiCond.Appearing);
-                //MyPropertyInspectors[key].Update(key);
+                Myimgui.MyProperty myProperty = MyProperties[keys[i]];
+                ImGuiCond imGuiCond = ImGuiCond.Appearing;
+                TotalClicks += myProperty.Clicks;
+                if (myProperty.Clicks > 0)
+                {
+                    imGuiCond = ImGuiCond.Always;
+                }
+                ImGui.SetNextWindowSize(windowSize, imGuiCond);
+                ImGui.SetNextWindowPos(windowPos, imGuiCond);
+
+                myProperty.MyPropertyImgui.Update(myProperty);
             }
 
             if (ShowDemoWindow == true)
             {
-                ImGui.SetNextWindowSize(nextWindowSize, ImGuiCond.Appearing);
-                ImGui.SetNextWindowPos(nextWindowPos, ImGuiCond.Appearing);
+                ImGui.SetNextWindowSize(windowSize, ImGuiCond.Appearing);
+                ImGui.SetNextWindowPos(windowPos, ImGuiCond.Appearing);
                 ImGui.ShowDemoWindow();
             }
         }

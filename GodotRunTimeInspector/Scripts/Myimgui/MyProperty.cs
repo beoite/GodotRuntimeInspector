@@ -7,5 +7,7 @@
         public string Name = string.Empty;
         public System.Type Type = typeof(MyProperty);
         public object? Instance = null;
+        public MyPropertyImgui MyPropertyImgui = new MyPropertyImgui();
+        public int Clicks = 0;
     }
 }
