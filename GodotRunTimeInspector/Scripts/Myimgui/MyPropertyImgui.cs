@@ -4,31 +4,17 @@
     {
         private System.Guid id = System.Guid.NewGuid();
 
-        public void Update(MyProperty myProperty)
+        public void Update(MyProperty myProperty, System.Numerics.Vector2 bottomTableSize)
         {
-            if (myProperty.Clicks > 0)
-            {
-                ImGuiNET.ImGui.SetNextWindowFocus();
-                myProperty.Clicks = 0;
-            }
-
-            if (!ImGuiNET.ImGui.Begin(myProperty.Name, MyPropertyFlags.WindowFlags()))
-            {
-                ImGuiNET.ImGui.End();
-                return;
-            }
-            System.Numerics.Vector2 windowSize = ImGuiNET.ImGui.GetWindowSize();
-            System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - GodotRuntimeInspector.MinRowHeight);
-
             string name = nameof(MyPropertyImgui) + id;
             bool border = true;
-            if (ImGuiNET.ImGui.BeginChild(name, tableSize, border, MyPropertyFlags.TreeNodeWindowFlags()))
+            if (ImGuiNET.ImGui.BeginChild(name, bottomTableSize, border, MyPropertyFlags.ContainerWindowFlagsAlt()))
             {
                 System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
                 int numCols = 1;
-                if (ImGuiNET.ImGui.BeginTable(id.ToString(), numCols, MyPropertyFlags.TableFlags(), tableSize))
+                if (ImGuiNET.ImGui.BeginTable(id.ToString(), numCols, MyPropertyFlags.TableFlags(), bottomTableSize))
                 {
-                    ImGuiNET.ImGui.TableSetupColumn(id.ToString(), MyPropertyFlags.ContainerTableColumnFlags(), tableSize.X);
+                    ImGuiNET.ImGui.TableSetupColumn(id.ToString(), MyPropertyFlags.ContainerTableColumnFlags(), bottomTableSize.X);
 
                     ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
                     ImGuiNET.ImGui.TableNextColumn();
@@ -36,11 +22,11 @@
 
                     ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
                     ImGuiNET.ImGui.TableNextColumn();
-                    ImGuiNET.ImGui.Text(myProperty.Name);
+                    ImGuiNET.ImGui.Text(myProperty.Type.ToString());
 
                     ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
                     ImGuiNET.ImGui.TableNextColumn();
-                    ImGuiNET.ImGui.Text(myProperty.Type.ToString());
+                    ImGuiNET.ImGui.Text(myProperty.Name);
 
                     ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
                     ImGuiNET.ImGui.TableNextColumn();
@@ -59,7 +45,6 @@
                 }
                 ImGuiNET.ImGui.EndChild();
             }
-            ImGuiNET.ImGui.End();
         }
     }
 }

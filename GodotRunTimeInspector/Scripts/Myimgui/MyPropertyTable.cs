@@ -114,11 +114,12 @@ namespace RuntimeInspector.Scripts.Myimgui
                 {
                     float width = tableSize.X / numCols;
                     float smallWidth = width / 2f;
+                    float extraSmallWidth = width / 4f;
 
-                    ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.ContainerTableColumnFlags(), smallWidth);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.ContainerTableColumnFlags(), width);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.ContainerTableColumnFlags(), extraSmallWidth);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.ContainerTableColumnFlags(), smallWidth);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.ContainerTableColumnFlags(), smallWidth);
                     ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.ContainerTableColumnFlags(), width);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.ContainerTableColumnFlags(), width);
                     ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.ContainerTableColumnFlags(), width);
                     ImGui.TableSetupColumn(nameof(MyProperty.MyPropertyImgui), MyPropertyFlags.ContainerTableColumnFlags(), 0);
                     ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.ContainerTableColumnFlags(), 0);
@@ -138,11 +139,11 @@ namespace RuntimeInspector.Scripts.Myimgui
                         ImGui.Text(myProperty.Tags.ToString());
 
                         ImGui.TableNextColumn();
-                        string[] split = myProperty.Name.Split("/");
-                        ImGui.Text(split[split.Length - 1]);
+                        ImGui.Text(myProperty.Type.ToString());
 
                         ImGui.TableNextColumn();
-                        ImGui.Text(myProperty.Type.ToString());
+                        string[] split = myProperty.Name.Split("/");
+                        ImGui.Text(split[split.Length - 1]);
 
                         ImGui.TableNextColumn();
                         float columnWidth = ImGui.GetColumnWidth();

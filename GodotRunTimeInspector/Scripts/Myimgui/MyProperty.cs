@@ -4,8 +4,8 @@
     {
         public int Index = 0;
         public Tags Tags = Tags.None;
-        public string Name = string.Empty;
         public System.Type Type = typeof(MyProperty);
+        public string Name = string.Empty;
         public object? Instance = null;
         public MyPropertyImgui MyPropertyImgui = new MyPropertyImgui();
         public int Clicks = 0;
@@ -39,8 +39,8 @@
                 {
                     Index = combinedIndex,
                     Tags = tags,
-                    Name = field.Name,
                     Type = field.FieldType,
+                    Name = field.Name,
                     Instance = val
                 };
                 myProperties[combinedIndex] = myProperty;
@@ -56,8 +56,8 @@
                 {
                     Index = combinedIndex,
                     Tags = tags,
-                    Name = prop.Name,
                     Type = prop.PropertyType,
+                    Name = prop.Name,
                     Instance = val
                 };
                 myProperties[combinedIndex] = myProperty;
@@ -79,6 +79,7 @@
                 MyProperty myProperty = new MyProperty();
                 myProperty.Index = combinedIndex;
                 myProperty.Tags = tags;
+                myProperty.Type = method.ReturnType;
                 System.Reflection.ParameterInfo[] methodparams = method.GetParameters();
                 string signature = " ( ";
                 for (int j = 0; j < methodparams.Length; j++)
@@ -91,7 +92,6 @@
                 signature = signature.Substring(0, signature.Length - 1);
                 signature += " )";
                 myProperty.Name = method.Name + signature;
-                myProperty.Type = method.ReturnType;
                 myProperty.Instance = null;
                 myProperties[combinedIndex] = myProperty;
             }

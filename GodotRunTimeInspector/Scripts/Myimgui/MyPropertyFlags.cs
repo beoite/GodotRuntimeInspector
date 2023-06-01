@@ -100,6 +100,17 @@ namespace RuntimeInspector.Scripts.Myimgui
             return windowFlags;
         }
 
+        public static ImGuiWindowFlags ContainerWindowFlagsAlt()
+        {
+            ImGuiWindowFlags windowFlags = new ImGuiWindowFlags();
+            windowFlags |= ImGuiWindowFlags.NoSavedSettings;
+            windowFlags |= ImGuiWindowFlags.NoFocusOnAppearing;
+            windowFlags |= ImGuiWindowFlags.NoCollapse;
+            windowFlags |= ImGuiWindowFlags.NoScrollbar;
+            windowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
+            return windowFlags;
+        }
+
         public static ImGuiWindowFlags TreeNodeWindowFlags()
         {
             ImGuiWindowFlags windowFlags = new ImGuiWindowFlags();

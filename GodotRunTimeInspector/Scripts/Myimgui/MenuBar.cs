@@ -19,7 +19,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                     ImGuiNET.ImGui.EndMenu();
                 }
 
-                if (ImGuiNET.ImGui.BeginMenu("| Windows " + GodotRuntimeInspector.MyProperties.Count + "|"))
+                if (ImGuiNET.ImGui.BeginMenu("| Tabs " + GodotRuntimeInspector.MyProperties.Count + "|"))
                 {
                     if (ImGuiNET.ImGui.MenuItem("Close All"))
                     {

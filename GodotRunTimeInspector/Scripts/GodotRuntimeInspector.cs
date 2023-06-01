@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace RuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
@@ -14,12 +12,11 @@ namespace RuntimeInspector.Scripts
         public static bool ShowInputWindow = false;
         public static bool ShowOSWindow = false;
         public static float MinRowHeight = 25f;
-        public static float WindowIndent = 33f;
         public static ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
         public static ImGuiNET.ImGuiIOPtr IOPTR = null;
         public static System.Collections.Generic.Dictionary<string, Myimgui.MyProperty> MyProperties = new System.Collections.Generic.Dictionary<string, Myimgui.MyProperty>();
-        private static Godot.InputEvent InputEvent;
-
+        
+        private static Godot.InputEvent inputEvent;
         private static uint dockspaceID = 0;
 
         // Called when the node enters the scene tree for the first time.
@@ -98,7 +95,7 @@ namespace RuntimeInspector.Scripts
                 windowPos = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
                 ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
                 ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-                Myimgui.Input.Update(InputEvent);
+                Myimgui.Input.Update(inputEvent);
             }
 
             if (ShowOSWindow == true)
@@ -107,17 +104,6 @@ namespace RuntimeInspector.Scripts
                 ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
                 ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
                 Myimgui.OS.Update();
-            }
-
-            windowPos = new System.Numerics.Vector2(windowSize.X, 0f);
-            string[] keys = MyProperties.Keys.ToArray();
-            for (int i = 0; i < keys.Length; i++)
-            {
-                string key = keys[i];
-                Myimgui.MyProperty myProperty = MyProperties[key];
-                ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
-                ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-                myProperty.MyPropertyImgui.Update(myProperty);
             }
 
             if (ShowDemoWindow == true)
@@ -132,7 +118,7 @@ namespace RuntimeInspector.Scripts
         {
             // stops input from propagating down through each _Input call (improves performance)
             //GetViewport().SetInputAsHandled();
-            InputEvent = @event;
+            inputEvent = @event;
             if (Godot.Input.IsActionPressed(MyInputMap.F1))
             {
                 Enabled = !Enabled;
