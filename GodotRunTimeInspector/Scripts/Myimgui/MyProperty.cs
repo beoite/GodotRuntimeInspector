@@ -57,7 +57,7 @@
                     Index = combinedIndex,
                     Tags = tags,
                     Name = prop.Name,
-                    Type = prop.GetType(),
+                    Type = prop.PropertyType,
                     Instance = val
                 };
                 myProperties[combinedIndex] = myProperty;
