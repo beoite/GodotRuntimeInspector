@@ -7,56 +7,10 @@ namespace RuntimeInspector.Scripts.Myimgui
         public static Godot.Node SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
         public static MyProperty[] MyProperties = new MyProperty[0];
 
-        
+
         public static Godot.SceneTree? SceneTree = null;
         public static int Counter = -1;
         public static MyPropertyTable MyPropertyTable = new MyPropertyTable();
-
-        static MyPropertyNode()
-        {
-
-        }
-
-        private static void BuildMyProperties()
-        {
-            System.Reflection.FieldInfo[] fields = SelectedNode.GetType().GetFields();
-            System.Reflection.PropertyInfo[] props = SelectedNode.GetType().GetProperties();
-            int length = fields.Length + props.Length;
-            MyProperties = new MyProperty[length];
-            int combinedIndex = -1;
-            // Fields
-            for (int i = 0; i < fields.Length; i++)
-            {
-                combinedIndex++;
-                System.Reflection.FieldInfo field = fields[i];
-                object? val = field.GetValue(SelectedNode);
-                MyProperty myProperty = new MyProperty
-                {
-                    Index = combinedIndex,
-                    Tag = Tag.Field,
-                    Name = SelectedNode.GetPath() + "/" + field.Name,
-                    Type = field.FieldType,
-                    Instance = val
-                };
-                MyProperties[combinedIndex] = myProperty;
-            }
-            // Properties
-            for (int i = 0; i < props.Length; i++)
-            {
-                combinedIndex++;
-                System.Reflection.PropertyInfo prop = props[i];
-                object? val = prop.GetValue(SelectedNode, null);
-                MyProperty myProperty = new MyProperty
-                {
-                    Index = combinedIndex,
-                    Tag = Tag.Property,
-                    Name = SelectedNode.GetPath() + "/" + prop.Name,
-                    Type = prop.PropertyType,
-                    Instance = val
-                };
-                MyProperties[combinedIndex] = myProperty;
-            }
-        }
 
         public static void Update(Godot.Node node)
         {
@@ -65,7 +19,7 @@ namespace RuntimeInspector.Scripts.Myimgui
             {
                 SelectedNode = SceneTree.CurrentScene;
             }
-            BuildMyProperties();
+            MyProperties = MyProperty.NewArray(SelectedNode);
             string windowName = Utility.GetAnimatedTitle(SceneTree.CurrentScene.SceneFilePath);
             if (!ImGui.Begin(windowName, MyPropertyFlags.ContainerWindowFlags()))
             {
@@ -100,7 +54,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                 if (ImGui.TableNextColumn())
                 {
                     float columnWidth = ImGui.GetColumnWidth();
-                    System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(columnWidth, windowSize.Y - GodotRuntimeInspector.MinRowHeight);
+                    System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(columnWidth - GodotRuntimeInspector.MinRowHeight, windowSize.Y - GodotRuntimeInspector.MinRowHeight * 2);
                     MyPropertyTable.DrawTable(ref MyProperties, nameof(MyProperties), MyPropertyFlags.ContainerTableFlags(), tableSize);
                 }
                 ImGui.EndTable();

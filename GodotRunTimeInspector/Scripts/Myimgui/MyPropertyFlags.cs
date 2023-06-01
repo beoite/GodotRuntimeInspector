@@ -96,6 +96,7 @@ namespace RuntimeInspector.Scripts.Myimgui
             windowFlags |= ImGuiWindowFlags.NoFocusOnAppearing;
             windowFlags |= ImGuiWindowFlags.MenuBar;
             windowFlags |= ImGuiWindowFlags.NoCollapse;
+            windowFlags |= ImGuiWindowFlags.NoScrollbar;
             return windowFlags;
         }
 

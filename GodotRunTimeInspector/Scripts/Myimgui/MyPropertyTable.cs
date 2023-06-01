@@ -113,14 +113,15 @@ namespace RuntimeInspector.Scripts.Myimgui
                 if (ImGui.BeginTable(id, numCols, flags, tableSize))
                 {
                     float width = tableSize.X / numCols;
+                    float smallWidth = width / 2f;
 
-                    ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.ContainerTableColumnFlags(), width);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Tag), MyPropertyFlags.ContainerTableColumnFlags(), width);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.ContainerTableColumnFlags(), smallWidth);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.ContainerTableColumnFlags(), width);
                     ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.ContainerTableColumnFlags(), width);
                     ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.ContainerTableColumnFlags(), width);
                     ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.ContainerTableColumnFlags(), width);
-                    ImGui.TableSetupColumn(nameof(MyProperty.MyPropertyImgui), MyPropertyFlags.ContainerTableColumnFlags(), width);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.ContainerTableColumnFlags(), width);
+                    ImGui.TableSetupColumn(nameof(MyProperty.MyPropertyImgui), MyPropertyFlags.ContainerTableColumnFlags(), 0);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.ContainerTableColumnFlags(), 0);
                     ImGui.TableHeadersRow();
                     ImGuiTableSortSpecsPtr sortsSpecs = ImGui.TableGetSortSpecs();
                     Sort(sortsSpecs, myProperties);
@@ -134,7 +135,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                         ImGui.Text(myProperty.Index.ToString());
 
                         ImGui.TableNextColumn();
-                        ImGui.Text(myProperty.Tag.ToString());
+                        ImGui.Text(myProperty.Tags.ToString());
 
                         ImGui.TableNextColumn();
                         string[] split = myProperty.Name.Split("/");

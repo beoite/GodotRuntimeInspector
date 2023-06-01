@@ -1,54 +1,52 @@
-﻿using ImGuiNET;
-using System;
-
-namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace RuntimeInspector.Scripts.Myimgui
 {
     public class MyPropertyImgui
     {
-        private Guid id = Guid.NewGuid();
+        private System.Guid id = System.Guid.NewGuid();
 
         public void Update(MyProperty myProperty)
         {
             if (myProperty.Clicks > 0)
             {
-                ImGui.SetNextWindowFocus();
+                ImGuiNET.ImGui.SetNextWindowFocus();
                 myProperty.Clicks = 0;
             }
 
-            if (!ImGui.Begin(myProperty.Name, MyPropertyFlags.WindowFlags()))
+            if (!ImGuiNET.ImGui.Begin(myProperty.Name, MyPropertyFlags.WindowFlags()))
             {
-                ImGui.End();
+                ImGuiNET.ImGui.End();
                 return;
             }
-            System.Numerics.Vector2 windowSize = ImGui.GetWindowSize();
+            System.Numerics.Vector2 windowSize = ImGuiNET.ImGui.GetWindowSize();
             System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - GodotRuntimeInspector.MinRowHeight);
 
             string name = nameof(MyPropertyImgui) + id;
             bool border = true;
-            if (ImGui.BeginChild(name, tableSize, border, MyPropertyFlags.TreeNodeWindowFlags()))
+            if (ImGuiNET.ImGui.BeginChild(name, tableSize, border, MyPropertyFlags.TreeNodeWindowFlags()))
             {
                 System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
                 int numCols = 1;
-                if (ImGui.BeginTable(id.ToString(), numCols, MyPropertyFlags.TableFlags(), tableSize))
+                if (ImGuiNET.ImGui.BeginTable(id.ToString(), numCols, MyPropertyFlags.TableFlags(), tableSize))
                 {
-                    ImGui.TableSetupColumn(myProperty.Name, MyPropertyFlags.ContainerTableColumnFlags(), tableSize.X);
-                    //ImGui.TableHeadersRow();
-                    //ImGuiTableSortSpecsPtr sortsSpecs = ImGui.TableGetSortSpecs();
-                    //Sort(sortsSpecs, myProperties);
+                    ImGuiNET.ImGui.TableSetupColumn(id.ToString(), MyPropertyFlags.ContainerTableColumnFlags(), tableSize.X);
 
-                    ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
-                    ImGui.TableNextColumn();
-                    ImGui.Text(myProperty.Name);
+                    ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
+                    ImGuiNET.ImGui.TableNextColumn();
+                    ImGuiNET.ImGui.Text(myProperty.Tags.ToString());
 
-                    ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
-                    ImGui.TableNextColumn();
-                    ImGui.Text(myProperty.Type.ToString());
+                    ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
+                    ImGuiNET.ImGui.TableNextColumn();
+                    ImGuiNET.ImGui.Text(myProperty.Name);
 
-                    ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
-                    ImGui.TableNextColumn();
-                    float columnWidth = ImGui.GetColumnWidth();
+                    ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
+                    ImGuiNET.ImGui.TableNextColumn();
+                    ImGuiNET.ImGui.Text(myProperty.Type.ToString());
+
+                    ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
+                    ImGuiNET.ImGui.TableNextColumn();
+                    float columnWidth = ImGuiNET.ImGui.GetColumnWidth();
                     System.Numerics.Vector2 size = new System.Numerics.Vector2(columnWidth, GodotRuntimeInspector.MinRowHeight);
-                    bool clicked = ImGui.Button(Utility.GetStr(myProperty.Instance) + "###" + myProperty.Name, size);
+                    bool clicked = ImGuiNET.ImGui.Button(Utility.GetStr(myProperty.Instance) + "###" + id, size);
                     if (clicked)
                     {
                         if (GodotRuntimeInspector.MyProperties.ContainsKey(myProperty.Name) == false)
@@ -57,11 +55,11 @@ namespace RuntimeInspector.Scripts.Myimgui
                         }
                     }
 
-                    ImGui.EndTable();
+                    ImGuiNET.ImGui.EndTable();
                 }
-                ImGui.EndChild();
+                ImGuiNET.ImGui.EndChild();
             }
-            ImGui.End();
+            ImGuiNET.ImGui.End();
         }
     }
 }

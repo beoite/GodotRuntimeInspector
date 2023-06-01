@@ -35,14 +35,14 @@ namespace RuntimeInspector.Scripts.Myimgui
         {
             if (x == null) return -1;
             if (y == null) return 1;
-            return x.Tag.CompareTo(y.Tag);
+            return x.Tags.CompareTo(y.Tags);
         }
 
         public int TagDescending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return 1;
             if (y == null) return -1;
-            return y.Tag.CompareTo(x.Tag);
+            return y.Tags.CompareTo(x.Tags);
         }
 
         // Name

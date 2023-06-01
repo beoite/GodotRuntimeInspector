@@ -1,5 +1,4 @@
-﻿using ImGuiNET;
-using System.Linq;
+﻿using System.Linq;
 
 namespace RuntimeInspector.Scripts.Myimgui
 {
@@ -7,20 +6,22 @@ namespace RuntimeInspector.Scripts.Myimgui
     {
         public static void Update()
         {
-            if (ImGui.BeginMenuBar())
+            if (ImGuiNET.ImGui.BeginMenuBar())
             {
-                if (ImGui.BeginMenu("| Menu \t |"))
+                if (ImGuiNET.ImGui.BeginMenu("| Menu \t |"))
                 {
                     string txtEnabled = nameof(GodotRuntimeInspector.Enabled) + "\t(" + MyInputMap.F1 + ")";
-                    bool enabled = ImGui.Checkbox(txtEnabled, ref GodotRuntimeInspector.Enabled);
-                    bool showDemoWindow = ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowDemoWindow), ref GodotRuntimeInspector.ShowDemoWindow);
-                    bool debugEnabled = ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowDebugWindow), ref GodotRuntimeInspector.ShowDebugWindow);
-                    ImGui.EndMenu();
+                    bool enabled = ImGuiNET.ImGui.Checkbox(txtEnabled, ref GodotRuntimeInspector.Enabled);
+                    bool showDemoWindow = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowDemoWindow), ref GodotRuntimeInspector.ShowDemoWindow);
+                    bool debugEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowDebugWindow), ref GodotRuntimeInspector.ShowDebugWindow);
+                    bool inputEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowInputWindow), ref GodotRuntimeInspector.ShowInputWindow);
+                    bool osEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowOSWindow), ref GodotRuntimeInspector.ShowOSWindow);
+                    ImGuiNET.ImGui.EndMenu();
                 }
 
-                if (ImGui.BeginMenu("| Windows " + GodotRuntimeInspector.MyProperties.Count + "|"))
+                if (ImGuiNET.ImGui.BeginMenu("| Windows " + GodotRuntimeInspector.MyProperties.Count + "|"))
                 {
-                    if (ImGui.MenuItem("Close All"))
+                    if (ImGuiNET.ImGui.MenuItem("Close All"))
                     {
                         GodotRuntimeInspector.MyProperties.Clear();
                     }
@@ -29,14 +30,15 @@ namespace RuntimeInspector.Scripts.Myimgui
                     {
                         string key = keys[i];
                         MyProperty myProperty = GodotRuntimeInspector.MyProperties[key];
-                        if (ImGui.MenuItem(key))
+                        if (ImGuiNET.ImGui.MenuItem(key))
                         {
                             myProperty.Clicks++;
                         }
                     }
-                    ImGui.EndMenu();
+                    ImGuiNET.ImGui.EndMenu();
                 }
-                ImGui.EndMenuBar();
+
+                ImGuiNET.ImGui.EndMenuBar();
             }
         }
     }

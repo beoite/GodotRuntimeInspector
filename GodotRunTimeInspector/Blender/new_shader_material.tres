@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bmk21n6lm1t2h"]
+
+[ext_resource type="Shader" path="res://GodotRuntimeInspector/Blender/new_shader_material.gdshader" id="1_xxujx"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_xxujx")

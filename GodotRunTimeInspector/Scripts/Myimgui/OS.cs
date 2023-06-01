@@ -1,13 +1,13 @@
 ﻿namespace RuntimeInspector.Scripts.Myimgui
 {
-    public static class Input
+    public static class OS
     {
         private static MyProperty[] myProperties = new MyProperty[0];
         private static MyPropertyTable myPropertyTable = new MyPropertyTable();
 
-        public static void Update(Godot.InputEvent? inputEvent)
+        public static void Update()
         {
-            myProperties = MyProperty.NewArray(inputEvent);
+            myProperties = MyProperty.NewArray(Godot.OS.Singleton);
 
             if (ImGuiNET.ImGui.Begin(System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name, MyPropertyFlags.WindowFlags()))
             {
