@@ -1,13 +1,33 @@
-[gd_scene load_steps=2 format=3 uid="uid://b1cnx6sx06qfd"]
+[gd_scene load_steps=6 format=3 uid="uid://b1cnx6sx06qfd"]
 
 [ext_resource type="Script" path="res://GodotRuntimeInspector/Scripts/SimpleCamera.cs" id="1_ga3n2"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_dhp1f"]
+
+[sub_resource type="Sky" id="Sky_fsj0o"]
+sky_material = SubResource("ProceduralSkyMaterial_dhp1f")
+
+[sub_resource type="Environment" id="Environment_y14fm"]
+background_mode = 2
+sky = SubResource("Sky_fsj0o")
+sky_custom_fov = 33.0
+fog_enabled = true
+volumetric_fog_enabled = true
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_fx44a"]
+auto_exposure_enabled = true
+dof_blur_far_enabled = true
+dof_blur_far_distance = 9.0
 
 [node name="SimpleCamera" type="Node3D"]
 script = ExtResource("1_ga3n2")
 
 [node name="Camera3D" type="Camera3D" parent="."]
+environment = SubResource("Environment_y14fm")
+attributes = SubResource("CameraAttributesPractical_fx44a")
 fov = 90.0
+near = 0.01
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.684547, -0.368883, -0.628745, 0, -0.862514, 0.506034, -0.728969, -0.346404, -0.590431, 0, 0, 0)
+transform = Transform3D(0.684547, -0.368883, -0.628746, 0, -0.862514, 0.506034, -0.728969, -0.346404, -0.590431, -119.356, 173.728, 0)
 light_color = Color(0.929412, 0.878431, 0.568627, 1)

@@ -45,9 +45,6 @@ namespace RuntimeInspector.Scripts
             style.TabRounding = 0f;
             style.CellPadding = new System.Numerics.Vector2(0f, 0f);
 
-            // input setup
-            MyInputMap.Init();
-
             // load the debug scene
             IsDebug = System.String.Equals(SceneManager.DebugPath, SceneFilePath, System.StringComparison.InvariantCultureIgnoreCase);
             if (IsDebug == true)

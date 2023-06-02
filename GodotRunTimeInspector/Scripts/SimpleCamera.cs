@@ -1,26 +1,20 @@
-﻿using ImGuiNET;
-
-namespace RuntimeInspector.Scripts
+﻿namespace RuntimeInspector.Scripts
 {
     public partial class SimpleCamera : Godot.Node
     {
         public double TotalDelta = 0;
         public bool Enabled = false;
-        public float Sensitivity = 0.01f;
-
         public Godot.Vector2 MouseMotion = Godot.Vector2.Zero;
         public Godot.Vector2 WASD = Godot.Vector2.Zero;
-
         public Godot.Camera3D CAM = new Godot.Camera3D();
-        // accumulators
         public float RotationX = 0f;
         public float RotationY = 0f;
-
         public Godot.Transform3D CamTransform = new Godot.Transform3D();
         public Godot.Vector3 ForwardBack = Godot.Vector3.Zero;
         public Godot.Vector3 LeftRight = Godot.Vector3.Zero;
+        public Godot.Vector3 UpDown = Godot.Vector3.Zero;
 
-        private static ImGuiViewportPtr mainviewPortPTR = new ImGuiViewportPtr();
+        private static ImGuiNET.ImGuiViewportPtr mainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
 
         public override void _Ready()
         {
@@ -28,7 +22,7 @@ namespace RuntimeInspector.Scripts
             Godot.Input.SetCustomMouseCursor(arrow);
             CAM = (Godot.Camera3D)GetChild(0);
             TestCubes.Create(this);
-            mainviewPortPTR = ImGui.GetMainViewport();
+            mainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
         }
 
         public override void _PhysicsProcess(double delta)
@@ -42,9 +36,13 @@ namespace RuntimeInspector.Scripts
             LeftRight = CAM.Transform.Basis.X;
             LeftRight *= (float)(WASD.X * multiplier * delta);
 
+            Godot.Vector3 upDown = CAM.Transform.Basis.Y;
+            upDown *= (float)(UpDown.Y * multiplier * delta);
+
             Godot.Vector3 newPos = Godot.Vector3.Zero;
             newPos += ForwardBack;
             newPos += LeftRight;
+            newPos += upDown;
             CAM.GlobalPosition += newPos;
         }
 
@@ -55,34 +53,11 @@ namespace RuntimeInspector.Scripts
                 return;
             }
 
-            Widget.DrawWidget((Godot.Node3D)CAM);
-
-            float colWidth = mainviewPortPTR.Size.X / 2f;
-            ImGui.SetNextWindowSize(mainviewPortPTR.Size, ImGuiCond.Always);
-            ImGui.SetNextWindowPos(new System.Numerics.Vector2(0f, 0f), ImGuiCond.Always);
-            if (ImGui.Begin(nameof(SimpleCamera), Myimgui.MyPropertyFlags.HUDWindowFlags()))
-            {
-                ImGui.Text(nameof(MouseMotion) + " " + MouseMotion.ToString());
-                ImGui.Text(nameof(RotationX) + " " + RotationX.ToString());
-                ImGui.Text(nameof(RotationY) + " " + RotationY.ToString());
-                ImGui.Text(nameof(WASD) + " " + WASD.ToString());
-                ImGui.Text(nameof(CamTransform.Basis) + " " + CamTransform.Basis.ToString());
-                ImGui.Text("Basis. 3×3 matrix used for 3D rotation and scale");
-                ImGui.Text("X " + " " + CAM.Transform.Basis.X.ToString());
-                ImGui.Text("Y " + " " + CAM.Transform.Basis.Y.ToString());
-                ImGui.Text("Z " + " " + CAM.Transform.Basis.Z.ToString());
-                ImGui.Text(nameof(CAM.GlobalPosition) + " " + CAM.GlobalPosition.ToString());
-                ImGui.Text(nameof(ForwardBack) + " " + ForwardBack.ToString());
-                ImGui.Text(nameof(LeftRight) + " " + LeftRight.ToString());
-
-                //ImGui.Text(nameof(camTransform.Basis) + " " + camTransform..ToString());
-                // 
-                ImGui.End();
-            }
+            Imgui();
 
             // modify accumulated mouse rotation
-            RotationX += MouseMotion.X * -1f * Sensitivity;
-            RotationY += MouseMotion.Y * -1f * Sensitivity;
+            RotationX += MouseMotion.X * -1f * Config.Sensitivity;
+            RotationY += MouseMotion.Y * -1f * Config.Sensitivity;
             MouseMotion = Godot.Vector2.Zero;
 
             CamTransform = CAM.Transform;
@@ -90,9 +65,30 @@ namespace RuntimeInspector.Scripts
             CAM.Transform = CamTransform;
 
             // rotation
-
             CAM.RotateObjectLocal(Godot.Vector3.Up, RotationX); // first rotate about Y
             CAM.RotateObjectLocal(Godot.Vector3.Right, RotationY); // then rotate about X
+        }
+
+        private void Imgui()
+        {
+            Widget.DrawWidget((Godot.Node3D)CAM);
+            ImGuiNET.ImGui.SetNextWindowSize(mainviewPortPTR.Size, ImGuiNET.ImGuiCond.Always);
+            ImGuiNET.ImGui.SetNextWindowPos(new System.Numerics.Vector2(0f, 0f), ImGuiNET.ImGuiCond.Always);
+            if (ImGuiNET.ImGui.Begin(nameof(SimpleCamera), Myimgui.MyPropertyFlags.HUDWindowFlags()))
+            {
+                ImGuiNET.ImGui.Text(nameof(MouseMotion) + " " + MouseMotion.ToString());
+                ImGuiNET.ImGui.Text(nameof(RotationX) + " " + RotationX.ToString());
+                ImGuiNET.ImGui.Text(nameof(RotationY) + " " + RotationY.ToString());
+                ImGuiNET.ImGui.Text(nameof(WASD) + " " + WASD.ToString());
+                ImGuiNET.ImGui.Text(nameof(CamTransform.Basis) + " " + CamTransform.Basis.ToString());
+                ImGuiNET.ImGui.Text("X " + " " + CAM.Transform.Basis.X.ToString());
+                ImGuiNET.ImGui.Text("Y " + " " + CAM.Transform.Basis.Y.ToString());
+                ImGuiNET.ImGui.Text("Z " + " " + CAM.Transform.Basis.Z.ToString());
+                ImGuiNET.ImGui.Text(nameof(CAM.GlobalPosition) + " " + CAM.GlobalPosition.ToString());
+                ImGuiNET.ImGui.Text(nameof(ForwardBack) + " " + ForwardBack.ToString());
+                ImGuiNET.ImGui.Text(nameof(LeftRight) + " " + LeftRight.ToString());
+                ImGuiNET.ImGui.End();
+            }
         }
 
         public override void _Input(Godot.InputEvent @event)
@@ -113,6 +109,15 @@ namespace RuntimeInspector.Scripts
             if (Godot.Input.IsActionPressed(MyInputMap.RIGHT))
             {
                 WASD.X = 1f;
+            }
+            UpDown = Godot.Vector3.Zero;
+            if (Godot.Input.IsActionPressed(MyInputMap.Q))
+            {
+                UpDown.Y = -1f;
+            }
+            if (Godot.Input.IsActionPressed(MyInputMap.E))
+            {
+                UpDown.Y = 1f;
             }
 
             if (@event is Godot.InputEventMouseButton)

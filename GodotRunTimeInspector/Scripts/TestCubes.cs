@@ -8,9 +8,9 @@ namespace RuntimeInspector.Scripts
 
         public static void Create(Godot.Node parent)
         {
-            for (int i = 0; i < 33; i++)
+            for (int i = 0; i < 333; i++)
             {
-                float range = 10f;
+                float range = 33f;
                 Godot.StaticBody3D testCube = CreateCube(nameof(testCube) + i);
                 float x = new Godot.RandomNumberGenerator().RandfRange(-range, range);
                 float y = new Godot.RandomNumberGenerator().RandfRange(-range, range);
