@@ -19,25 +19,6 @@ namespace RuntimeInspector.Scripts.Myimgui
                     ImGuiNET.ImGui.EndMenu();
                 }
 
-                if (ImGuiNET.ImGui.BeginMenu("| Tabs " + GodotRuntimeInspector.MyProperties.Count + "|"))
-                {
-                    if (ImGuiNET.ImGui.MenuItem("Close All"))
-                    {
-                        GodotRuntimeInspector.MyProperties.Clear();
-                    }
-                    string[] keys = GodotRuntimeInspector.MyProperties.Keys.ToArray();
-                    for (int i = 0; i < keys.Length; i++)
-                    {
-                        string key = keys[i];
-                        MyProperty myProperty = GodotRuntimeInspector.MyProperties[key];
-                        if (ImGuiNET.ImGui.MenuItem(key))
-                        {
-                            myProperty.Clicks++;
-                        }
-                    }
-                    ImGuiNET.ImGui.EndMenu();
-                }
-
                 ImGuiNET.ImGui.EndMenuBar();
             }
         }

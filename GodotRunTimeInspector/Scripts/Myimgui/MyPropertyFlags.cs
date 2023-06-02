@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-
-namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace RuntimeInspector.Scripts.Myimgui
 {
     public static class MyPropertyFlags
     {
@@ -62,62 +60,62 @@ namespace RuntimeInspector.Scripts.Myimgui
         //ChildMenu = 268435456
         //    Don't use! For internal use by BeginMenu()
 
-        public static ImGuiWindowFlags WindowFlags()
+        public static ImGuiNET.ImGuiWindowFlags WindowFlags()
         {
-            ImGuiWindowFlags windowFlags = new ImGuiWindowFlags();
-            windowFlags |= ImGuiWindowFlags.NoSavedSettings;
-            return windowFlags;
+            ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
+            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoTitleBar;
+            return flags;
         }
 
-        public static ImGuiWindowFlags HUDWindowFlags()
+        public static ImGuiNET.ImGuiWindowFlags HUDWindowFlags()
         {
-            ImGuiWindowFlags windowFlags = new ImGuiWindowFlags();
-            windowFlags |= ImGuiWindowFlags.NoTitleBar;
-            windowFlags |= ImGuiWindowFlags.NoResize;
-            windowFlags |= ImGuiWindowFlags.NoMove;
-            windowFlags |= ImGuiWindowFlags.NoScrollbar;
-            windowFlags |= ImGuiWindowFlags.NoScrollWithMouse;
-            windowFlags |= ImGuiWindowFlags.NoCollapse;
-            windowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
-            windowFlags |= ImGuiWindowFlags.NoBackground;
-            windowFlags |= ImGuiWindowFlags.NoSavedSettings;
-            windowFlags |= ImGuiWindowFlags.NoNavInputs;
-            windowFlags |= ImGuiWindowFlags.NoNavFocus;
-            windowFlags |= ImGuiWindowFlags.NoMouseInputs;
-            windowFlags |= ImGuiWindowFlags.NoFocusOnAppearing;
-            windowFlags |= ImGuiWindowFlags.NoBringToFrontOnFocus;
-            return windowFlags;
+            ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
+            flags |= ImGuiNET.ImGuiWindowFlags.NoTitleBar;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoResize;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoMove;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoScrollbar;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoScrollWithMouse;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoCollapse;
+            flags |= ImGuiNET.ImGuiWindowFlags.AlwaysAutoResize;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoBackground;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoNavInputs;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoNavFocus;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoMouseInputs;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoBringToFrontOnFocus;
+            return flags;
         }
 
-        public static ImGuiWindowFlags ContainerWindowFlags()
+        public static ImGuiNET.ImGuiWindowFlags ContainerWindowFlags()
         {
-            ImGuiWindowFlags windowFlags = new ImGuiWindowFlags();
-            windowFlags |= ImGuiWindowFlags.NoSavedSettings;
-            windowFlags |= ImGuiWindowFlags.NoFocusOnAppearing;
-            windowFlags |= ImGuiWindowFlags.MenuBar;
-            windowFlags |= ImGuiWindowFlags.NoCollapse;
-            windowFlags |= ImGuiWindowFlags.NoScrollbar;
-            return windowFlags;
+            ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
+            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
+            flags |= ImGuiNET.ImGuiWindowFlags.MenuBar;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoScrollbar;
+            return flags;
         }
 
-        public static ImGuiWindowFlags ContainerWindowFlagsAlt()
+        public static ImGuiNET.ImGuiWindowFlags MyPropertyWindowFlags()
         {
-            ImGuiWindowFlags windowFlags = new ImGuiWindowFlags();
-            windowFlags |= ImGuiWindowFlags.NoSavedSettings;
-            windowFlags |= ImGuiWindowFlags.NoFocusOnAppearing;
-            windowFlags |= ImGuiWindowFlags.NoCollapse;
-            windowFlags |= ImGuiWindowFlags.NoScrollbar;
-            windowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
-            return windowFlags;
+            ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
+            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoCollapse;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoScrollbar;
+            flags |= ImGuiNET.ImGuiWindowFlags.AlwaysAutoResize;
+            return flags;
         }
 
-        public static ImGuiWindowFlags TreeNodeWindowFlags()
+        public static ImGuiNET.ImGuiWindowFlags TreeNodeWindowFlags()
         {
-            ImGuiWindowFlags windowFlags = new ImGuiWindowFlags();
-            windowFlags |= ImGuiWindowFlags.NoSavedSettings;
-            windowFlags |= ImGuiWindowFlags.NoFocusOnAppearing;
-            windowFlags |= ImGuiWindowFlags.AlwaysAutoResize;
-            return windowFlags;
+            ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
+            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
+            flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
+            flags |= ImGuiNET.ImGuiWindowFlags.AlwaysAutoResize;
+            return flags;
         }
 
         //ImGuiTableFlags
@@ -192,43 +190,31 @@ namespace RuntimeInspector.Scripts.Myimgui
         //    Allow no sorting, disable default sorting.TableGetSortSpecs() may return specs where(SpecsCount == 0).
         //SizingMask_ = 57344
 
-        public static ImGuiTableFlags TableFlags()
+        public static ImGuiNET.ImGuiTableFlags TableFlags()
         {
-            ImGuiTableFlags tblFlags = new ImGuiTableFlags();
-            tblFlags |= ImGuiTableFlags.Resizable;
-            tblFlags |= ImGuiTableFlags.NoSavedSettings;
-            tblFlags |= ImGuiTableFlags.Borders;
-            tblFlags |= ImGuiTableFlags.RowBg;
-            tblFlags |= ImGuiTableFlags.Sortable;
-            tblFlags |= ImGuiTableFlags.SortMulti;
-            tblFlags |= ImGuiTableFlags.NoPadOuterX;
-            tblFlags |= ImGuiTableFlags.NoPadInnerX;
-            tblFlags |= ImGuiTableFlags.SizingFixedFit;
-            return tblFlags;
+            ImGuiNET.ImGuiTableFlags flags = new ImGuiNET.ImGuiTableFlags();
+            flags |= ImGuiNET.ImGuiTableFlags.Resizable;
+            flags |= ImGuiNET.ImGuiTableFlags.NoSavedSettings;
+            flags |= ImGuiNET.ImGuiTableFlags.Borders;
+            //flags |= ImGuiTableFlags.RowBg;
+            flags |= ImGuiNET.ImGuiTableFlags.Sortable;
+            flags |= ImGuiNET.ImGuiTableFlags.SortMulti;
+            flags |= ImGuiNET.ImGuiTableFlags.NoPadOuterX;
+            flags |= ImGuiNET.ImGuiTableFlags.NoPadInnerX;
+            flags |= ImGuiNET.ImGuiTableFlags.SizingFixedFit;
+            return flags;
         }
 
-        public static ImGuiTableFlags ContainerTableFlags()
+        public static ImGuiNET.ImGuiTableFlags HUDTableFlags()
         {
-            ImGuiTableFlags tblFlags = new ImGuiTableFlags();
-            tblFlags |= ImGuiTableFlags.Resizable;
-            tblFlags |= ImGuiTableFlags.NoSavedSettings;
-            tblFlags |= ImGuiTableFlags.Borders;
-            tblFlags |= ImGuiTableFlags.RowBg;
-            tblFlags |= ImGuiTableFlags.NoPadOuterX;
-            tblFlags |= ImGuiTableFlags.NoPadInnerX;
-            return tblFlags;
-        }
-
-        public static ImGuiTableFlags HUDTableFlags()
-        {
-            ImGuiTableFlags tblFlags = new ImGuiTableFlags();
-            tblFlags |= ImGuiTableFlags.NoSavedSettings;
-            tblFlags |= ImGuiTableFlags.Borders;
-            tblFlags |= ImGuiTableFlags.RowBg;
-            tblFlags |= ImGuiTableFlags.NoPadOuterX;
-            tblFlags |= ImGuiTableFlags.NoPadInnerX;
-            tblFlags |= ImGuiTableFlags.SizingFixedFit;
-            return tblFlags;
+            ImGuiNET.ImGuiTableFlags flags = new ImGuiNET.ImGuiTableFlags();
+            flags |= ImGuiNET.ImGuiTableFlags.NoSavedSettings;
+            flags |= ImGuiNET.ImGuiTableFlags.Borders;
+            flags |= ImGuiNET.ImGuiTableFlags.RowBg;
+            flags |= ImGuiNET.ImGuiTableFlags.NoPadOuterX;
+            flags |= ImGuiNET.ImGuiTableFlags.NoPadInnerX;
+            flags |= ImGuiNET.ImGuiTableFlags.SizingFixedFit;
+            return flags;
         }
 
         //ImGuiTableColumnFlags
@@ -283,51 +269,30 @@ namespace RuntimeInspector.Scripts.Myimgui
         //NoDirectResize_ = 1073741824
         //    [Internal] Disable user resizing this column directly (it may however we resized indirectly from its left edge)
 
-        public static ImGuiTableColumnFlags TableColumnFlags()
+        public static ImGuiNET.ImGuiTableColumnFlags TableColumnFlags()
         {
-            ImGuiTableColumnFlags tableColumnFlags = new ImGuiTableColumnFlags();
-            tableColumnFlags |= ImGuiTableColumnFlags.WidthStretch;
-            return tableColumnFlags;
+            ImGuiNET.ImGuiTableColumnFlags flags = new ImGuiNET.ImGuiTableColumnFlags();
+            flags |= ImGuiNET.ImGuiTableColumnFlags.NoReorder;
+            flags |= ImGuiNET.ImGuiTableColumnFlags.IsVisible;
+            flags |= ImGuiNET.ImGuiTableColumnFlags.WidthStretch;
+            flags |= ImGuiNET.ImGuiTableColumnFlags.NoClip;
+            return flags;
         }
 
-        public static ImGuiTableColumnFlags ContainerTableColumnFlags()
+        public static ImGuiNET.ImGuiTableColumnFlags HUDTableColumnFlags()
         {
-            ImGuiTableColumnFlags tableColumnFlags = new ImGuiTableColumnFlags();
-            tableColumnFlags |= ImGuiTableColumnFlags.NoReorder;
-            tableColumnFlags |= ImGuiTableColumnFlags.IsVisible;
-            tableColumnFlags |= ImGuiTableColumnFlags.WidthStretch;
-            tableColumnFlags |= ImGuiTableColumnFlags.NoClip;
-            return tableColumnFlags;
+            ImGuiNET.ImGuiTableColumnFlags flags = new ImGuiNET.ImGuiTableColumnFlags();
+            flags |= ImGuiNET.ImGuiTableColumnFlags.WidthFixed;
+            flags |= ImGuiNET.ImGuiTableColumnFlags.NoResize;
+            flags |= ImGuiNET.ImGuiTableColumnFlags.NoHeaderLabel;
+            return flags;
         }
 
-        public static ImGuiTableColumnFlags HUDTableColumnFlags()
+        public static ImGuiNET.ImGuiTableRowFlags NoneTableRowFlags()
         {
-            ImGuiTableColumnFlags tableColumnFlags = new ImGuiTableColumnFlags();
-            tableColumnFlags |= ImGuiTableColumnFlags.WidthFixed;
-            tableColumnFlags |= ImGuiTableColumnFlags.NoResize;
-            tableColumnFlags |= ImGuiTableColumnFlags.NoHeaderLabel;
-            return tableColumnFlags;
-        }
-
-        public static ImGuiTableRowFlags HeadersTableRowFlags()
-        {
-            ImGuiTableRowFlags tableRowFlags = new ImGuiTableRowFlags();
-            tableRowFlags |= ImGuiTableRowFlags.Headers;
-            return tableRowFlags;
-        }
-
-        public static ImGuiTableRowFlags NoneTableRowFlags()
-        {
-            ImGuiTableRowFlags tableRowFlags = new ImGuiTableRowFlags();
-            tableRowFlags |= ImGuiTableRowFlags.None;
-            return tableRowFlags;
-        }
-
-        public static ImGuiTabBarFlags ContainerTabBarFlags()
-        {
-            ImGuiTabBarFlags imGuiTabBarFlags = new ImGuiTabBarFlags();
-            imGuiTabBarFlags |= ImGuiTabBarFlags.None;
-            return imGuiTabBarFlags;
+            ImGuiNET.ImGuiTableRowFlags flags = new ImGuiNET.ImGuiTableRowFlags();
+            flags |= ImGuiNET.ImGuiTableRowFlags.None;
+            return flags;
         }
 
         //ImGuiInputTextFlags
@@ -383,20 +348,46 @@ namespace RuntimeInspector.Scripts.Myimgui
         //                EscapeClearsAll = 1048576
         //    Escape key clears content if not empty, and deactivate otherwise(contrast to default behavior of Escape to revert)
 
-        public static ImGuiInputTextFlags ContainerInputTextFlags()
+        public static ImGuiNET.ImGuiInputTextFlags InputTextFlags()
         {
-            ImGuiInputTextFlags imGuiInputTextFlags = new ImGuiInputTextFlags();
-            imGuiInputTextFlags |= ImGuiInputTextFlags.AllowTabInput;
-            return imGuiInputTextFlags;
+            ImGuiNET.ImGuiInputTextFlags flags = new ImGuiNET.ImGuiInputTextFlags();
+            flags |= ImGuiNET.ImGuiInputTextFlags.AllowTabInput;
+            return flags;
         }
 
-        public static ImGuiTreeNodeFlags TreeNodeFlags()
+        public static ImGuiNET.ImGuiTreeNodeFlags TreeNodeFlags()
         {
-            ImGuiTreeNodeFlags imGuiTreeNodeFlags = new ImGuiTreeNodeFlags();
-            imGuiTreeNodeFlags |= ImGuiTreeNodeFlags.SpanFullWidth;
-            imGuiTreeNodeFlags |= ImGuiTreeNodeFlags.OpenOnArrow;
-            imGuiTreeNodeFlags |= ImGuiTreeNodeFlags.OpenOnDoubleClick;
-            return imGuiTreeNodeFlags;
+            ImGuiNET.ImGuiTreeNodeFlags flags = new ImGuiNET.ImGuiTreeNodeFlags();
+            flags |= ImGuiNET.ImGuiTreeNodeFlags.SpanFullWidth;
+            flags |= ImGuiNET.ImGuiTreeNodeFlags.OpenOnArrow;
+            flags |= ImGuiNET.ImGuiTreeNodeFlags.OpenOnDoubleClick;
+            return flags;
+        }
+
+        public static ImGuiNET.ImGuiTabBarFlags TabBarFlags()
+        {
+            ImGuiNET.ImGuiTabBarFlags flags = new ImGuiNET.ImGuiTabBarFlags();
+            flags |= ImGuiNET.ImGuiTabBarFlags.Reorderable;
+            flags |= ImGuiNET.ImGuiTabBarFlags.AutoSelectNewTabs;
+            flags |= ImGuiNET.ImGuiTabBarFlags.TabListPopupButton;
+            return flags;
+        }
+
+        public static ImGuiNET.ImGuiTabItemFlags TabItemFlags()
+        {
+            ImGuiNET.ImGuiTabItemFlags flags = new ImGuiNET.ImGuiTabItemFlags();
+            flags |= ImGuiNET.ImGuiTabItemFlags.None;
+            return flags;
+        }
+
+        public static ImGuiNET.ImGuiTabItemFlags TabItemFlagsLeading()
+        {
+            ImGuiNET.ImGuiTabItemFlags flags = new ImGuiNET.ImGuiTabItemFlags();
+            flags |= ImGuiNET.ImGuiTabItemFlags.Leading;
+            flags |= ImGuiNET.ImGuiTabItemFlags.NoReorder;
+            flags |= ImGuiNET.ImGuiTabItemFlags.NoCloseWithMiddleMouseButton;
+            flags |= ImGuiNET.ImGuiTabItemFlags.NoPushId;
+            return flags;
         }
     }
 }

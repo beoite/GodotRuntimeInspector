@@ -2,13 +2,13 @@
 {
     public class MyProperty
     {
+        public MyPropertyImgui MyPropertyImgui = new MyPropertyImgui();
+        public int Clicks = 0;
         public int Index = 0;
         public Tags Tags = Tags.None;
         public System.Type Type = typeof(MyProperty);
         public string Name = string.Empty;
         public object? Instance = null;
-        public MyPropertyImgui MyPropertyImgui = new MyPropertyImgui();
-        public int Clicks = 0;
 
         public static MyProperty[] NewArray(object? instance)
         {

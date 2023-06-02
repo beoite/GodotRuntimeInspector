@@ -12,99 +12,18 @@ namespace RuntimeInspector.Scripts.Myimgui
         public static int Counter = -1;
         public static MyPropertyTable MyPropertyTable = new MyPropertyTable();
 
-        public static void Update(Godot.Node node)
-        {
-            SceneTree = node.GetTree().Root.GetTree();
-            if (SelectedNode.Name == nameof(SelectedNode))
-            {
-                SelectedNode = SceneTree.CurrentScene;
-            }
-            MyProperties = MyProperty.NewArray(SelectedNode);
-            string windowName = Utility.GetAnimatedTitle(SceneTree.CurrentScene.SceneFilePath);
+        private static System.Numerics.Vector2 windowSize = System.Numerics.Vector2.Zero;
+        private static System.Numerics.Vector2 bottomSize = System.Numerics.Vector2.Zero;
+        private static System.Numerics.Vector2 topSize = System.Numerics.Vector2.Zero;
+        private static System.Numerics.Vector2 topLeftSize = System.Numerics.Vector2.Zero;
+        private static System.Numerics.Vector2 topRightSize = System.Numerics.Vector2.Zero;
 
-            if (!ImGuiNET.ImGui.Begin(windowName, MyPropertyFlags.ContainerWindowFlags()))
+        private static void Traverse(Godot.Node? node)
+        {
+            if (node == null)
             {
-                ImGuiNET.ImGui.End();
                 return;
             }
-            Myimgui.MenuBar.Update();
-            System.Numerics.Vector2 windowSize = ImGuiNET.ImGui.GetWindowSize();
-            System.Numerics.Vector2 outerTableSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - GodotRuntimeInspector.MinRowHeight);
-            int numCols = 2;
-            if (ImGuiNET.ImGui.BeginTable(nameof(MyPropertyNode), numCols, MyPropertyFlags.ContainerTableFlags(), outerTableSize))
-            {
-                float width40 = 0.4f * windowSize.X;
-                float width60 = 0.6f * windowSize.X;
-                ImGuiNET.ImGui.TableSetupColumn("Scene", MyPropertyFlags.ContainerTableColumnFlags(), width40);
-                ImGuiNET.ImGui.TableSetupColumn("Properties", MyPropertyFlags.ContainerTableColumnFlags(), width60);
-                //ImGui.TableHeadersRow();
-
-                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
-                if (ImGuiNET.ImGui.TableNextColumn())
-                {
-                    string name = nameof(Traverse);
-                    System.Numerics.Vector2 size = new System.Numerics.Vector2();
-                    bool border = true;
-                    if (ImGuiNET.ImGui.BeginChild(name, size, border, MyPropertyFlags.TreeNodeWindowFlags()))
-                    {
-                        Counter = -1;
-                        Traverse(SceneTree.CurrentScene);
-                        ImGuiNET.ImGui.EndChild();
-                    }
-                }
-                if (ImGuiNET.ImGui.TableNextColumn())
-                {
-                    float columnWidth = ImGuiNET.ImGui.GetColumnWidth();
-                    float topHeight = outerTableSize.Y * 0.7f - GodotRuntimeInspector.MinRowHeight;
-                    float bottomHeight = outerTableSize.Y * 0.4f - GodotRuntimeInspector.MinRowHeight;
-
-                    System.Numerics.Vector2 topTableSize = new System.Numerics.Vector2(columnWidth - GodotRuntimeInspector.MinRowHeight, topHeight);
-                    MyPropertyTable.DrawTable(ref MyProperties, "top", MyPropertyFlags.ContainerTableFlags(), topTableSize);
-
-                    System.Numerics.Vector2 bottomTableSize = new System.Numerics.Vector2(columnWidth - GodotRuntimeInspector.MinRowHeight, bottomHeight);
-                    if (ImGuiNET.ImGui.BeginChild("bottom", bottomTableSize, false, MyPropertyFlags.ContainerWindowFlags()))
-                    {
-                        string tabBarID = "bottomTabBar";
-                        ImGuiNET.ImGuiTabBarFlags flags = new ImGuiNET.ImGuiTabBarFlags();
-                        flags |= ImGuiNET.ImGuiTabBarFlags.Reorderable;
-                        flags |= ImGuiNET.ImGuiTabBarFlags.AutoSelectNewTabs;
-                        flags |= ImGuiNET.ImGuiTabBarFlags.TabListPopupButton;
-                        string[] keys = GodotRuntimeInspector.MyProperties.Keys.ToArray();
-                        if (ImGuiNET.ImGui.BeginTabBar(tabBarID, flags))
-                        {
-                            for (int i = 0; i < keys.Length; i++)
-                            {
-                                string key = keys[i];
-                                Myimgui.MyProperty myProperty = GodotRuntimeInspector.MyProperties[key];
-                                bool tabOpen = true;
-                                ImGuiNET.ImGuiTabItemFlags tabItemFlags = ImGuiNET.ImGuiTabItemFlags.None;
-                                if (myProperty.Clicks > 0)
-                                {
-                                    tabItemFlags |= ImGuiNET.ImGuiTabItemFlags.SetSelected;
-                                    myProperty.Clicks = 0;
-                                }
-                                if (ImGuiNET.ImGui.BeginTabItem(key, ref tabOpen, tabItemFlags))
-                                {
-                                    myProperty.MyPropertyImgui.Update(myProperty, bottomTableSize);
-                                    ImGuiNET.ImGui.EndTabItem();
-                                }
-                                if (tabOpen == false)
-                                {
-                                    GodotRuntimeInspector.MyProperties.Remove(key);
-                                }
-                            }
-                            ImGuiNET.ImGui.EndTabBar();
-                        }
-                        ImGuiNET.ImGui.EndChild();
-                    }
-                }
-                ImGuiNET.ImGui.EndTable();
-            }
-            ImGuiNET.ImGui.End();
-        }
-
-        private static void Traverse(Godot.Node node)
-        {
             Counter++;
             ImGuiNET.ImGuiTreeNodeFlags baseFlags = MyPropertyFlags.TreeNodeFlags();
             int childCount = node.GetChildCount();
@@ -133,5 +52,117 @@ namespace RuntimeInspector.Scripts.Myimgui
                 ImGuiNET.ImGui.TreePop();
             }
         }
+
+        private static void TopRow()
+        {
+            if (ImGuiNET.ImGui.BeginTable(nameof(topSize), 2, MyPropertyFlags.TableFlags(), topSize))
+            {
+                ImGuiNET.ImGui.TableSetupColumn(nameof(topLeftSize), MyPropertyFlags.TableColumnFlags(), topLeftSize.X);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(topRightSize), MyPropertyFlags.TableColumnFlags(), topRightSize.X);
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), topSize.Y);
+                if (ImGuiNET.ImGui.TableNextColumn())
+                {
+                    topLeftSize = new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), topSize.Y);
+                    if (ImGuiNET.ImGui.BeginChild(nameof(Traverse), topLeftSize, false, MyPropertyFlags.TreeNodeWindowFlags()))
+                    {
+                        Counter = -1;
+                        Traverse(SceneTree?.CurrentScene);
+                        ImGuiNET.ImGui.EndChild();
+                    }
+                }
+                if (ImGuiNET.ImGui.TableNextColumn())
+                {
+                    topRightSize = new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), topSize.Y);
+                    MyPropertyTable.DrawTable(ref MyProperties, nameof(topRightSize), MyPropertyFlags.TableFlags(), topRightSize);
+                }
+                ImGuiNET.ImGui.EndTable();
+            }
+        }
+
+        private static void TabBar()
+        {
+            string[] keys = GodotRuntimeInspector.MyProperties.Keys.ToArray();
+            if (ImGuiNET.ImGui.BeginChild(nameof(bottomSize), bottomSize, true, MyPropertyFlags.MyPropertyWindowFlags()))
+            {
+                if (ImGuiNET.ImGui.BeginTabBar(nameof(TabBar), MyPropertyFlags.TabBarFlags()))
+                {
+                    if (ImGuiNET.ImGui.TabItemButton("Close All [" + GodotRuntimeInspector.MyProperties.Count + "]", MyPropertyFlags.TabItemFlagsLeading()))
+                    {
+                        GodotRuntimeInspector.MyProperties.Clear();
+                    }
+                    for (int i = 0; i < keys.Length; i++)
+                    {
+                        string key = keys[i];
+                        bool exists = GodotRuntimeInspector.MyProperties.ContainsKey(key);
+                        Myimgui.MyProperty myProperty = new MyProperty();
+                        if (exists == true)
+                        {
+                            myProperty = GodotRuntimeInspector.MyProperties[key];
+                        }
+                        bool tabOpen = true;
+                        ImGuiNET.ImGuiTabItemFlags tabItemFlags = ImGuiNET.ImGuiTabItemFlags.None;
+                        if (myProperty.Clicks > 0)
+                        {
+                            tabItemFlags = ImGuiNET.ImGuiTabItemFlags.SetSelected;
+                            myProperty.Clicks = 0;
+                        }
+                        if (ImGuiNET.ImGui.BeginTabItem(key, ref tabOpen, tabItemFlags))
+                        {
+                            System.Numerics.Vector2 size = new System.Numerics.Vector2(bottomSize.X, bottomSize.Y - GodotRuntimeInspector.MinRowHeight);
+                            myProperty.MyPropertyImgui.Update(myProperty, size);
+                            ImGuiNET.ImGui.EndTabItem();
+                        }
+                        if (tabOpen == false)
+                        {
+                            GodotRuntimeInspector.MyProperties.Remove(key);
+                        }
+                    }
+                    ImGuiNET.ImGui.EndTabBar();
+                }
+                ImGuiNET.ImGui.EndChild();
+            }
+        }
+
+        public static void Update(Godot.Node node)
+        {
+            SceneTree = node.GetTree().Root.GetTree();
+            if (!ImGuiNET.ImGui.Begin(Utility.GetAnimatedTitle(SceneTree.CurrentScene.SceneFilePath), MyPropertyFlags.ContainerWindowFlags()))
+            {
+                ImGuiNET.ImGui.End();
+                return;
+            }
+            if (SelectedNode.Name == nameof(SelectedNode))
+            {
+                SelectedNode = SceneTree.CurrentScene;
+            }
+            MyProperties = MyProperty.NewArray(SelectedNode);
+
+            Myimgui.MenuBar.Update();
+
+            windowSize = ImGuiNET.ImGui.GetWindowSize();
+            windowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - (GodotRuntimeInspector.MinRowHeight * 2));
+            float bottom = GodotRuntimeInspector.MinRowHeight * 6;
+            topSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - bottom);
+            topLeftSize = new System.Numerics.Vector2(windowSize.X * 0.4f, topSize.Y);
+            topRightSize = new System.Numerics.Vector2(windowSize.X * 0.6f, topSize.Y);
+            bottomSize = new System.Numerics.Vector2(windowSize.X, bottom);
+
+            if (ImGuiNET.ImGui.BeginTable(nameof(MyPropertyNode), 1, MyPropertyFlags.TableFlags(), windowSize))
+            {
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyPropertyNode), MyPropertyFlags.TableColumnFlags(), windowSize.X);
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), topSize.Y);
+                if (ImGuiNET.ImGui.TableNextColumn())
+                {
+                    TopRow();
+                }
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), bottom);
+                if (ImGuiNET.ImGui.TableNextColumn())
+                {
+                    TabBar();
+                }
+            }
+            ImGuiNET.ImGui.EndTable();
+        }
     }
 }
+

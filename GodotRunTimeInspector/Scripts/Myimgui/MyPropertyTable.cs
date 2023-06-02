@@ -116,13 +116,15 @@ namespace RuntimeInspector.Scripts.Myimgui
                     float smallWidth = width / 2f;
                     float extraSmallWidth = width / 4f;
 
-                    ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.ContainerTableColumnFlags(), extraSmallWidth);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.ContainerTableColumnFlags(), smallWidth);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.ContainerTableColumnFlags(), smallWidth);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.ContainerTableColumnFlags(), width);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.ContainerTableColumnFlags(), width);
-                    ImGui.TableSetupColumn(nameof(MyProperty.MyPropertyImgui), MyPropertyFlags.ContainerTableColumnFlags(), 0);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.ContainerTableColumnFlags(), 0);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), smallWidth);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
+                    ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
+                    ImGui.TableSetupColumn(nameof(MyProperty.MyPropertyImgui), MyPropertyFlags.TableColumnFlags(), 0);
+
+
                     ImGui.TableHeadersRow();
                     ImGuiTableSortSpecsPtr sortsSpecs = ImGui.TableGetSortSpecs();
                     Sort(sortsSpecs, myProperties);
@@ -132,37 +134,52 @@ namespace RuntimeInspector.Scripts.Myimgui
 
                         ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
 
-                        ImGui.TableNextColumn();
-                        ImGui.Text(myProperty.Index.ToString());
-
-                        ImGui.TableNextColumn();
-                        ImGui.Text(myProperty.Tags.ToString());
-
-                        ImGui.TableNextColumn();
-                        ImGui.Text(myProperty.Type.ToString());
-
-                        ImGui.TableNextColumn();
-                        string[] split = myProperty.Name.Split("/");
-                        ImGui.Text(split[split.Length - 1]);
-
-                        ImGui.TableNextColumn();
-                        float columnWidth = ImGui.GetColumnWidth();
-                        System.Numerics.Vector2 size = new System.Numerics.Vector2(columnWidth, GodotRuntimeInspector.MinRowHeight);
-                        bool clicked = ImGui.Button(Utility.GetStr(myProperty.Instance) + "###" + myProperty.Name, size);
-                        if (clicked)
+                        if (ImGui.TableNextColumn())
                         {
-                            myProperty.Clicks++;
-                            if (GodotRuntimeInspector.MyProperties.ContainsKey(myProperty.Name) == false)
+                            ImGui.Text(myProperty.Index.ToString());
+                        }
+
+                        if (ImGui.TableNextColumn())
+                        {
+                            ImGui.Text(myProperty.Tags.ToString());
+                        }
+
+                        if (ImGui.TableNextColumn())
+                        {
+                            ImGui.Text(myProperty.Type.ToString());
+                        }
+
+                        if (ImGui.TableNextColumn())
+                        {
+                            string[] split = myProperty.Name.Split("/");
+                            ImGui.Text(split[split.Length - 1]);
+                        }
+
+                        if (ImGui.TableNextColumn())
+                        {
+                            float columnWidth = ImGui.GetColumnWidth();
+                            System.Numerics.Vector2 size = new System.Numerics.Vector2(columnWidth, GodotRuntimeInspector.MinRowHeight);
+                            bool clicked = ImGui.Button(Utility.GetStr(myProperty.Instance) + "###" + myProperty.Name, size);
+                            if (clicked)
                             {
-                                GodotRuntimeInspector.MyProperties.Add(myProperty.Name, myProperty);
+                                myProperty.Clicks++;
+                                myProperties[i] = myProperty;
+                                if (GodotRuntimeInspector.MyProperties.ContainsKey(myProperty.Name) == false)
+                                {
+                                    GodotRuntimeInspector.MyProperties.Add(myProperty.Name, myProperty);
+                                }
                             }
                         }
 
-                        ImGui.TableNextColumn();
-                        ImGui.Text(myProperty.MyPropertyImgui.ToString());
+                        if (ImGui.TableNextColumn())
+                        {
+                            ImGui.Text(myProperty.Clicks.ToString());
+                        }
 
-                        ImGui.TableNextColumn();
-                        ImGui.Text(myProperty.Clicks.ToString());
+                        if (ImGui.TableNextColumn())
+                        {
+                            ImGui.Text(myProperty.MyPropertyImgui.ToString());
+                        }
                     }
                     ImGui.EndTable();
                 }
