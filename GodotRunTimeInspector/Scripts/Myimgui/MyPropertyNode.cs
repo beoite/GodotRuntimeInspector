@@ -141,7 +141,7 @@ namespace RuntimeInspector.Scripts.Myimgui
 
             windowSize = ImGuiNET.ImGui.GetWindowSize();
             windowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - (GodotRuntimeInspector.MinRowHeight * 2));
-            float bottom = GodotRuntimeInspector.MinRowHeight * 6;
+            float bottom = GodotRuntimeInspector.MinRowHeight * 3;
             topSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - bottom);
             topLeftSize = new System.Numerics.Vector2(windowSize.X * 0.4f, topSize.Y);
             topRightSize = new System.Numerics.Vector2(windowSize.X * 0.6f, topSize.Y);

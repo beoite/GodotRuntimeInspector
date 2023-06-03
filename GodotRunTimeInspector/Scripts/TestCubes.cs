@@ -16,6 +16,8 @@ namespace RuntimeInspector.Scripts
                 float y = new Godot.RandomNumberGenerator().RandfRange(-range, range);
                 float z = new Godot.RandomNumberGenerator().RandfRange(-range, range);
                 testCube.GlobalTransform = new Godot.Transform3D(Godot.Basis.Identity, new Godot.Vector3(x, y, z));
+                float eulerY = new Godot.RandomNumberGenerator().RandfRange(-range, range);
+                testCube.RotateObjectLocal(Godot.Vector3.Up, eulerY);
                 parent.AddChild(testCube);
                 cubes.Add(testCube);
             }
