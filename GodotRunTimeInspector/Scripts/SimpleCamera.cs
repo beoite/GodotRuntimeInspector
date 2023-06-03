@@ -13,6 +13,8 @@
         public Godot.Vector3 ForwardBack = Godot.Vector3.Zero;
         public Godot.Vector3 LeftRight = Godot.Vector3.Zero;
         public Godot.Vector3 UpDown = Godot.Vector3.Zero;
+        public float multiplier = 1f;
+        public uint inputCounter = 0;
 
         private static ImGuiNET.ImGuiViewportPtr mainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
 
@@ -29,7 +31,7 @@
         {
             base._PhysicsProcess(delta);
             TotalDelta += delta;
-            float multiplier = 1f;
+
             ForwardBack = -CAM.Transform.Basis.Z;
             ForwardBack *= (float)(WASD.Y * multiplier * delta);
 
@@ -76,24 +78,18 @@
             ImGuiNET.ImGui.SetNextWindowPos(new System.Numerics.Vector2(0f, 0f), ImGuiNET.ImGuiCond.Always);
             if (ImGuiNET.ImGui.Begin(nameof(SimpleCamera), Myimgui.MyPropertyFlags.HUDWindowFlags()))
             {
-                ImGuiNET.ImGui.Text(nameof(MouseMotion) + " " + MouseMotion.ToString());
-                ImGuiNET.ImGui.Text(nameof(RotationX) + " " + RotationX.ToString());
-                ImGuiNET.ImGui.Text(nameof(RotationY) + " " + RotationY.ToString());
-                ImGuiNET.ImGui.Text(nameof(WASD) + " " + WASD.ToString());
-                ImGuiNET.ImGui.Text(nameof(CamTransform.Basis) + " " + CamTransform.Basis.ToString());
-                ImGuiNET.ImGui.Text("X " + " " + CAM.Transform.Basis.X.ToString());
-                ImGuiNET.ImGui.Text("Y " + " " + CAM.Transform.Basis.Y.ToString());
-                ImGuiNET.ImGui.Text("Z " + " " + CAM.Transform.Basis.Z.ToString());
-                ImGuiNET.ImGui.Text(nameof(CAM.GlobalPosition) + " " + CAM.GlobalPosition.ToString());
-                ImGuiNET.ImGui.Text(nameof(ForwardBack) + " " + ForwardBack.ToString());
-                ImGuiNET.ImGui.Text(nameof(LeftRight) + " " + LeftRight.ToString());
+                ImGuiNET.ImGui.Text(nameof(multiplier) + " " + multiplier.ToString("0.00000000"));
+                ImGuiNET.ImGui.Text(nameof(inputCounter) + " " + inputCounter.ToString("0.00000000"));
                 ImGuiNET.ImGui.End();
             }
         }
 
         public override void _Input(Godot.InputEvent @event)
         {
+            inputCounter++;
             WASD = Godot.Vector2.Zero;
+            UpDown = Godot.Vector3.Zero;
+            multiplier = 1f;
             if (Godot.Input.IsActionPressed(MyInputMap.FORWARD))
             {
                 WASD.Y = 1f;
@@ -110,7 +106,6 @@
             {
                 WASD.X = 1f;
             }
-            UpDown = Godot.Vector3.Zero;
             if (Godot.Input.IsActionPressed(MyInputMap.Q))
             {
                 UpDown.Y = -1f;
@@ -118,6 +113,10 @@
             if (Godot.Input.IsActionPressed(MyInputMap.E))
             {
                 UpDown.Y = 1f;
+            }
+            if (Godot.Input.IsActionPressed(MyInputMap.LEFTSHIFT))
+            {
+                multiplier = 10f;
             }
 
             if (@event is Godot.InputEventMouseButton)

@@ -15,7 +15,7 @@ namespace RuntimeInspector.Scripts
         public static ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
         public static ImGuiNET.ImGuiIOPtr IOPTR = null;
         public static System.Collections.Generic.Dictionary<string, Myimgui.MyProperty> MyProperties = new System.Collections.Generic.Dictionary<string, Myimgui.MyProperty>();
-        
+
         private static Godot.InputEvent inputEvent;
         private static uint dockspaceID = 0;
 
@@ -33,9 +33,9 @@ namespace RuntimeInspector.Scripts
 
             // style
             ImGuiNET.ImGuiStylePtr style = ImGuiNET.ImGui.GetStyle();
-            style.WindowPadding = new System.Numerics.Vector2(1f, 1f);
-            style.FramePadding = new System.Numerics.Vector2(1f, 1f);
-            style.CellPadding = new System.Numerics.Vector2(1f, 1f);
+            style.WindowPadding = new System.Numerics.Vector2(0f, 0f);
+            style.FramePadding = new System.Numerics.Vector2(0f, 0f);
+            style.CellPadding = new System.Numerics.Vector2(0f, 0f);
             style.WindowRounding = 0f;
             style.ChildRounding = 0f;
             style.PopupRounding = 0f;
@@ -43,7 +43,18 @@ namespace RuntimeInspector.Scripts
             style.ScrollbarRounding = 0f;
             style.GrabRounding = 0f;
             style.TabRounding = 0f;
+            style.WindowBorderSize = 0f;
+            style.ChildBorderSize = 0f;
+            style.FrameBorderSize = 0f;
+            style.TabBorderSize = 0f;
             style.CellPadding = new System.Numerics.Vector2(0f, 0f);
+            style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.CLOUDBLUE.ToVector4();
+            style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4();
+            style.Colors[(int)ImGuiNET.ImGuiCol.TableHeaderBg] = Palette.NIGHTBLUE.ToVector4();
+            style.Colors[(int)ImGuiNET.ImGuiCol.TableBorderStrong] = Palette.SEABLUE.ToVector4();
+            style.Colors[(int)ImGuiNET.ImGuiCol.TableBorderLight] = Palette.SKYBLUE.ToVector4();
+            style.Colors[(int)ImGuiNET.ImGuiCol.TableRowBg] = Palette.NIGHTBLUE.ToVector4();
+            style.Colors[(int)ImGuiNET.ImGuiCol.TableRowBgAlt] = Palette.SEABLUE.ToVector4();
 
             // load the debug scene
             IsDebug = System.String.Equals(SceneManager.DebugPath, SceneFilePath, System.StringComparison.InvariantCultureIgnoreCase);

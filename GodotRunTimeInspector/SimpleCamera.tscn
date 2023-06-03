@@ -1,19 +1,15 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1cnx6sx06qfd"]
+[gd_scene load_steps=6 format=3 uid="uid://0onm3rsvt5nn"]
 
 [ext_resource type="Script" path="res://GodotRuntimeInspector/Scripts/SimpleCamera.cs" id="1_ga3n2"]
-[ext_resource type="Material" uid="uid://0puv2dmdvymd" path="res://GodotRuntimeInspector/SkyShaderMaterial.tres" id="2_nv6u4"]
-
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_fx44a"]
-dof_blur_far_distance = 9.0
+[ext_resource type="Material" uid="uid://bvegw5w0chect" path="res://GodotRuntimeInspector/Sky/SkyShaderMaterial.tres" id="2_o3u22"]
 
 [sub_resource type="Sky" id="Sky_u1b6d"]
-sky_material = ExtResource("2_nv6u4")
+sky_material = ExtResource("2_o3u22")
 
 [sub_resource type="Environment" id="Environment_13vhm"]
 background_mode = 2
 sky = SubResource("Sky_u1b6d")
 ambient_light_source = 3
-volumetric_fog_enabled = true
 volumetric_fog_density = 0.01
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_bmdfr"]
@@ -22,7 +18,6 @@ volumetric_fog_density = 0.01
 script = ExtResource("1_ga3n2")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-attributes = SubResource("CameraAttributesPractical_fx44a")
 fov = 90.0
 near = 0.01
 
@@ -31,9 +26,9 @@ environment = SubResource("Environment_13vhm")
 camera_attributes = SubResource("CameraAttributesPractical_bmdfr")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.895712, 0.225001, 0.383504, -7.54033e-08, -0.862514, 0.506034, 0.444635, 0.45326, 0.772564, 0, 111, 111)
+transform = Transform3D(-0.895712, 0.225001, 0.383504, -7.54033e-08, -0.862514, 0.506034, 0.444635, 0.45326, 0.772564, 222, 111, -222)
 
 [node name="Moon" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.684547, -0.368883, -0.628745, -7.54033e-08, -0.862514, 0.506034, -0.728969, -0.346404, -0.590431, 0, -111, 111)
+transform = Transform3D(0.684547, -0.368883, -0.628745, -7.54033e-08, -0.862514, 0.506034, -0.728969, -0.346404, -0.590431, 222, -111, -222)
 light_energy = 0.1
 light_indirect_energy = 0.5
