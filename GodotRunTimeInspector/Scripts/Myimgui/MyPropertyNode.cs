@@ -140,12 +140,10 @@ namespace RuntimeInspector.Scripts.Myimgui
             Myimgui.MenuBar.Update();
 
             windowSize = ImGuiNET.ImGui.GetWindowSize();
-            windowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - (GodotRuntimeInspector.MinRowHeight * 2));
-            float bottom = GodotRuntimeInspector.MinRowHeight * 3;
-            topSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - bottom);
-            topLeftSize = new System.Numerics.Vector2(windowSize.X * 0.4f, topSize.Y);
-            topRightSize = new System.Numerics.Vector2(windowSize.X * 0.6f, topSize.Y);
-            bottomSize = new System.Numerics.Vector2(windowSize.X, bottom);
+            windowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - (GodotRuntimeInspector.MinRowHeight * 2f));
+            topSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y);
+            topLeftSize = new System.Numerics.Vector2(windowSize.X * 0.3f, topSize.Y);
+            topRightSize = new System.Numerics.Vector2(windowSize.X * 0.7f, topSize.Y);
 
             if (ImGuiNET.ImGui.BeginTable(nameof(MyPropertyNode), 1, MyPropertyFlags.TableFlags(), windowSize))
             {
@@ -154,11 +152,6 @@ namespace RuntimeInspector.Scripts.Myimgui
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
                     TopRow();
-                }
-                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), bottom);
-                if (ImGuiNET.ImGui.TableNextColumn())
-                {
-                    TabBar();
                 }
             }
             ImGuiNET.ImGui.EndTable();

@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-
-namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace RuntimeInspector.Scripts.Myimgui
 {
     public static class HUD
     {
@@ -15,73 +13,73 @@ namespace RuntimeInspector.Scripts.Myimgui
             int numCols = 2;
             int numRows = 10;
             float rowHeight = 10f;
-            float colWidth = ImGui.GetMainViewport().Size.X / 2f;
+            float colWidth = ImGuiNET.ImGui.GetMainViewport().Size.X / 2f;
 
-            ImGui.Begin(header, MyPropertyFlags.HUDWindowFlags());
+            ImGuiNET.ImGui.Begin(header, MyPropertyFlags.HUDWindowFlags());
 
             System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(GodotRuntimeInspector.MainviewPortPTR.Size.X, numRows * rowHeight);
-            if (ImGui.BeginTable(header + nameof(ImGui.BeginTable), numCols, MyPropertyFlags.HUDTableFlags(), tableSize))
+            if (ImGuiNET.ImGui.BeginTable(header + nameof(ImGuiNET.ImGui.BeginTable), numCols, MyPropertyFlags.HUDTableFlags(), tableSize))
             {
-                ImGui.TableSetupColumn("1", MyPropertyFlags.HUDTableColumnFlags(), colWidth);
-                ImGui.TableSetupColumn("2", MyPropertyFlags.HUDTableColumnFlags(), colWidth);
+                ImGuiNET.ImGui.TableSetupColumn("1", MyPropertyFlags.HUDTableColumnFlags(), colWidth);
+                ImGuiNET.ImGui.TableSetupColumn("2", MyPropertyFlags.HUDTableColumnFlags(), colWidth);
 
-                ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
-                ImGui.TableNextColumn();
-                ImGui.Text(nameof(ImGui) + "." + nameof(ImGui.GetFrameCount));
-                ImGui.TableNextColumn();
-                ImGui.Text(ImGui.GetFrameCount().ToString());
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(nameof(ImGuiNET.ImGui) + "." + nameof(ImGuiNET.ImGui.GetFrameCount));
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(ImGuiNET.ImGui.GetFrameCount().ToString());
 
-                ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
-                ImGui.TableNextColumn();
-                ImGui.Text(nameof(Godot) + "." + nameof(Godot.Time.GetTicksMsec));
-                ImGui.TableNextColumn();
-                ImGui.Text(Godot.Time.GetTicksMsec().ToString());
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(nameof(Godot) + "." + nameof(Godot.Time.GetTicksMsec));
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(Godot.Time.GetTicksMsec().ToString());
 
-                ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
-                ImGui.TableNextColumn();
-                ImGui.Text(nameof(Godot) + "." + nameof(Godot.Engine.GetFramesPerSecond));
-                ImGui.TableNextColumn();
-                ImGui.Text(Godot.Engine.GetFramesPerSecond().ToString());
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(nameof(Godot) + "." + nameof(Godot.Engine.GetFramesPerSecond));
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(Godot.Engine.GetFramesPerSecond().ToString());
 
-                ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
-                ImGui.TableNextColumn();
-                ImGui.Text(nameof(Godot) + "." + nameof(Godot.Engine.MaxFps));
-                ImGui.TableNextColumn();
-                ImGui.Text(Godot.Engine.MaxFps.ToString());
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(nameof(Godot) + "." + nameof(Godot.Engine.MaxFps));
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(Godot.Engine.MaxFps.ToString());
 
-                ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
-                ImGui.TableNextColumn();
-                ImGui.Text(nameof(GodotRuntimeInspector.FPS));
-                ImGui.TableNextColumn();
-                ImGui.Text(GodotRuntimeInspector.FPS.ToString());
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(nameof(GodotRuntimeInspector.FPS));
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(GodotRuntimeInspector.FPS.ToString());
 
-                ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
-                ImGui.TableNextColumn();
-                ImGui.Text(nameof(Godot) + "." + nameof(Godot.DisplayServer.WindowGetVsyncMode));
-                ImGui.TableNextColumn();
-                ImGui.Text(Godot.DisplayServer.WindowGetVsyncMode().ToString());
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(nameof(Godot) + "." + nameof(Godot.DisplayServer.WindowGetVsyncMode));
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(Godot.DisplayServer.WindowGetVsyncMode().ToString());
 
-                ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
-                ImGui.TableNextColumn();
-                ImGui.Text(nameof(Godot) + "." + nameof(Godot.DisplayServer.WindowGetMode));
-                ImGui.TableNextColumn();
-                ImGui.Text(Godot.DisplayServer.WindowGetMode().ToString());
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(nameof(Godot) + "." + nameof(Godot.DisplayServer.WindowGetMode));
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(Godot.DisplayServer.WindowGetMode().ToString());
 
-                ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
-                ImGui.TableNextColumn();
-                ImGui.Text(nameof(GodotRuntimeInspector.MainviewPortPTR.Size));
-                ImGui.TableNextColumn();
-                ImGui.Text(GodotRuntimeInspector.MainviewPortPTR.Size.ToString());
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(nameof(GodotRuntimeInspector.MainviewPortPTR.Size));
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(GodotRuntimeInspector.MainviewPortPTR.Size.ToString());
 
-                ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
-                ImGui.TableNextColumn();
-                ImGui.Text(nameof(Godot.OS.GetExecutablePath));
-                ImGui.TableNextColumn();
-                ImGui.Text(Godot.OS.GetExecutablePath());
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags());
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(nameof(Godot.OS.GetExecutablePath));
+                ImGuiNET.ImGui.TableNextColumn();
+                ImGuiNET.ImGui.Text(Godot.OS.GetExecutablePath());
             }
-            ImGui.EndTable();
+            ImGuiNET.ImGui.EndTable();
 
-            ImGui.End();
+            ImGuiNET.ImGui.End();
         }
     }
 }

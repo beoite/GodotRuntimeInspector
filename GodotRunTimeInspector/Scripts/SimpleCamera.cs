@@ -23,7 +23,6 @@
             var arrow = Godot.ResourceLoader.Load("res://arrow.png");
             Godot.Input.SetCustomMouseCursor(arrow);
             CAM = (Godot.Camera3D)GetChild(0);
-            TestCubes.Create(this);
             mainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
         }
 
@@ -126,13 +125,11 @@
                 {
                     if (btn.IsPressed())
                     {
-                        GodotRuntimeInspector.Hide = true;
                         Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Captured;
                         Enabled = true;
                     }
                     else
                     {
-                        GodotRuntimeInspector.Hide = false;
                         Godot.Input.MouseMode = Godot.Input.MouseModeEnum.Visible;
                         Enabled = false;
                     }

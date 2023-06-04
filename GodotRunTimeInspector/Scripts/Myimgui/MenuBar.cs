@@ -16,6 +16,7 @@ namespace RuntimeInspector.Scripts.Myimgui
                     bool debugEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowDebugWindow), ref GodotRuntimeInspector.ShowDebugWindow);
                     bool inputEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowInputWindow), ref GodotRuntimeInspector.ShowInputWindow);
                     bool osEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowOSWindow), ref GodotRuntimeInspector.ShowOSWindow);
+                    bool opacity = ImGuiNET.ImGui.SliderFloat(nameof(GodotRuntimeInspector.Opacity), ref GodotRuntimeInspector.Opacity, 0f, 1f);
                     ImGuiNET.ImGui.EndMenu();
                 }
 

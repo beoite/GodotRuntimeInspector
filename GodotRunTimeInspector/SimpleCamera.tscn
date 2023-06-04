@@ -10,7 +10,10 @@ sky_material = ExtResource("2_o3u22")
 background_mode = 2
 sky = SubResource("Sky_u1b6d")
 ambient_light_source = 3
+reflected_light_source = 2
+fog_sky_affect = 0.279
 volumetric_fog_density = 0.01
+volumetric_fog_albedo = Color(0.764706, 0.764706, 0.764706, 1)
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_bmdfr"]
 
@@ -27,8 +30,10 @@ camera_attributes = SubResource("CameraAttributesPractical_bmdfr")
 
 [node name="Sun" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.895712, 0.225001, 0.383504, -7.54033e-08, -0.862514, 0.506034, 0.444635, 0.45326, 0.772564, 222, 111, -222)
+light_angular_distance = 5.0
 
 [node name="Moon" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.684547, -0.368883, -0.628745, -7.54033e-08, -0.862514, 0.506034, -0.728969, -0.346404, -0.590431, 222, -111, -222)
+visible = false
 light_energy = 0.1
 light_indirect_energy = 0.5

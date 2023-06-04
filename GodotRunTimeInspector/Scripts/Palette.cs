@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace RuntimeInspector.Scripts
+﻿namespace RuntimeInspector.Scripts
 {
     public static class Palette
     {
@@ -41,7 +39,8 @@ namespace RuntimeInspector.Scripts
         public static Godot.Color SKYBLUE = new Godot.Color(49, 162, 242, 1);
         public static Godot.Color CLOUDBLUE = new Godot.Color(178, 220, 239, 1);
 
-        private static List<Godot.Color> colors = new List<Godot.Color>();
+        private static System.Collections.Generic.List<Godot.Color> colors = new System.Collections.Generic.List<Godot.Color>();
+
         static Palette()
         {
             colors.Add(VOID = Godot.Color.FromHtml(VOID_hex));
@@ -68,15 +67,14 @@ namespace RuntimeInspector.Scripts
             return colors[index];
         }
 
-        public static System.Numerics.Vector4 ToVector4(this Godot.Color color)
+        public static System.Numerics.Vector4 ToVector4(this Godot.Color color, float alpha = 1f)
         {
             System.Numerics.Vector4 v4 = new System.Numerics.Vector4();
             v4.X = color.R;
             v4.Y = color.G;
             v4.Z = color.B;
-            v4.W = color.A;
+            v4.W = alpha;
             return v4;
-
         }
     }
 }

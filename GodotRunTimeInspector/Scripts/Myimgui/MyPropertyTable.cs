@@ -113,8 +113,8 @@ namespace RuntimeInspector.Scripts.Myimgui
                 if (ImGui.BeginTable(id, numCols, flags, tableSize))
                 {
                     float width = tableSize.X / numCols;
-                    float smallWidth = width / 2f;
-                    float extraSmallWidth = width / 4f;
+                    float smallWidth = width / 3f;
+                    float extraSmallWidth = width / 8f;
 
                     ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
                     ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), smallWidth);
@@ -123,7 +123,6 @@ namespace RuntimeInspector.Scripts.Myimgui
                     ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
                     ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
                     ImGui.TableSetupColumn(nameof(MyProperty.MyPropertyImgui), MyPropertyFlags.TableColumnFlags(), 0);
-
 
                     ImGui.TableHeadersRow();
                     ImGuiTableSortSpecsPtr sortsSpecs = ImGui.TableGetSortSpecs();
