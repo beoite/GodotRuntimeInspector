@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace RuntimeInspector.Scripts.Myimgui
 {
-    public class MyPropertyComparer : Comparer<MyProperty>
+    public class MyPropertyComparer : System.Collections.Generic.Comparer<MyProperty>
     {
         //     Less than zero – This instance is less than value.
         //     Zero – This instance is equal to value.

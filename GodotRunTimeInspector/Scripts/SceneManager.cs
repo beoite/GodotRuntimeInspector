@@ -25,6 +25,5 @@
             TerrainNode = TerrainPackedScene.Instantiate();
             TerrainNode.Name = Terrain;
         }
-
     }
 }

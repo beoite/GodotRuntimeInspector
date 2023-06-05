@@ -1,11 +1,8 @@
-﻿using ImGuiNET;
-using System;
-
-namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace RuntimeInspector.Scripts.Myimgui
 {
     public class MyPropertyTable
     {
-        private unsafe void Sort(ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
+        private unsafe void Sort(ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
         {
             if (myPropertyInfo.Length == 0 || myPropertyInfo.Length < 2)
             {
@@ -23,142 +20,142 @@ namespace RuntimeInspector.Scripts.Myimgui
             {
                 if (sortsSpecs.Specs.ColumnIndex == 0)
                 {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiSortDirection.Ascending)
+                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().IndexAscending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().IndexAscending);
                     }
                     else
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().IndexDescending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().IndexDescending);
                     }
                 }
                 if (sortsSpecs.Specs.ColumnIndex == 1)
                 {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiSortDirection.Ascending)
+                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().TagAscending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TagAscending);
                     }
                     else
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().TagDescending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TagDescending);
                     }
                 }
                 if (sortsSpecs.Specs.ColumnIndex == 2)
                 {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiSortDirection.Ascending)
+                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().NameAscending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().NameAscending);
                     }
                     else
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().NameDescending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().NameDescending);
                     }
                 }
                 if (sortsSpecs.Specs.ColumnIndex == 3)
                 {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiSortDirection.Ascending)
+                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().TypeAscending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TypeAscending);
                     }
                     else
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().TypeDescending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TypeDescending);
                     }
                 }
                 if (sortsSpecs.Specs.ColumnIndex == 4)
                 {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiSortDirection.Ascending)
+                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
                     }
                     else
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
                     }
                 }
                 if (sortsSpecs.Specs.ColumnIndex == 5)
                 {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiSortDirection.Ascending)
+                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
                     }
                     else
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
                     }
                 }
                 if (sortsSpecs.Specs.ColumnIndex == 6)
                 {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiSortDirection.Ascending)
+                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().ClicksAscending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().ClicksAscending);
                     }
                     else
                     {
-                        Array.Sort(myPropertyInfo, new MyPropertyComparer().ClicksDescending);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().ClicksDescending);
                     }
                 }
                 sortsSpecs.SpecsDirty = false;
             }
         }
 
-        public void DrawTable(ref MyProperty[] myProperties, string id, ImGuiTableFlags flags, System.Numerics.Vector2 tableSize)
+        public void DrawTable(ref MyProperty[] myProperties, string id, ImGuiNET.ImGuiTableFlags flags, System.Numerics.Vector2 tableSize)
         {
             string name = nameof(DrawTable) + id;
             bool border = true;
-            if (ImGui.BeginChild(name, tableSize, border, MyPropertyFlags.TreeNodeWindowFlags()))
+            if (ImGuiNET.ImGui.BeginChild(name, tableSize, border, MyPropertyFlags.TreeNodeWindowFlags()))
             {
                 System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
                 int numCols = fields.Length;
-                if (ImGui.BeginTable(id, numCols, flags, tableSize))
+                if (ImGuiNET.ImGui.BeginTable(id, numCols, flags, tableSize))
                 {
                     float width = tableSize.X / numCols;
                     float smallWidth = width / 3f;
                     float extraSmallWidth = width / 8f;
 
-                    ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), smallWidth);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
-                    ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
-                    ImGui.TableSetupColumn(nameof(MyProperty.MyPropertyImgui), MyPropertyFlags.TableColumnFlags(), 0);
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), smallWidth);
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.MyPropertyImgui), MyPropertyFlags.TableColumnFlags(), 0);
 
-                    ImGui.TableHeadersRow();
-                    ImGuiTableSortSpecsPtr sortsSpecs = ImGui.TableGetSortSpecs();
+                    ImGuiNET.ImGui.TableHeadersRow();
+                    ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
                     Sort(sortsSpecs, myProperties);
                     for (int i = 0; i < myProperties.Length; i++)
                     {
                         MyProperty myProperty = myProperties[i];
 
-                        ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
+                        ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
 
-                        if (ImGui.TableNextColumn())
+                        if (ImGuiNET.ImGui.TableNextColumn())
                         {
-                            ImGui.Text(myProperty.Index.ToString());
+                            ImGuiNET.ImGui.Text(myProperty.Index.ToString());
                         }
 
-                        if (ImGui.TableNextColumn())
+                        if (ImGuiNET.ImGui.TableNextColumn())
                         {
-                            ImGui.Text(myProperty.Tags.ToString());
+                            ImGuiNET.ImGui.Text(myProperty.Tags.ToString());
                         }
 
-                        if (ImGui.TableNextColumn())
+                        if (ImGuiNET.ImGui.TableNextColumn())
                         {
-                            ImGui.Text(myProperty.Type.ToString());
+                            ImGuiNET.ImGui.Text(myProperty.Type.ToString());
                         }
 
-                        if (ImGui.TableNextColumn())
+                        if (ImGuiNET.ImGui.TableNextColumn())
                         {
                             string[] split = myProperty.Name.Split("/");
-                            ImGui.Text(split[split.Length - 1]);
+                            ImGuiNET.ImGui.Text(split[split.Length - 1]);
                         }
 
-                        if (ImGui.TableNextColumn())
+                        if (ImGuiNET.ImGui.TableNextColumn())
                         {
-                            float columnWidth = ImGui.GetColumnWidth();
+                            float columnWidth = ImGuiNET.ImGui.GetColumnWidth();
                             System.Numerics.Vector2 size = new System.Numerics.Vector2(columnWidth, GodotRuntimeInspector.MinRowHeight);
-                            bool clicked = ImGui.Button(Utility.GetStr(myProperty.Instance) + "###" + myProperty.Name, size);
+                            bool clicked = ImGuiNET.ImGui.Button(Utility.GetStr(myProperty.Instance) + "###" + myProperty.Name, size);
                             if (clicked)
                             {
                                 myProperty.Clicks++;
@@ -170,19 +167,19 @@ namespace RuntimeInspector.Scripts.Myimgui
                             }
                         }
 
-                        if (ImGui.TableNextColumn())
+                        if (ImGuiNET.ImGui.TableNextColumn())
                         {
-                            ImGui.Text(myProperty.Clicks.ToString());
+                            ImGuiNET.ImGui.Text(myProperty.Clicks.ToString());
                         }
 
-                        if (ImGui.TableNextColumn())
+                        if (ImGuiNET.ImGui.TableNextColumn())
                         {
-                            ImGui.Text(myProperty.MyPropertyImgui.ToString());
+                            ImGuiNET.ImGui.Text(myProperty.MyPropertyImgui.ToString());
                         }
                     }
-                    ImGui.EndTable();
+                    ImGuiNET.ImGui.EndTable();
                 }
-                ImGui.EndChild();
+                ImGuiNET.ImGui.EndChild();
             }
         }
     }

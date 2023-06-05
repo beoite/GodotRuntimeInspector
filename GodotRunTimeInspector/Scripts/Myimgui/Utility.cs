@@ -1,6 +1,4 @@
-﻿using ImGuiNET;
-
-namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace RuntimeInspector.Scripts.Myimgui
 {
     public static class Utility
     {
@@ -21,11 +19,10 @@ namespace RuntimeInspector.Scripts.Myimgui
 
         public static string GetAnimatedTitle(string? name)
         {
-            string animatedTitle = string.Empty;
             char[] spin = "|/-\\".ToCharArray();
-            int frame = (int)(ImGui.GetTime()) % spin.Length;
+            int frame = (int)(ImGuiNET.ImGui.GetTime()) % spin.Length;
             string spinFrame = spin[frame].ToString();
-            animatedTitle = spinFrame + " " + GetStr(name);
+            string animatedTitle = spinFrame + " " + GetStr(name);
             // Using "###" to display a changing title but keep a static identifier "AnimatedTitle"
             string staticIdentifier = "###" + GetStr(name);
             animatedTitle = animatedTitle + staticIdentifier;

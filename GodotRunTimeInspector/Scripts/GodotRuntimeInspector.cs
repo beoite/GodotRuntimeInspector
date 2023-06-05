@@ -69,7 +69,7 @@ namespace RuntimeInspector.Scripts
                 SceneManager.Init();
                 // Add the node as a child of the node the script is attached to.
                 AddChild(SceneManager.SimpleCameraNode);
-                AddChild(SceneManager.TerrainNode);
+                //AddChild(SceneManager.TerrainNode);
                 TestCubes.Create(this);
             }
         }
@@ -84,19 +84,16 @@ namespace RuntimeInspector.Scripts
 
             FPS = 1.0 / delta;
             IOPTR.DeltaTime = (float)delta;
-
+            
             Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Opacity);
 
             // make the central node invisible and inputs pass-thru
             ImGuiNET.ImGuiDockNodeFlags dockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
             DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(MainviewPortPTR, dockNodeFlags);
 
-
             // size, position of next appearing window
             System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y);
             System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
-
-            ImGuiNET.ImGui.SetNextWindowDockID(DockspaceID);
 
             // each window
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);

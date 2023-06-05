@@ -1,6 +1,4 @@
-﻿using Godot;
-
-namespace RuntimeInspector.Scripts
+﻿namespace RuntimeInspector.Scripts
 {
     public static class TestCubes
     {
@@ -25,19 +23,19 @@ namespace RuntimeInspector.Scripts
 
         //StaticBody3D staticBody3D = CubeCreator.CreateCube();
         //AddChild(staticBody3D);
-        public static StaticBody3D CreateCube(string name)
+        public static Godot.StaticBody3D CreateCube(string name)
         {
-            StaticBody3D staticBody3D = new StaticBody3D();
+            Godot.StaticBody3D staticBody3D = new Godot.StaticBody3D();
             staticBody3D.Name = name;
-            CollisionShape3D collisionShape3D = new CollisionShape3D();
+            Godot.CollisionShape3D collisionShape3D = new Godot.CollisionShape3D();
             collisionShape3D.Name = nameof(collisionShape3D);
-            MeshInstance3D meshInstance3D = new MeshInstance3D();
+            Godot.MeshInstance3D meshInstance3D = new Godot.MeshInstance3D();
             meshInstance3D.Name = nameof(meshInstance3D);
             staticBody3D.AddChild(collisionShape3D);
             collisionShape3D.AddChild(meshInstance3D);
-            BoxMesh cubeMesh = new BoxMesh();
+            Godot.BoxMesh cubeMesh = new Godot.BoxMesh();
             meshInstance3D.Mesh = cubeMesh;
-            BoxShape3D cube = new BoxShape3D();
+            Godot.BoxShape3D cube = new Godot.BoxShape3D();
             collisionShape3D.Shape = cube;
             return staticBody3D;
         }

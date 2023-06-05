@@ -153,8 +153,9 @@ namespace RuntimeInspector.Scripts.Myimgui
                 {
                     TopRow();
                 }
+                ImGuiNET.ImGui.EndTable();
             }
-            ImGuiNET.ImGui.EndTable();
+            ImGuiNET.ImGui.End();
         }
     }
 }
