@@ -18,6 +18,7 @@
             }
             if (sortsSpecs.SpecsDirty == true)
             {
+
                 if (sortsSpecs.Specs.ColumnIndex == 0)
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
@@ -29,6 +30,7 @@
                         System.Array.Sort(myPropertyInfo, new MyPropertyComparer().IndexDescending);
                     }
                 }
+
                 if (sortsSpecs.Specs.ColumnIndex == 1)
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
@@ -40,18 +42,8 @@
                         System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TagDescending);
                     }
                 }
+
                 if (sortsSpecs.Specs.ColumnIndex == 2)
-                {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
-                    {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().NameAscending);
-                    }
-                    else
-                    {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().NameDescending);
-                    }
-                }
-                if (sortsSpecs.Specs.ColumnIndex == 3)
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
@@ -62,29 +54,32 @@
                         System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TypeDescending);
                     }
                 }
+
+                if (sortsSpecs.Specs.ColumnIndex == 3)
+                {
+                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
+                    {
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().NameAscending);
+                    }
+                    else
+                    {
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().NameDescending);
+                    }
+                }
+
                 if (sortsSpecs.Specs.ColumnIndex == 4)
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().InstanceAscending);
                     }
                     else
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
+                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().InstanceDescending);
                     }
                 }
+
                 if (sortsSpecs.Specs.ColumnIndex == 5)
-                {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
-                    {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
-                    }
-                    else
-                    {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().Compare);
-                    }
-                }
-                if (sortsSpecs.Specs.ColumnIndex == 6)
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
@@ -159,10 +154,6 @@
                             {
                                 myProperty.Clicks++;
                                 myProperties[i] = myProperty;
-                                if (GodotRuntimeInspector.MyProperties.ContainsKey(myProperty.Name) == false)
-                                {
-                                    GodotRuntimeInspector.MyProperties.Add(myProperty.Name, myProperty);
-                                }
                             }
                         }
 

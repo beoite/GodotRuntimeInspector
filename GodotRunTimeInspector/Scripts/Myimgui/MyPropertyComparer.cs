@@ -42,22 +42,6 @@
             return y.Tags.CompareTo(x.Tags);
         }
 
-        // Name
-
-        public int NameAscending(MyProperty? x, MyProperty? y)
-        {
-            if (x == null) return -1;
-            if (y == null) return 1;
-            return x.Name.CompareTo(y.Name);
-        }
-
-        public int NameDescending(MyProperty? x, MyProperty? y)
-        {
-            if (x == null) return 1;
-            if (y == null) return -1;
-            return y.Name.CompareTo(x.Name);
-        }
-
         // Type
 
         public int TypeAscending(MyProperty? x, MyProperty? y)
@@ -74,6 +58,37 @@
             return y.Type.Name.CompareTo(x.Type.Name);
         }
 
+        // Name
+
+        public int NameAscending(MyProperty? x, MyProperty? y)
+        {
+            if (x == null) return -1;
+            if (y == null) return 1;
+            return x.Name.CompareTo(y.Name);
+        }
+
+        public int NameDescending(MyProperty? x, MyProperty? y)
+        {
+            if (x == null) return 1;
+            if (y == null) return -1;
+            return y.Name.CompareTo(x.Name);
+        }
+
+        // Instance
+
+        public int InstanceAscending(MyProperty? x, MyProperty? y)
+        {
+            if (x == null) return -1;
+            if (y == null) return 1;
+            return x.Name.CompareTo(y.Name);
+        }
+
+        public int InstanceDescending(MyProperty? x, MyProperty? y)
+        {
+            if (x == null) return 1;
+            if (y == null) return -1;
+            return y.Name.CompareTo(x.Name);
+        }
 
         // Clicks
 

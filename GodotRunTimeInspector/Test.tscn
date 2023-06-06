@@ -1,3 +1,6 @@
-[gd_scene format=3 uid="uid://b4bydmedbyn0f"]
+[gd_scene load_steps=2 format=3 uid="uid://b4bydmedbyn0f"]
+
+[ext_resource type="Script" path="res://GodotRuntimeInspector/Scripts/Test/TestWindow.cs" id="1_oa6mf"]
 
 [node name="Test" type="Node3D"]
+script = ExtResource("1_oa6mf")

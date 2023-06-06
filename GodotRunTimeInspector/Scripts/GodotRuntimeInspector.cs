@@ -14,7 +14,6 @@ namespace GodotRuntimeInspector.Scripts
         public static ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
         public static ImGuiNET.ImGuiIOPtr IOPTR = null;
         public static ImGuiNET.ImGuiStylePtr Style = null;
-        public static System.Collections.Generic.Dictionary<string, Myimgui.MyProperty> MyProperties = new System.Collections.Generic.Dictionary<string, Myimgui.MyProperty>();
         public static Godot.InputEvent? InputEvent = null;
         public static uint DockspaceID = 0;
 
