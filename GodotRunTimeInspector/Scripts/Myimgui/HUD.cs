@@ -1,4 +1,4 @@
-﻿namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public static class HUD
     {

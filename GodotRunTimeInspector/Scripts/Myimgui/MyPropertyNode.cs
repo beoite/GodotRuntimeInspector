@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace RuntimeInspector.Scripts.Myimgui
+namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public static class MyPropertyNode
     {
@@ -76,50 +76,6 @@ namespace RuntimeInspector.Scripts.Myimgui
                     MyPropertyTable.DrawTable(ref MyProperties, nameof(topRightSize), MyPropertyFlags.TableFlags(), topRightSize);
                 }
                 ImGuiNET.ImGui.EndTable();
-            }
-        }
-
-        private static void TabBar()
-        {
-            string[] keys = GodotRuntimeInspector.MyProperties.Keys.ToArray();
-            if (ImGuiNET.ImGui.BeginChild(nameof(bottomSize), bottomSize, true, MyPropertyFlags.MyPropertyWindowFlags()))
-            {
-                if (ImGuiNET.ImGui.BeginTabBar(nameof(TabBar), MyPropertyFlags.TabBarFlags()))
-                {
-                    if (ImGuiNET.ImGui.TabItemButton("Close All [" + GodotRuntimeInspector.MyProperties.Count + "]", MyPropertyFlags.TabItemFlagsLeading()))
-                    {
-                        GodotRuntimeInspector.MyProperties.Clear();
-                    }
-                    for (int i = 0; i < keys.Length; i++)
-                    {
-                        string key = keys[i];
-                        bool exists = GodotRuntimeInspector.MyProperties.ContainsKey(key);
-                        Myimgui.MyProperty myProperty = new MyProperty();
-                        if (exists == true)
-                        {
-                            myProperty = GodotRuntimeInspector.MyProperties[key];
-                        }
-                        bool tabOpen = true;
-                        ImGuiNET.ImGuiTabItemFlags tabItemFlags = ImGuiNET.ImGuiTabItemFlags.None;
-                        if (myProperty.Clicks > 0)
-                        {
-                            tabItemFlags = ImGuiNET.ImGuiTabItemFlags.SetSelected;
-                            myProperty.Clicks = 0;
-                        }
-                        if (ImGuiNET.ImGui.BeginTabItem(key, ref tabOpen, tabItemFlags))
-                        {
-                            System.Numerics.Vector2 size = new System.Numerics.Vector2(bottomSize.X, bottomSize.Y - GodotRuntimeInspector.MinRowHeight);
-                            myProperty.MyPropertyImgui.Update(myProperty, size);
-                            ImGuiNET.ImGui.EndTabItem();
-                        }
-                        if (tabOpen == false)
-                        {
-                            GodotRuntimeInspector.MyProperties.Remove(key);
-                        }
-                    }
-                    ImGuiNET.ImGui.EndTabBar();
-                }
-                ImGuiNET.ImGui.EndChild();
             }
         }
 

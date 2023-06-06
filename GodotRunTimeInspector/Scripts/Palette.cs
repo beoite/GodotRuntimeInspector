@@ -1,4 +1,4 @@
-﻿namespace RuntimeInspector.Scripts
+﻿namespace GodotRuntimeInspector.Scripts
 {
     public static class Palette
     {

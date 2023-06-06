@@ -1,8 +1,7 @@
-﻿namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public class MyProperty
     {
-        public MyPropertyImgui MyPropertyImgui = new MyPropertyImgui();
         public int Clicks = 0;
         public int Index = 0;
         public Tags Tags = Tags.None;

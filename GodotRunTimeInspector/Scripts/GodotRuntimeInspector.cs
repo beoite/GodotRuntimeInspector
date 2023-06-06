@@ -1,4 +1,6 @@
-namespace RuntimeInspector.Scripts
+using System.Linq;
+
+namespace GodotRuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
     {
@@ -7,10 +9,6 @@ namespace RuntimeInspector.Scripts
         public static int MaxFps = 30;
         public static bool Enabled = true;
         public static bool Hide = false;
-        public static bool ShowDemoWindow = false;
-        public static bool ShowDebugWindow = false;
-        public static bool ShowInputWindow = false;
-        public static bool ShowOSWindow = false;
         public static float MinRowHeight = 25f;
         public static float Opacity = 0.9f;
         public static ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
@@ -20,9 +18,21 @@ namespace RuntimeInspector.Scripts
         public static Godot.InputEvent? InputEvent = null;
         public static uint DockspaceID = 0;
 
+        // Windows
+        public static bool ShowDemoWindow = false;
+        public static bool Debug = false;
+        public static bool Input = false;
+        public static bool RenderingDevice = false;
+        public static System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool> MyWindows = new System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool>();
+        public static Myimgui.MyWindow WindowInput = new Myimgui.MyWindow();
+        public static Myimgui.MyWindow WindowRenderingDevice = new Myimgui.MyWindow();
+        public static Myimgui.MyWindow WindowDebug = new Myimgui.MyWindow();
+
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
         {
+            WindowDebug.MyProperties = Myimgui.MyPropertyTest.Init();
+
             // Godot configuration
             Godot.DisplayServer.WindowSetVsyncMode(Godot.DisplayServer.VSyncMode.Disabled);
             Godot.Engine.MaxFps = MaxFps;
@@ -69,7 +79,7 @@ namespace RuntimeInspector.Scripts
                 SceneManager.Init();
                 // Add the node as a child of the node the script is attached to.
                 AddChild(SceneManager.SimpleCameraNode);
-                //AddChild(SceneManager.TerrainNode);
+                AddChild(SceneManager.TestNode);
                 TestCubes.Create(this);
             }
         }
@@ -84,7 +94,7 @@ namespace RuntimeInspector.Scripts
 
             FPS = 1.0 / delta;
             IOPTR.DeltaTime = (float)delta;
-            
+
             Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Opacity);
 
             // make the central node invisible and inputs pass-thru
@@ -92,7 +102,7 @@ namespace RuntimeInspector.Scripts
             DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(MainviewPortPTR, dockNodeFlags);
 
             // size, position of next appearing window
-            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y);
+            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y / 4f);
             System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
 
             // each window
@@ -101,31 +111,25 @@ namespace RuntimeInspector.Scripts
             ImGuiNET.ImGui.SetNextWindowDockID(DockspaceID, ImGuiNET.ImGuiCond.Appearing);
             Myimgui.MyPropertyNode.Update(this);
 
-            if (ShowDebugWindow == true)
-            {
-                windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
-                windowPos = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
-                ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
-                ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-                Myimgui.MyPropertyTest.Update();
-            }
+            WindowRenderingDevice.OBJ = Godot.RenderingServer.GetRenderingDevice();
+            WindowInput.OBJ = InputEvent;
 
-            if (ShowInputWindow == true)
-            {
-                windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
-                windowPos = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
-                ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
-                ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-                Myimgui.Input.Update(InputEvent);
-            }
+            MyWindows[WindowInput] = Input;
+            MyWindows[WindowRenderingDevice] = RenderingDevice;
+            MyWindows[WindowDebug] = Debug;
 
-            if (ShowOSWindow == true)
+            Myimgui.MyWindow[] keys = MyWindows.Keys.ToArray();
+            for (int i = 0; i < keys.Length; i++)
             {
                 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
                 windowPos = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
                 ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
                 ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-                Myimgui.OS.Update();
+                Myimgui.MyWindow window = keys[i];
+                if (MyWindows[window] == true)
+                {
+                    window.Update();
+                }
             }
 
             if (ShowDemoWindow == true)

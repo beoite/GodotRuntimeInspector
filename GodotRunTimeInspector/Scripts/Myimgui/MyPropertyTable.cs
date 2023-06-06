@@ -1,4 +1,4 @@
-﻿namespace RuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public class MyPropertyTable
     {
@@ -119,7 +119,6 @@
                     ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
                     ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
                     ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.MyPropertyImgui), MyPropertyFlags.TableColumnFlags(), 0);
 
                     ImGuiNET.ImGui.TableHeadersRow();
                     ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
@@ -170,11 +169,6 @@
                         if (ImGuiNET.ImGui.TableNextColumn())
                         {
                             ImGuiNET.ImGui.Text(myProperty.Clicks.ToString());
-                        }
-
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            ImGuiNET.ImGui.Text(myProperty.MyPropertyImgui.ToString());
                         }
                     }
                     ImGuiNET.ImGui.EndTable();

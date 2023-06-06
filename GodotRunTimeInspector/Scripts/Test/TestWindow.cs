@@ -1,6 +1,6 @@
-﻿namespace RuntimeInspector.Scripts.Terrain
+﻿namespace GodotRuntimeInspector.Scripts.Test
 {
-    public partial class TerrainGenerator : Godot.Node
+    public partial class TestWindow : Godot.Node
     {
         public ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
 
@@ -10,7 +10,7 @@
         }
         public override void _Ready()
         {
-            
+
         }
 
         public override void _Process(double delta)
@@ -20,11 +20,11 @@
 
         private void Imgui()
         {
-            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y);
-            System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
+            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 4f, MainviewPortPTR.Size.Y / 2f);
+            System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, MainviewPortPTR.Size.Y - windowSize.Y);
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
             ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-            if (!ImGuiNET.ImGui.Begin(nameof(TerrainGenerator), Myimgui.MyPropertyFlags.ContainerWindowFlags()))
+            if (!ImGuiNET.ImGui.Begin(nameof(TestWindow), Myimgui.MyPropertyFlags.ContainerWindowFlags()))
             {
                 ImGuiNET.ImGui.End();
                 return;
