@@ -2,7 +2,6 @@
 {
     public partial class SimpleCamera : Godot.Node
     {
-        public double TotalDelta = 0;
         public bool Enabled = false;
         public Godot.Vector2 MouseMotion = Godot.Vector2.Zero;
         public Godot.Vector2 WASD = Godot.Vector2.Zero;
@@ -29,7 +28,6 @@
         public override void _PhysicsProcess(double delta)
         {
             base._PhysicsProcess(delta);
-            TotalDelta += delta;
 
             ForwardBack = -CAM.Transform.Basis.Z;
             ForwardBack *= (float)(WASD.Y * multiplier * delta);

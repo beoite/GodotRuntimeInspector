@@ -2,16 +2,16 @@
 {
     public class MyWindow
     {
-        public object? OBJ = null;
+        public dynamic? TypeInstance = null;
         public System.Guid ID = System.Guid.NewGuid();
         public MyProperty[] MyProperties = new MyProperty[0];
         public MyPropertyTable MyPropertyTable = new MyPropertyTable();
 
         public void Update()
         {
-            if (OBJ != null)
+            if (TypeInstance != null)
             {
-                MyProperties = MyProperty.NewArray(OBJ);
+                MyProperties = MyProperty.NewArray(TypeInstance);
             }
             string strID = System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name + "###" + ID;
             if (ImGuiNET.ImGui.Begin(strID, MyPropertyFlags.WindowFlags()))

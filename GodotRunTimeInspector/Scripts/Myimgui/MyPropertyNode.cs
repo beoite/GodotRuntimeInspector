@@ -6,17 +6,16 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
     {
         public static Godot.Node SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
         public static MyProperty[] MyProperties = new MyProperty[0];
-
-
         public static Godot.SceneTree? SceneTree = null;
         public static int Counter = -1;
         public static MyPropertyTable MyPropertyTable = new MyPropertyTable();
+        public static Myimgui.MultilineText MultilineText = new Myimgui.MultilineText();
 
         private static System.Numerics.Vector2 windowSize = System.Numerics.Vector2.Zero;
-        private static System.Numerics.Vector2 bottomSize = System.Numerics.Vector2.Zero;
         private static System.Numerics.Vector2 topSize = System.Numerics.Vector2.Zero;
         private static System.Numerics.Vector2 topLeftSize = System.Numerics.Vector2.Zero;
         private static System.Numerics.Vector2 topRightSize = System.Numerics.Vector2.Zero;
+
 
         private static void Traverse(Godot.Node? node)
         {
@@ -96,8 +95,8 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             Myimgui.MenuBar.Update();
 
             windowSize = ImGuiNET.ImGui.GetWindowSize();
-            windowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - (GodotRuntimeInspector.MinRowHeight * 2f));
-            topSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y);
+            windowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - (GodotRuntimeInspector.MinRowHeight));
+            topSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - GodotRuntimeInspector.MinRowHeight);
             topLeftSize = new System.Numerics.Vector2(windowSize.X * 0.3f, topSize.Y);
             topRightSize = new System.Numerics.Vector2(windowSize.X * 0.7f, topSize.Y);
 

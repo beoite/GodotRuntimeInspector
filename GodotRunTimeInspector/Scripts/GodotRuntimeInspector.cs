@@ -4,6 +4,7 @@ namespace GodotRuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
     {
+        public double TotalDelta = 0;
         public static bool IsDebug = false;
         public static double FPS = 0;
         public static int MaxFps = 30;
@@ -22,10 +23,16 @@ namespace GodotRuntimeInspector.Scripts
         public static bool Debug = false;
         public static bool Input = false;
         public static bool RenderingDevice = false;
-        public static System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool> MyWindows = new System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool>();
+        public static bool Log = false;
+        public static bool LogDebug = false;
+        public static System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool> MyWindowDictionary = new System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool>();
+        public static Myimgui.MyWindow WindowDebug = new Myimgui.MyWindow();
         public static Myimgui.MyWindow WindowInput = new Myimgui.MyWindow();
         public static Myimgui.MyWindow WindowRenderingDevice = new Myimgui.MyWindow();
-        public static Myimgui.MyWindow WindowDebug = new Myimgui.MyWindow();
+        public static Myimgui.MyWindow WindowLogDebug = new Myimgui.MyWindow();
+        public static Myimgui.MultilineTextWindow MultilineTextWindow = new Myimgui.MultilineTextWindow();
+
+        public static MyLog MyLog = new MyLog();
 
         // Called when the node enters the scene tree for the first time.
         public override void _Ready()
@@ -86,6 +93,8 @@ namespace GodotRuntimeInspector.Scripts
         // Called every frame. 'delta' is the elapsed time since the previous frame.
         public override void _Process(double delta)
         {
+            TotalDelta += delta;
+
             if (Enabled == false || Hide == true)
             {
                 return;
@@ -110,14 +119,16 @@ namespace GodotRuntimeInspector.Scripts
             ImGuiNET.ImGui.SetNextWindowDockID(DockspaceID, ImGuiNET.ImGuiCond.Appearing);
             Myimgui.MyPropertyNode.Update(this);
 
-            WindowRenderingDevice.OBJ = Godot.RenderingServer.GetRenderingDevice();
-            WindowInput.OBJ = InputEvent;
+            WindowRenderingDevice.TypeInstance = Godot.RenderingServer.GetRenderingDevice();
+            WindowInput.TypeInstance = InputEvent;
+            WindowLogDebug.TypeInstance = MyLog;
 
-            MyWindows[WindowInput] = Input;
-            MyWindows[WindowRenderingDevice] = RenderingDevice;
-            MyWindows[WindowDebug] = Debug;
+            MyWindowDictionary[WindowDebug] = Debug;
+            MyWindowDictionary[WindowInput] = Input;
+            MyWindowDictionary[WindowRenderingDevice] = RenderingDevice;
+            MyWindowDictionary[WindowLogDebug] = LogDebug;
 
-            Myimgui.MyWindow[] keys = MyWindows.Keys.ToArray();
+            Myimgui.MyWindow[] keys = MyWindowDictionary.Keys.ToArray();
             for (int i = 0; i < keys.Length; i++)
             {
                 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
@@ -125,10 +136,20 @@ namespace GodotRuntimeInspector.Scripts
                 ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
                 ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
                 Myimgui.MyWindow window = keys[i];
-                if (MyWindows[window] == true)
+                if (MyWindowDictionary[window] == true)
                 {
                     window.Update();
                 }
+            }
+
+            if (Log == true)
+            {
+                windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
+                windowPos = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
+                ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
+                ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
+                MyLog.Update(TotalDelta);
+                MultilineTextWindow.Update(MyLog.LogPath, ref MyLog.LogData);
             }
 
             if (ShowDemoWindow == true)

@@ -21,10 +21,6 @@ config/windows_native_icon="res://App.ico"
 
 ImGuiLayer="*res://addons/imgui-godot/ImGuiLayer.tscn"
 
-[debug]
-
-file_logging/enable_file_logging=true
-
 [display]
 
 window/size/viewport_width=1618
