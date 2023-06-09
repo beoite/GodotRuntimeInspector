@@ -1,4 +1,4 @@
-﻿namespace GodotRuntimeInspector.Scripts.Test
+﻿namespace Examples
 {
     public partial class TestWindow : Godot.Node
     {
@@ -24,7 +24,7 @@
             System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, MainviewPortPTR.Size.Y - windowSize.Y);
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
             ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-            if (!ImGuiNET.ImGui.Begin(nameof(TestWindow), Myimgui.MyPropertyFlags.ContainerWindowFlags()))
+            if (!ImGuiNET.ImGui.Begin(nameof(TestWindow), GodotRuntimeInspector.Scripts.Myimgui.MyPropertyFlags.ContainerWindowFlags()))
             {
                 ImGuiNET.ImGui.End();
                 return;

@@ -19,8 +19,6 @@
 
         public override void _Ready()
         {
-            var arrow = Godot.ResourceLoader.Load("res://arrow.png");
-            Godot.Input.SetCustomMouseCursor(arrow);
             CAM = (Godot.Camera3D)GetChild(0);
             mainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
         }

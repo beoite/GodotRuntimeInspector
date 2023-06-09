@@ -22,6 +22,10 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                         bool inputEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.Input), ref GodotRuntimeInspector.Input);
                         bool osEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.RenderingDevice), ref GodotRuntimeInspector.RenderingDevice);
                         bool logDebugEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.LogDebug), ref GodotRuntimeInspector.LogDebug);
+                        if (GodotRuntimeInspector.IsDebug == true)
+                        {
+                            bool showCustomWindowExampleEnabled = ImGuiNET.ImGui.Checkbox(nameof(Examples.CustomWindowExample.ShowCustomWindowExample), ref Examples.CustomWindowExample.ShowCustomWindowExample);
+                        }
                         ImGuiNET.ImGui.EndMenu();
                     }
                     ImGuiNET.ImGui.EndMenu();

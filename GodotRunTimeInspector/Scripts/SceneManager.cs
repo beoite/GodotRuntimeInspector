@@ -12,18 +12,10 @@
         public static Godot.PackedScene SimpleCameraPackedScene = (Godot.PackedScene)Godot.ResourceLoader.Load<Godot.PackedScene>(SimpleCameraPath);
         public static Godot.Node SimpleCameraNode = new Godot.Node();
 
-        public const string Test = nameof(Test);
-        public static string TestPath = ResourcePrefix + nameof(GodotRuntimeInspector) + "/" + Test + Extension;
-        public static Godot.PackedScene TestPackedScene = (Godot.PackedScene)Godot.ResourceLoader.Load<Godot.PackedScene>(TestPath);
-        public static Godot.Node TestNode = new Godot.Node();
-
         public static void Init()
         {
             SimpleCameraNode = SimpleCameraPackedScene.Instantiate();
             SimpleCameraNode.Name = SimpleCamera;
-
-            TestNode = TestPackedScene.Instantiate();
-            TestNode.Name = Test;
         }
     }
 }

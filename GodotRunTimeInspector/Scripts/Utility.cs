@@ -1,4 +1,4 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts
 {
     public static class Utility
     {
@@ -20,7 +20,7 @@
         public static string GetAnimatedTitle(string? name)
         {
             char[] spin = "|/-\\".ToCharArray();
-            int frame = (int)(ImGuiNET.ImGui.GetTime()) % spin.Length;
+            int frame = (int)ImGuiNET.ImGui.GetTime() % spin.Length;
             string spinFrame = spin[frame].ToString();
             string animatedTitle = spinFrame + " " + GetStr(name);
             // Using "###" to display a changing title but keep a static identifier "AnimatedTitle"
