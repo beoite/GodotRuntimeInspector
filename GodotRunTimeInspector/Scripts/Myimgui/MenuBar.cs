@@ -26,6 +26,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                         {
                             bool showCustomWindowExampleEnabled = ImGuiNET.ImGui.Checkbox(nameof(Examples.CustomWindowExample.ShowCustomWindowExample), ref Examples.CustomWindowExample.ShowCustomWindowExample);
                         }
+                        bool imageEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.Image), ref GodotRuntimeInspector.Image);
                         ImGuiNET.ImGui.EndMenu();
                     }
                     ImGuiNET.ImGui.EndMenu();

@@ -17,6 +17,7 @@ namespace GodotRuntimeInspector.Scripts
         public static ImGuiNET.ImGuiStylePtr Style = null;
         public static Godot.InputEvent? InputEvent = null;
         public static uint DockspaceID = 0;
+        public static Myimgui.Image ImageInstance = new Myimgui.Image();
 
         // Windows
         public static bool ShowDemoWindow = false;
@@ -25,11 +26,13 @@ namespace GodotRuntimeInspector.Scripts
         public static bool RenderingDevice = false;
         public static bool Log = false;
         public static bool LogDebug = false;
+        public static bool Image = false;
         public static System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool> MyWindowDictionary = new System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool>();
         public static Myimgui.MyWindow WindowDebug = new Myimgui.MyWindow();
         public static Myimgui.MyWindow WindowInput = new Myimgui.MyWindow();
         public static Myimgui.MyWindow WindowRenderingDevice = new Myimgui.MyWindow();
         public static Myimgui.MyWindow WindowLogDebug = new Myimgui.MyWindow();
+        public static Myimgui.MyWindow WindowImage = new Myimgui.MyWindow();
         public static Myimgui.MultilineTextWindow MultilineTextWindow = new Myimgui.MultilineTextWindow();
 
         public static MyLog MyLog = new MyLog();
@@ -47,6 +50,8 @@ namespace GodotRuntimeInspector.Scripts
             MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
             IOPTR = ImGuiNET.ImGui.GetIO();
             IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
+
+            ImageInstance.Init();
 
             // style
             Style = ImGuiNET.ImGui.GetStyle();
@@ -140,6 +145,17 @@ namespace GodotRuntimeInspector.Scripts
                 {
                     window.Update();
                 }
+            }
+
+            if (Image == true)
+            {
+                ImageInstance.Update();
+                //windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
+                //windowPos = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
+                //ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
+                //ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
+                //WindowImage.TypeInstance = ImageInstance;
+                //WindowImage.Update();
             }
 
             if (Log == true)
