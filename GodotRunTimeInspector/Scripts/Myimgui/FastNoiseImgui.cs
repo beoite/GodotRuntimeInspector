@@ -1,11 +1,26 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
-{
-    public static class FastNoise
-    {
-        public static int Update(ref Godot.FastNoiseLite fastNoise)
-        {
-            int init = 0;
+﻿using System.Runtime.CompilerServices;
 
+namespace GodotRuntimeInspector.Scripts.Myimgui
+{
+    public class FastNoiseImgui
+    {
+        private float cellularJitter = 0f;
+        private float domainWarpAmplitude = 0f;
+        private float domainWarpFractalGain = 0f;
+        private float domainWarpFractalLacunarity = 0f;
+        private int domainWarpFractalOctaves = 0;
+        private float domainWarpFrequency = 0f;
+        private float fractalGain = 0f;
+        private float fractalLacunarity = 0f;
+        private int fractalOctaves = 0;
+        private float fractalPingPongStrength = 0f;
+        private float fractalWeightedStrength = 0f;
+        private float frequency = 0f;
+        private System.Numerics.Vector3 offset = new System.Numerics.Vector3(0f, 0f, 0f);
+        private int seed = 0;
+
+        public void Update(ref Godot.FastNoiseLite fastNoise)
+        {
             // CellularDistanceFunction
             if (ImGuiNET.ImGui.TreeNode(nameof(fastNoise.CellularDistanceFunction)))
             {
@@ -21,7 +36,6 @@
                         if (ImGuiNET.ImGui.Selectable(item.ToString(), selected))
                         {
                             fastNoise.CellularDistanceFunction = item;
-                            init++;
                         }
                     }
                     ImGuiNET.ImGui.EndListBox();
@@ -30,11 +44,9 @@
             }
 
             // CellularJitter
-            float cellularJitter = fastNoise.CellularJitter;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.CellularJitter), ref cellularJitter))
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.CellularJitter), ref cellularJitter, 0f, 1f))
             {
                 fastNoise.CellularJitter = cellularJitter;
-                init++;
             }
 
             // CellularReturnType
@@ -52,7 +64,6 @@
                         if (ImGuiNET.ImGui.Selectable(item.ToString(), selected))
                         {
                             fastNoise.CellularReturnType = item;
-                            init++;
                         }
                     }
                     ImGuiNET.ImGui.EndListBox();
@@ -61,35 +72,31 @@
             }
 
             // DomainWarpAmplitude
-            float domainWarpAmplitude = fastNoise.DomainWarpAmplitude;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.DomainWarpAmplitude), ref domainWarpAmplitude))
+            domainWarpAmplitude = fastNoise.DomainWarpAmplitude;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.DomainWarpAmplitude), ref domainWarpAmplitude, 0f, 360f))
             {
                 fastNoise.DomainWarpAmplitude = domainWarpAmplitude;
-                init++;
             }
 
             // DomainWarpFractalGain 
-            float domainWarpFractalGain = fastNoise.DomainWarpFractalGain;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.DomainWarpFractalGain), ref domainWarpFractalGain))
+            domainWarpFractalGain = fastNoise.DomainWarpFractalGain;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.DomainWarpFractalGain), ref domainWarpFractalGain, 0f, 1f))
             {
                 fastNoise.DomainWarpFractalGain = domainWarpFractalGain;
-                init++;
             }
 
             // DomainWarpFractalLacunarity  
-            float domainWarpFractalLacunarity = fastNoise.DomainWarpFractalLacunarity;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.DomainWarpFractalLacunarity), ref domainWarpFractalLacunarity))
+            domainWarpFractalLacunarity = fastNoise.DomainWarpFractalLacunarity;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.DomainWarpFractalLacunarity), ref domainWarpFractalLacunarity, 0f, 360f))
             {
                 fastNoise.DomainWarpFractalLacunarity = domainWarpFractalLacunarity;
-                init++;
             }
 
             // DomainWarpFractalOctaves   
-            int domainWarpFractalOctaves = fastNoise.DomainWarpFractalOctaves;
+            domainWarpFractalOctaves = fastNoise.DomainWarpFractalOctaves;
             if (ImGuiNET.ImGui.InputInt(nameof(fastNoise.DomainWarpFractalOctaves), ref domainWarpFractalOctaves))
             {
                 fastNoise.DomainWarpFractalOctaves = domainWarpFractalOctaves;
-                init++;
             }
 
             // DomainWarpFractalType    
@@ -107,7 +114,6 @@
                         if (ImGuiNET.ImGui.Selectable(item.ToString(), selected))
                         {
                             fastNoise.DomainWarpFractalType = item;
-                            init++;
                         }
                     }
                     ImGuiNET.ImGui.EndListBox();
@@ -116,11 +122,10 @@
             }
 
             // DomainWarpFrequency 
-            float domainWarpFrequency = fastNoise.DomainWarpFrequency;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.DomainWarpFrequency), ref domainWarpFrequency))
+            domainWarpFrequency = fastNoise.DomainWarpFrequency;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.DomainWarpFrequency), ref domainWarpFrequency, 0f, 1f))
             {
                 fastNoise.DomainWarpFrequency = domainWarpFrequency;
-                init++;
             }
 
             // DomainWarpType 
@@ -138,7 +143,6 @@
                         if (ImGuiNET.ImGui.Selectable(item.ToString(), selected))
                         {
                             fastNoise.DomainWarpType = item;
-                            init++;
                         }
                     }
                     ImGuiNET.ImGui.EndListBox();
@@ -147,35 +151,31 @@
             }
 
             // FractalGain 
-            float fractalGain = fastNoise.FractalGain;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.FractalGain), ref fractalGain))
+            fractalGain = fastNoise.FractalGain;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.FractalGain), ref fractalGain, 0f, 1f))
             {
                 fastNoise.FractalGain = fractalGain;
-                init++;
             }
 
             // FractalLacunarity 
-            float fractalLacunarity = fastNoise.FractalLacunarity;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.FractalLacunarity), ref fractalLacunarity))
+            fractalLacunarity = fastNoise.FractalLacunarity;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.FractalLacunarity), ref fractalLacunarity, 0f, 100f))
             {
                 fastNoise.FractalLacunarity = fractalLacunarity;
-                init++;
             }
 
             // FractalOctaves 
-            int fractalOctaves = fastNoise.FractalOctaves;
+            fractalOctaves = fastNoise.FractalOctaves;
             if (ImGuiNET.ImGui.InputInt(nameof(fastNoise.FractalOctaves), ref fractalOctaves))
             {
                 fastNoise.FractalOctaves = fractalOctaves;
-                init++;
             }
 
             // FractalPingPongStrength 
-            float fractalPingPongStrength = fastNoise.FractalPingPongStrength;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.FractalPingPongStrength), ref fractalPingPongStrength))
+            fractalPingPongStrength = fastNoise.FractalPingPongStrength;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.FractalPingPongStrength), ref fractalPingPongStrength, 0f, 360f))
             {
                 fastNoise.FractalPingPongStrength = fractalPingPongStrength;
-                init++;
             }
 
             // FractalType 
@@ -193,7 +193,6 @@
                         if (ImGuiNET.ImGui.Selectable(item.ToString(), selected))
                         {
                             fastNoise.FractalType = item;
-                            init++;
                         }
                     }
                     ImGuiNET.ImGui.EndListBox();
@@ -202,19 +201,17 @@
             }
 
             // FractalWeightedStrength 
-            float fractalWeightedStrength = fastNoise.FractalWeightedStrength;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.FractalWeightedStrength), ref fractalWeightedStrength))
+            fractalWeightedStrength = fastNoise.FractalWeightedStrength;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.FractalWeightedStrength), ref fractalWeightedStrength, 0f, 1f))
             {
                 fastNoise.FractalWeightedStrength = fractalWeightedStrength;
-                init++;
             }
 
             // Frequency 
-            float frequency = fastNoise.Frequency;
-            if (ImGuiNET.ImGui.InputFloat(nameof(fastNoise.Frequency), ref frequency))
+            frequency = fastNoise.Frequency;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(fastNoise.Frequency), ref frequency, 0f, 1f))
             {
                 fastNoise.Frequency = frequency;
-                init++;
             }
 
             // NoiseType 
@@ -232,7 +229,6 @@
                         if (ImGuiNET.ImGui.Selectable(item.ToString(), selected))
                         {
                             fastNoise.NoiseType = item;
-                            init++;
                         }
                     }
                     ImGuiNET.ImGui.EndListBox();
@@ -241,22 +237,18 @@
             }
 
             // Offset 
-            System.Numerics.Vector3 offset = new System.Numerics.Vector3(fastNoise.Offset.X, fastNoise.Offset.Y, fastNoise.Offset.Z);
-            if (ImGuiNET.ImGui.InputFloat3(nameof(fastNoise.Offset), ref offset))
+            offset = new System.Numerics.Vector3(fastNoise.Offset.X, fastNoise.Offset.Y, fastNoise.Offset.Z);
+            if (ImGuiNET.ImGui.SliderFloat3(nameof(fastNoise.Offset), ref offset, 0f, 1f))
             {
                 fastNoise.Offset = new Godot.Vector3(offset.X, offset.Y, offset.Z);
-                init++;
             }
 
             // Seed 
-            int seed = fastNoise.Seed;
+            seed = fastNoise.Seed;
             if (ImGuiNET.ImGui.InputInt(nameof(fastNoise.Seed), ref seed))
             {
                 fastNoise.Seed = seed;
-                init++;
             }
-
-            return init;
         }
     }
 }

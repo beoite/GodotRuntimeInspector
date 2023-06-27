@@ -9,24 +9,17 @@
         public Godot.Image GodotImage = new Godot.Image();
         public Godot.ImageTexture GodotImageTexture = new Godot.ImageTexture();
         public int TextureChangedCounter = 0;
+        public Myimgui.FastNoiseImgui FastNoiseImgui = new FastNoiseImgui();
 
-        public void Init()
+        public Noise()
         {
             GodotTexture.Noise = FastNoise;
-            if (TextureChangedCounter == 0)
-            {
-                GodotTexture.Changed += TextureChanged;
-            }
+            GodotTexture.Changed += TextureChanged;
         }
 
         private void TextureChanged()
         {
             TextureChangedCounter++;
-            GetImage();
-        }
-
-        private void GetImage()
-        {
             GodotImage = GodotTexture.GetImage();
             GodotImageTexture = Godot.ImageTexture.CreateFromImage(GodotImage);
         }
@@ -47,17 +40,16 @@
                     ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), windowSize.Y);
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
-                        int init = 0;
-                        init += Myimgui.FastNoise.Update(ref FastNoise);
-                        if (init > 0)
-                        {
-                            GetImage();
-                        }
+                        FastNoiseImgui.Update(ref FastNoise);
                     }
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
                         rightSize = new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), windowSize.Y);
-                        ImGuiNET.ImGui.Image((System.IntPtr)GodotImageTexture.GetRid().Id, rightSize);
+                        Godot.Rid rid = GodotImageTexture.GetRid();
+                        if (rid.IsValid == true)
+                        {
+                            ImGuiNET.ImGui.Image((System.IntPtr)rid.Id, rightSize);
+                        }
                     }
                     ImGuiNET.ImGui.EndTable();
                 }

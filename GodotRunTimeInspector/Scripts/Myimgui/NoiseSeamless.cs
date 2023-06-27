@@ -13,6 +13,12 @@
         public bool In3DSpace = false;
         public float Skirt = 1.0f;
         public bool Normalize = true;
+        public Myimgui.FastNoiseImgui FastNoiseImgui = new FastNoiseImgui();
+
+        public NoiseSeamless()
+        {
+            Init();
+        }
 
         public void Init()
         {
@@ -67,11 +73,7 @@
                                 {
                                     init++;
                                 }
-                                init += Myimgui.FastNoise.Update(ref FastNoise);
-                                if (init > 0)
-                                {
-                                    Init();
-                                }
+                                FastNoiseImgui.Update(ref FastNoise);
                             }
                             ImGuiNET.ImGui.EndTable();
                         }
