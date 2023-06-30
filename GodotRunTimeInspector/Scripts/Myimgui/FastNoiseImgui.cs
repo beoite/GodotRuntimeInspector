@@ -16,6 +16,9 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
         private float fractalPingPongStrength = 0f;
         private float fractalWeightedStrength = 0f;
         private float frequency = 0f;
+        private float offsetX = 0f;
+        private float offsetY = 0f;
+        private float offsetZ = 0f;
         private System.Numerics.Vector3 offset = new System.Numerics.Vector3(0f, 0f, 0f);
         private int seed = 0;
 
@@ -237,11 +240,23 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             }
 
             // Offset 
-            offset = new System.Numerics.Vector3(fastNoise.Offset.X, fastNoise.Offset.Y, fastNoise.Offset.Z);
-            if (ImGuiNET.ImGui.SliderFloat3(nameof(fastNoise.Offset), ref offset, 0f, 1f))
+            offsetX = fastNoise.Offset.X;
+            offsetY = fastNoise.Offset.Y;
+            offsetZ = fastNoise.Offset.Z;
+            float offsetLimit = 1000f;
+            if (ImGuiNET.ImGui.SliderFloat(nameof(offsetX), ref offsetX, -offsetLimit, offsetLimit))
             {
-                fastNoise.Offset = new Godot.Vector3(offset.X, offset.Y, offset.Z);
+                offset.X = offsetX;
             }
+            if (ImGuiNET.ImGui.SliderFloat(nameof(offsetY), ref offsetY, -offsetLimit, offsetLimit))
+            {
+                offset.Y = offsetY;
+            }
+            if (ImGuiNET.ImGui.SliderFloat(nameof(offsetZ), ref offsetZ, -offsetLimit, offsetLimit))
+            {
+                offset.Z = offsetZ;
+            }
+            fastNoise.Offset = new Godot.Vector3(offset.X, offset.Y, offset.Z);
 
             // Seed 
             seed = fastNoise.Seed;

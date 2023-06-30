@@ -73,6 +73,7 @@
                                 {
                                     init++;
                                 }
+                                Init();
                                 FastNoiseImgui.Update(ref FastNoise);
                             }
                             ImGuiNET.ImGui.EndTable();
