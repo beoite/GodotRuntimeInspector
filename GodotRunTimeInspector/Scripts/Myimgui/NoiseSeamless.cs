@@ -22,7 +22,7 @@
 
         public void Init()
         {
-            GodotImage = FastNoise.GetSeamlessImage(Width, Height, Invert, In3DSpace, Skirt, Normalize);
+            GodotImage = FastNoise.GetImage(Width, Height, Invert, In3DSpace, Normalize);
             GodotImageTexture = Godot.ImageTexture.CreateFromImage(GodotImage);
         }
 
