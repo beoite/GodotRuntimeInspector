@@ -15,7 +15,7 @@ View field, property and method information for scripts attached to Nodes in the
     </li>
     <li>
     Open the solution and allow unsafe code in your .csproj:  
-    &lt;AllowUnsafeBlocks&gt; true &lt;/AllowUnsafeBlocks&gt;
+    &lt;AllowUnsafeBlocks&gt;true&lt;/AllowUnsafeBlocks&gt;
     , and install ImGui.NET [3] with NuGet.
     </li>
     <li>
