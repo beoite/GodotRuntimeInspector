@@ -15,7 +15,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
         private static System.Numerics.Vector2 topSize = System.Numerics.Vector2.Zero;
         private static System.Numerics.Vector2 topLeftSize = System.Numerics.Vector2.Zero;
         private static System.Numerics.Vector2 topRightSize = System.Numerics.Vector2.Zero;
-
+        private static Godot.WeakRef WeakRef = new Godot.WeakRef();
 
         private static void Traverse(Godot.Node? node)
         {
@@ -43,6 +43,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 if (ImGuiNET.ImGui.IsItemClicked())
                 {
                     SelectedNode = node;
+                    WeakRef = Godot.WeakRef.WeakRef(node);
                 }
                 for (int i = 0; i < childCount; i++)
                 {
@@ -85,6 +86,10 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             {
                 ImGuiNET.ImGui.End();
                 return;
+            }
+            if (WeakRef.GetRef().Obj == null)
+            {
+                SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
             }
             if (SelectedNode.Name == nameof(SelectedNode))
             {

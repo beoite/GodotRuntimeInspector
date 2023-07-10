@@ -14,7 +14,7 @@ View field, property and method information for scripts attached to Nodes in the
     Create a C# solution (if you haven't already) for your project from, Project > Tools > C# > Create C# solution.
     </li>
     <li>
-    Open the solution and allow unsafe code (<AllowUnsafeBlocks>true</AllowUnsafeBlocks> in your .csproj), and install ImGui.NET [3] with NuGet.
+    Open the solution and allow unsafe code (<code><AllowUnsafeBlocks>true</AllowUnsafeBlocks></code> in your .csproj), and install ImGui.NET [3] with NuGet.
     </li>
     <li>
     Install imgui-godot [4], (copy the addons folder to your project).
