@@ -2,6 +2,7 @@
 {
     public static class MyInputMap
     {
+        public static Godot.StringName ESC = nameof(ESC);
         public static Godot.StringName F1 = nameof(F1);
         public static Godot.StringName FORWARD = nameof(FORWARD);
         public static Godot.StringName LEFT = nameof(LEFT);
@@ -14,6 +15,7 @@
 
         static MyInputMap()
         {
+            InitKey(ESC, Godot.Key.Escape);
             InitKey(F1, Godot.Key.F1);
             InitKey(FORWARD, Godot.Key.W);
             InitKey(LEFT, Godot.Key.A);

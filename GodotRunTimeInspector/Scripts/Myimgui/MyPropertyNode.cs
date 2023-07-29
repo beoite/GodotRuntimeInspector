@@ -38,6 +38,14 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             {
                 baseFlags |= ImGuiNET.ImGuiTreeNodeFlags.DefaultOpen;
             }
+
+            System.Numerics.Vector4 currentColor = GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text];
+            GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.CLOUDBLUE.ToVector4();
+            bool processModeDisabled = node.ProcessMode == Godot.Node.ProcessModeEnum.Disabled;
+            if (processModeDisabled == true)
+            {
+                GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.NIGHTBLUE.ToVector4();
+            }
             if (ImGuiNET.ImGui.TreeNodeEx(node.Name + " | " + node.GetPath(), baseFlags))
             {
                 if (ImGuiNET.ImGui.IsItemClicked())
@@ -51,6 +59,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 }
                 ImGuiNET.ImGui.TreePop();
             }
+            GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = currentColor;
         }
 
         private static void TopRow()
