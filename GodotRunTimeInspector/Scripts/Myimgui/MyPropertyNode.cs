@@ -82,7 +82,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
                     topRightSize = new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), topSize.Y);
-                    MyPropertyTable.DrawTable(ref MyProperties, nameof(topRightSize), MyPropertyFlags.TableFlags(), topRightSize);
+                    MyPropertyTable.DrawTable(MyProperties, nameof(topRightSize), MyPropertyFlags.TableFlags(), topRightSize);
                 }
                 ImGuiNET.ImGui.EndTable();
             }

@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://che5ycsyfbjms"]
 
 [ext_resource type="Script" path="res://GodotRuntimeInspector/Scripts/GodotRuntimeInspector.cs" id="1_4c7ik"]
-[ext_resource type="PackedScene" uid="uid://dga1nclw0c8v" path="res://GodotRuntimeInspector/CustomWindowExample.tscn" id="2_hu31k"]
+[ext_resource type="PackedScene" uid="uid://dga1nclw0c8v" path="res://GodotRuntimeInspector/CustomWindowExample.tscn" id="2_16nhp"]
 
 [node name="GodotRuntimeInspector" type="Node"]
 script = ExtResource("1_4c7ik")
 
-[node name="CustomWindowExample" parent="." instance=ExtResource("2_hu31k")]
+[node name="CustomWindowExample" parent="." instance=ExtResource("2_16nhp")]

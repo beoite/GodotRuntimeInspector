@@ -50,8 +50,6 @@
                 return;
             }
 
-            Imgui();
-
             // modify accumulated mouse rotation
             RotationX += MouseMotion.X * -1f * Config.Sensitivity;
             RotationY += MouseMotion.Y * -1f * Config.Sensitivity;
@@ -64,19 +62,6 @@
             // rotation
             CAM.RotateObjectLocal(Godot.Vector3.Up, RotationX); // first rotate about Y
             CAM.RotateObjectLocal(Godot.Vector3.Right, RotationY); // then rotate about X
-        }
-
-        private void Imgui()
-        {
-            Widget.DrawWidget((Godot.Node3D)CAM);
-            ImGuiNET.ImGui.SetNextWindowSize(mainviewPortPTR.Size, ImGuiNET.ImGuiCond.Always);
-            ImGuiNET.ImGui.SetNextWindowPos(new System.Numerics.Vector2(0f, 0f), ImGuiNET.ImGuiCond.Always);
-            if (ImGuiNET.ImGui.Begin(nameof(SimpleCamera), Myimgui.MyPropertyFlags.HUDWindowFlags()))
-            {
-                ImGuiNET.ImGui.Text(nameof(multiplier) + " " + multiplier.ToString("0.00000000"));
-                ImGuiNET.ImGui.Text(nameof(inputCounter) + " " + inputCounter.ToString("0.00000000"));
-                ImGuiNET.ImGui.End();
-            }
         }
 
         public override void _Input(Godot.InputEvent @event)

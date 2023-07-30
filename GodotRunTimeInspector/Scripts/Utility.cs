@@ -4,11 +4,15 @@
     {
         public static string GetStr(object? val)
         {
-            string? str = string.Empty;
-            if (val != null)
+            string? str = null;
+            try
             {
-                str = val.ToString();
+                if (val != null)
+                {
+                    str = val.ToString();
+                }
             }
+            catch (System.Exception) { }
             string strval = string.Empty;
             if (str != null)
             {

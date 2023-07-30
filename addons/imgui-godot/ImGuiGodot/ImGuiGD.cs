@@ -50,17 +50,7 @@ public static class ImGuiGD
         return (IntPtr)tex.GetRid().Id;
     }
 
-    [Obsolete("UnbindTexture is no longer necessary")]
-    public static void UnbindTexture(IntPtr texid)
-    {
-    }
-
-    [Obsolete("UnbindTexture is no longer necessary")]
-    public static void UnbindTexture(Texture2D tex)
-    {
-    }
-
-    public static void Init(Window mainWindow, float? scale = null, RendererType renderer = RendererType.RenderingDevice)
+    public static void Init(Window mainWindow, Rid mainSubViewport, float? scale = null, RendererType renderer = RendererType.RenderingDevice)
     {
         if (IntPtr.Size != sizeof(ulong))
         {
@@ -78,13 +68,17 @@ public static class ImGuiGD
             renderer = RendererType.Canvas;
         }
 
-        Internal.State.Instance = new(mainWindow, renderer switch
+        // there's no way to get the actual current thread model, eg if --render-thread is used
+        int threadModel = (int)ProjectSettings.GetSetting("rendering/driver/threads/thread_model");
+
+        Internal.State.Instance = new(mainWindow, mainSubViewport, renderer switch
         {
             RendererType.Dummy => new Internal.DummyRenderer(),
             RendererType.Canvas => new Internal.CanvasRenderer(),
-            RendererType.RenderingDevice => new Internal.RdRenderer(),
+            RendererType.RenderingDevice => threadModel == 2 ? new Internal.RdRendererThreadSafe() : new Internal.RdRenderer(),
             _ => throw new ArgumentException("Invalid renderer", nameof(renderer))
         });
+        Internal.State.Instance.Renderer.InitViewport(mainSubViewport);
     }
 
     public static void ResetFonts()
@@ -118,9 +112,12 @@ public static class ImGuiGD
         ImGui.NewFrame();
     }
 
-    public static void Render(Rid vprid)
+    public static void Render()
     {
-        Internal.State.Instance.Render(vprid);
+        ImGui.Render();
+
+        ImGui.UpdatePlatformWindows();
+        Internal.State.Instance.Renderer.RenderDrawData();
     }
 
     public static void Shutdown()

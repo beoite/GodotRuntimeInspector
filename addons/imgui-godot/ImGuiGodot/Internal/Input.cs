@@ -12,13 +12,15 @@ internal sealed class Input
     private Vector2 _mouseWheel = Vector2.Zero;
     private ImGuiMouseCursor _currentCursor = ImGuiMouseCursor.None;
     private readonly Window _mainWindow;
+    private readonly bool _hasMouse;
 
     public Input(Window mainWindow)
     {
         _mainWindow = mainWindow;
+        _hasMouse = DisplayServer.HasFeature(DisplayServer.Feature.Mouse);
     }
 
-    public void Update(ImGuiIOPtr io)
+    private void UpdateMouse(ImGuiIOPtr io)
     {
         var mousePos = DisplayServer.MouseGetPosition();
 
@@ -26,7 +28,19 @@ internal sealed class Input
         {
             if (io.WantSetMousePos)
             {
-                // TODO: get current focused window
+#if GODOT4_1_OR_GREATER
+                // WarpMouse is relative to the current focused window
+                int[] windows = DisplayServer.GetWindowList();
+                foreach (int w in windows)
+                {
+                    if (DisplayServer.WindowIsFocused(w))
+                    {
+                        var winPos = DisplayServer.WindowGetPosition(w);
+                        Godot.Input.WarpMouse(new(io.MousePos.X - winPos.X, io.MousePos.Y - winPos.Y));
+                        break;
+                    }
+                }
+#endif
             }
             else
             {
@@ -66,6 +80,12 @@ internal sealed class Input
         {
             _currentCursor = ImGuiMouseCursor.None;
         }
+    }
+
+    public void Update(ImGuiIOPtr io)
+    {
+        if (_hasMouse)
+            UpdateMouse(io);
 
         CurrentSubViewport = null;
     }
@@ -89,10 +109,12 @@ internal sealed class Input
                     .Clamp(Vector2.Zero, CurrentSubViewport.Size);
             }
             CurrentSubViewport.PushInput(vpEvent, true);
+#if !GODOT4_1_OR_GREATER
             if (!CurrentSubViewport.IsInputHandled())
             {
                 CurrentSubViewport.PushUnhandledInput(vpEvent, true);
             }
+#endif
         }
 
         bool consumed = false;
@@ -100,6 +122,7 @@ internal sealed class Input
         if (evt is InputEventMouseMotion mm)
         {
             consumed = io.WantCaptureMouse;
+            mm.Dispose();
         }
         else if (evt is InputEventMouseButton mb)
         {
@@ -107,8 +130,9 @@ internal sealed class Input
             {
                 case MouseButton.Left:
                     io.AddMouseButtonEvent((int)ImGuiMouseButton.Left, mb.Pressed);
-#if GODOT_WINDOWS
+#if GODOT_WINDOWS && !GODOT4_1_OR_GREATER
                     // if the left mouse button is released, the mouse almost certainly should not be captured
+                    // TODO: remove workaround after Godot 4.2
                     if (viewportsEnable && !mb.Pressed)
                         Viewports.MouseCaptureWorkaround();
 #endif
@@ -139,6 +163,7 @@ internal sealed class Input
                     break;
             };
             consumed = io.WantCaptureMouse;
+            mb.Dispose();
         }
         else if (evt is InputEventKey k)
         {
@@ -154,11 +179,13 @@ internal sealed class Input
                 }
             }
             consumed = io.WantCaptureKeyboard || io.WantTextInput;
+            k.Dispose();
         }
         else if (evt is InputEventPanGesture pg)
         {
             _mouseWheel = new(-pg.Delta.X, -pg.Delta.Y);
             consumed = io.WantCaptureMouse;
+            pg.Dispose();
         }
         else if (io.ConfigFlags.HasFlag(ImGuiConfigFlags.NavEnableGamepad))
         {
@@ -170,6 +197,7 @@ internal sealed class Input
                     io.AddKeyEvent(igk, jb.Pressed);
                     consumed = true;
                 }
+                jb.Dispose();
             }
             else if (evt is InputEventJoypadMotion jm)
             {
@@ -202,6 +230,7 @@ internal sealed class Input
                         break;
                 };
                 consumed = true;
+                jm.Dispose();
             }
         }
 

@@ -19,7 +19,7 @@
                 System.Numerics.Vector2 windowSize = ImGuiNET.ImGui.GetWindowSize();
                 System.Numerics.Vector2 tableSize = new System.Numerics.Vector2(windowSize.X - GodotRuntimeInspector.MinRowHeight, windowSize.Y - GodotRuntimeInspector.MinRowHeight);
                 string tableID = System.Reflection.MethodBase.GetCurrentMethod()?.DeclaringType?.Name + "TABLE";
-                MyPropertyTable.DrawTable(ref MyProperties, tableID, MyPropertyFlags.TableFlags(), tableSize);
+                MyPropertyTable.DrawTable(MyProperties, tableID, MyPropertyFlags.TableFlags(), tableSize);
                 ImGuiNET.ImGui.End();
             }
         }

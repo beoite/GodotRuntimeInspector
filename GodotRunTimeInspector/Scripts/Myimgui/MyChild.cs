@@ -17,7 +17,7 @@
             if (ImGuiNET.ImGui.BeginChild(strID, size, false, MyPropertyFlags.TreeNodeWindowFlags()))
             {
                 string tableID = ID + "TABLE";
-                MyPropertyTable.DrawTable(ref MyProperties, tableID, MyPropertyFlags.TableFlags(), size);
+                MyPropertyTable.DrawTable(MyProperties, tableID, MyPropertyFlags.TableFlags(), size);
                 ImGuiNET.ImGui.EndChild();
             }
         }

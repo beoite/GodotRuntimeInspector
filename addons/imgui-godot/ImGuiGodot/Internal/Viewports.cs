@@ -12,7 +12,6 @@ internal sealed class GodotImGuiWindow : IDisposable
     private readonly ImGuiViewportPtr _vp;
 
     public Window GodotWindow { get; init; }
-    public Rid ViewportRid { get; init; }
 
     // sub window
     public GodotImGuiWindow(ImGuiViewportPtr vp)
@@ -44,19 +43,21 @@ internal sealed class GodotImGuiWindow : IDisposable
         GodotWindow.Transparent = true;
 
         // it's our window, so just draw directly to the root viewport
-        ViewportRid = GodotWindow.GetViewportRid();
+        var vprid = GodotWindow.GetViewportRid();
+        _vp.RendererUserData = (IntPtr)vprid.Id;
 
-        State.Instance.Renderer.InitViewport(ViewportRid);
+        State.Instance.Renderer.InitViewport(vprid);
         RenderingServer.ViewportSetTransparentBackground(GodotWindow.GetViewportRid(), true);
     }
 
     // main window
-    public GodotImGuiWindow(ImGuiViewportPtr vp, Window gw)
+    public GodotImGuiWindow(ImGuiViewportPtr vp, Window gw, Rid mainSubViewport)
     {
         _gcHandle = GCHandle.Alloc(this);
         _vp = vp;
         _vp.PlatformHandle = (IntPtr)_gcHandle;
         GodotWindow = gw;
+        _vp.RendererUserData = (IntPtr)mainSubViewport.Id;
     }
 
     public void Dispose()
@@ -135,11 +136,13 @@ internal static class ViewportsExts
 internal sealed partial class Viewports
 {
 #if NET7_0_OR_GREATER
+#if GODOT_WINDOWS && !GODOT4_1_OR_GREATER
     [LibraryImport("user32.dll", EntryPoint = "PostMessageA")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static partial bool PostMessage(IntPtr hWnd, uint Msg, nuint wParam, nint lParam);
     [LibraryImport("user32.dll")]
     private static partial IntPtr GetCapture();
+#endif
 
     [LibraryImport("cimgui")]
     [UnmanagedCallConv(CallConvs = new Type[] { typeof(System.Runtime.CompilerServices.CallConvCdecl) })]
@@ -148,11 +151,13 @@ internal sealed partial class Viewports
     [UnmanagedCallConv(CallConvs = new Type[] { typeof(System.Runtime.CompilerServices.CallConvCdecl) })]
     private static unsafe partial void ImGuiPlatformIO_Set_Platform_GetWindowSize(ImGuiPlatformIO* platform_io, IntPtr funcPtr);
 #else
+#if GODOT_WINDOWS && !GODOT4_1_OR_GREATER
     [DllImport("user32.dll", EntryPoint = "PostMessageA")]
     [return: MarshalAs(UnmanagedType.Bool)]
     public static extern bool PostMessage(IntPtr hWnd, uint Msg, nuint wParam, nint lParam);
     [DllImport("user32.dll")]
     private static extern IntPtr GetCapture();
+#endif
 
     [DllImport("cimgui", CallingConvention = CallingConvention.Cdecl)]
     private static extern unsafe void ImGuiPlatformIO_Set_Platform_GetWindowPos(ImGuiPlatformIO* platform_io, IntPtr funcPtr);
@@ -207,7 +212,7 @@ internal sealed partial class Viewports
     //private static bool _wantUpdateMonitors = true;
     private readonly GodotImGuiWindow _mainWindow;
 
-#if GODOT_WINDOWS
+#if GODOT_WINDOWS && !GODOT4_1_OR_GREATER
     public static void MouseCaptureWorkaround()
     {
         IntPtr hwnd = GetCapture();
@@ -265,24 +270,13 @@ internal sealed partial class Viewports
         ImGuiPlatformIO_Set_Platform_GetWindowSize(pio, Marshal.GetFunctionPointerForDelegate(_getWindowSize));
     }
 
-    public Viewports()
+    public Viewports(Window mainWindow, Rid mainSubViewport)
     {
-        _mainWindow = new(ImGui.GetMainViewport(), ImGuiLayer.Instance.GetWindow());
+        _mainWindow = new(ImGui.GetMainViewport(), mainWindow, mainSubViewport);
 
         ImGui.GetIO().BackendFlags |= ImGuiBackendFlags.PlatformHasViewports;
         InitPlatformInterface();
         UpdateMonitors();
-    }
-
-    public static void RenderViewports()
-    {
-        var pio = ImGui.GetPlatformIO();
-        for (int i = 1; i < pio.Viewports.Size; i++)
-        {
-            var vp = pio.Viewports[i];
-            var window = (GodotImGuiWindow)GCHandle.FromIntPtr(vp.PlatformHandle).Target;
-            State.Instance.Renderer.RenderDrawData(window.ViewportRid, vp.DrawData);
-        }
     }
 
     private static void Godot_CreateWindow(ImGuiViewportPtr vp)

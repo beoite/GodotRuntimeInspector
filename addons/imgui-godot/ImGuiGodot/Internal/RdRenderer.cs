@@ -4,16 +4,12 @@ using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
-using System.Reflection;
-
-using FuncDrawListBegin = System.Func<Godot.Rid, Godot.RenderingDevice.InitialAction, Godot.RenderingDevice.FinalAction, Godot.RenderingDevice.InitialAction, Godot.RenderingDevice.FinalAction, Godot.Color[], float, uint, Godot.Rect2?, Godot.Collections.Array<Godot.Rid>, long>;
-using FuncDrawListBegin40 = System.Func<Godot.Rid, Godot.RenderingDevice.InitialAction, Godot.RenderingDevice.FinalAction, Godot.RenderingDevice.InitialAction, Godot.RenderingDevice.FinalAction, Godot.Color[], float, uint, Godot.Rect2?, Godot.Collections.Array, long>;
 
 namespace ImGuiGodot.Internal;
 
-internal sealed class RdRenderer : IRenderer
+internal class RdRenderer : IRenderer
 {
-    private readonly RenderingDevice RD;
+    protected readonly RenderingDevice RD;
     private readonly Color[] _clearColors = { new Color(0f, 0f, 0f, 0f) };
     private readonly Rid _shader;
     private readonly Rid _pipeline;
@@ -34,13 +30,14 @@ internal sealed class RdRenderer : IRenderer
     private readonly HashSet<IntPtr> _usedTextures = new(8);
 
     private readonly Rect2 _zeroRect = new(new(0f, 0f), new(0f, 0f));
+#if GODOT4_1_OR_GREATER
     private readonly Godot.Collections.Array<Rid> _storageTextures = new();
+#else
+    private readonly Godot.Collections.Array _storageTextures = new();
+#endif
     private readonly Godot.Collections.Array<Rid> _srcBuffers = new();
     private readonly long[] _vtxOffsets = new long[3];
     private readonly Godot.Collections.Array<RDUniform> _uniformArray = new();
-
-    private readonly FuncDrawListBegin _drawListBegin = null;
-    private readonly FuncDrawListBegin40 _drawListBegin40 = null;
 
     public string Name => "imgui_impl_godot4_rd";
 
@@ -52,21 +49,10 @@ internal sealed class RdRenderer : IRenderer
             throw new PlatformNotSupportedException("failed to get RenderingDevice");
         }
 
-        // maintain compatibility with Godot 4.0
-        MethodInfo mi = typeof(RenderingDevice).GetMethod("DrawListBegin");
-        try
-        {
-            _drawListBegin = (FuncDrawListBegin)Delegate.CreateDelegate(typeof(FuncDrawListBegin), RD, mi);
-        }
-        catch
-        {
-            _drawListBegin40 = (FuncDrawListBegin40)Delegate.CreateDelegate(typeof(FuncDrawListBegin40), RD, mi);
-        }
-
         // set up everything to match the official Vulkan backend as closely as possible
 
         // compiling from source takes ~400ms, so we use a SPIR-V resource
-        using var spirv = ResourceLoader.Load<RDShaderSpirV>("res://addons/imgui-godot/ImGuiShaderSPIRV.tres");
+        using var spirv = ResourceLoader.Load<RDShaderSpirV>("res://addons/imgui-godot/data/ImGuiShaderSPIRV.tres");
         _shader = RD.ShaderCreateFromSpirV(spirv);
 
 #if IMGUI_GODOT_DEV
@@ -213,11 +199,13 @@ internal sealed class RdRenderer : IRenderer
                 IntPtr texid = drawCmd.GetTexID();
                 if (texid == IntPtr.Zero)
                     continue;
+                Rid texrid = Util.ConstructRid((ulong)texid);
+                if (!RD.TextureIsValid(texrid))
+                    continue;
 
                 _usedTextures.Add(texid);
                 if (!_uniformSets.ContainsKey(texid))
                 {
-                    Rid texrid = RenderingServer.TextureGetRdTexture(Util.ConstructRid((ulong)texid));
                     using RDUniform uniform = new()
                     {
                         Binding = 0,
@@ -237,12 +225,57 @@ internal sealed class RdRenderer : IRenderer
         _bufPool.Return(vertBuf);
     }
 
-    public void RenderDrawData(Rid vprid, ImDrawDataPtr drawData)
+    protected static void ReplaceTextureRids(ImDrawDataPtr drawData)
+    {
+        for (int i = 0; i < drawData.CmdListsCount; ++i)
+        {
+            ImDrawListPtr cmdList = drawData.CmdListsRange[i];
+            for (int cmdi = 0; cmdi < cmdList.CmdBuffer.Size; ++cmdi)
+            {
+                ImDrawCmdPtr drawCmd = cmdList.CmdBuffer[cmdi];
+                drawCmd.TextureId = (IntPtr)RenderingServer.TextureGetRdTexture(Util.ConstructRid((ulong)drawCmd.TextureId)).Id;
+            }
+        }
+    }
+
+    protected void FreeUnusedTextures()
+    {
+        // clean up unused textures
+        foreach (IntPtr texid in _uniformSets.Keys)
+        {
+            if (!_usedTextures.Contains(texid))
+            {
+                RD.FreeRid(_uniformSets[texid]);
+                _uniformSets.Remove(texid);
+            }
+        }
+        _usedTextures.Clear();
+    }
+
+    public void RenderDrawData()
+    {
+        var pio = ImGui.GetPlatformIO();
+        for (int i = 0; i < pio.Viewports.Size; ++i)
+        {
+            var vp = pio.Viewports[i];
+            if (!vp.Flags.HasFlag(ImGuiViewportFlags.IsMinimized))
+            {
+                ReplaceTextureRids(vp.DrawData);
+                Rid vprid = Util.ConstructRid((ulong)vp.RendererUserData);
+                RenderOne(GetFramebuffer(vprid), vp.DrawData);
+            }
+        }
+        FreeUnusedTextures();
+    }
+
+    protected void RenderOne(Rid fb, ImDrawDataPtr drawData)
     {
 #if IMGUI_GODOT_DEV
         RD.DrawCommandBeginLabel("ImGui", Colors.Purple);
 #endif
-        Rid fb = GetFramebuffer(vprid);
+
+        if (!fb.IsValid)
+            return;
 
         int vertSize = Marshal.SizeOf<ImDrawVert>();
 
@@ -272,8 +305,6 @@ internal sealed class RdRenderer : IRenderer
             _vtxBufferSize = drawData.TotalVtxCount;
         }
 
-        _usedTextures.Clear();
-
         // check if our font texture is still valid
         foreach (var kv in _uniformSets)
         {
@@ -285,15 +316,11 @@ internal sealed class RdRenderer : IRenderer
             SetupBuffers(drawData);
 
         // draw
-        long dl = _drawListBegin != null
-            ? _drawListBegin(fb,
+        long dl = RD.DrawListBegin(fb,
                 RenderingDevice.InitialAction.Clear, RenderingDevice.FinalAction.Read,
                 RenderingDevice.InitialAction.Clear, RenderingDevice.FinalAction.Read,
-                _clearColors, 1f, 0, _zeroRect, _storageTextures)
-            : _drawListBegin40(fb,
-                RenderingDevice.InitialAction.Clear, RenderingDevice.FinalAction.Read,
-                RenderingDevice.InitialAction.Clear, RenderingDevice.FinalAction.Read,
-                _clearColors, 1f, 0, _zeroRect, (Godot.Collections.Array)_storageTextures);
+                _clearColors, 1f, 0, _zeroRect, _storageTextures);
+
         RD.DrawListBindRenderPipeline(dl, _pipeline);
         RD.DrawListSetPushConstant(dl, _pcbuf, (uint)_pcbuf.Length);
 
@@ -307,6 +334,8 @@ internal sealed class RdRenderer : IRenderer
             {
                 ImDrawCmdPtr drawCmd = cmdList.CmdBuffer[cmdi];
                 if (drawCmd.ElemCount == 0)
+                    continue;
+                if (!_uniformSets.ContainsKey(drawCmd.GetTexID()))
                     continue;
 
                 Rid idxArray = RD.IndexArrayCreate(_idxBuffer,
@@ -346,16 +375,6 @@ internal sealed class RdRenderer : IRenderer
 #if IMGUI_GODOT_DEV
         RD.DrawCommandEndLabel();
 #endif
-
-        // clean up unused textures
-        foreach (IntPtr texid in _uniformSets.Keys)
-        {
-            if (!_usedTextures.Contains(texid))
-            {
-                RD.FreeRid(_uniformSets[texid]);
-                _uniformSets.Remove(texid);
-            }
-        }
     }
 
     public void OnHide()
@@ -372,8 +391,11 @@ internal sealed class RdRenderer : IRenderer
             RD.FreeRid(_vtxBuffer);
     }
 
-    private Rid GetFramebuffer(Rid vprid)
+    protected Rid GetFramebuffer(Rid vprid)
     {
+        if (!vprid.IsValid)
+            return new Rid();
+
         if (_framebuffers.TryGetValue(vprid, out Rid fb))
         {
             if (RD.FramebufferIsValid(fb))

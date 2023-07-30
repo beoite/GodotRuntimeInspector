@@ -94,7 +94,7 @@
             }
         }
 
-        public void DrawTable(ref MyProperty[] myProperties, string id, ImGuiNET.ImGuiTableFlags flags, System.Numerics.Vector2 tableSize)
+        public void DrawTable(MyProperty[] myProperties, string id, ImGuiNET.ImGuiTableFlags flags, System.Numerics.Vector2 tableSize)
         {
             string name = nameof(DrawTable) + id;
             bool border = true;
@@ -121,6 +121,11 @@
                     for (int i = 0; i < myProperties.Length; i++)
                     {
                         MyProperty myProperty = myProperties[i];
+
+                        if (myProperty.Instance == null)
+                        {
+                            continue;
+                        }
 
                         ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
 
