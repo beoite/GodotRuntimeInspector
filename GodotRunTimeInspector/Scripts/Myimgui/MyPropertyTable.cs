@@ -118,6 +118,7 @@
                     ImGuiNET.ImGui.TableHeadersRow();
                     ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
                     Sort(sortsSpecs, myProperties);
+
                     for (int i = 0; i < myProperties.Length; i++)
                     {
                         MyProperty myProperty = myProperties[i];
