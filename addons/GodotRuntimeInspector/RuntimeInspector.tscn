@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://blldtj2ip7u2"]
+[gd_scene load_steps=2 format=3 uid="uid://petgtacdvyn6"]
 
 [ext_resource type="Script" path="res://addons/GodotRuntimeInspector/Scripts/GodotRuntimeInspector.cs" id="1_5tyvv"]
 

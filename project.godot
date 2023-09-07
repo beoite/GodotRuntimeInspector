@@ -32,7 +32,7 @@ project/assembly_name="GodotRuntimeInspector"
 
 [editor_plugins]
 
-enabled=PackedStringArray()
+enabled=PackedStringArray("res://addons/GodotRuntimeInspector/plugin.cfg", "res://addons/imgui-godot/plugin.cfg")
 
 [filesystem]
 

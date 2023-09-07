@@ -1,11 +1,10 @@
 # GodotRuntimeInspector
 
 <p>
-View field, property and method information for scripts attached to Nodes in the godot game engine.
+View field, property and method information for scripts attached to Nodes in the Godot game engine.
 </p>
 
 <p>
-    I made this to learn about Godot Engine [1] and Dear ImGui [2]. The Scene GodotRuntimeInspector/GodotRuntimeInspector.tscn has a demo, or you can get a windows build here, https://lackendara.itch.io/godotruntimeinspector
     The files here are a c# godot project, if you want to use it:
 </p>
 
@@ -25,10 +24,11 @@ View field, property and method information for scripts attached to Nodes in the
     Enable the imgui-godot plugin in Godot, Project > Project Settings > Plugins.
     </li>
     <li>
-    Copy the GodotRuntimeInspector folder from this repository to your project
+    Copy addons/GodotRuntimeInspector from this repository to your project
     </li>
     <li>
-    Add GodotRuntimeInspector/Scripts/GodotRunTimeInspector.cs to a node in your Scene. 
+    Drag the RuntimeInspector.tscn Node to your scene and run.
+    </li>
 </ul>
 
 <p>[1] https://github.com/godotengine/godot </p>

@@ -5,7 +5,6 @@ namespace GodotRuntimeInspector.Scripts
     public partial class GodotRuntimeInspector : Godot.Node
     {
         public double TotalDelta = 0;
-        public static bool IsDebug = false;
         public static double FPS = 0;
         public static int MaxFps = 30;
         public static bool Enabled = true;
@@ -15,28 +14,24 @@ namespace GodotRuntimeInspector.Scripts
         public static ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
         public static ImGuiNET.ImGuiIOPtr IOPTR = null;
         public static ImGuiNET.ImGuiStylePtr Style = null;
-        public static Godot.InputEvent? InputEvent = null;
         public static uint DockspaceID = 0;
         public static Myimgui.Noise ImageNoise = new Myimgui.Noise();
 
         // Windows
         public static bool ShowDemoWindow = false;
         public static bool Debug = false;
-        public static bool Input = false;
         public static bool Log = false;
         public static bool LogDebug = false;
         public static bool Noise = false;
         public static System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool> MyWindowDictionary = new System.Collections.Generic.Dictionary<Myimgui.MyWindow, bool>();
         public static Myimgui.MyWindow WindowDebug = new Myimgui.MyWindow();
-        public static Myimgui.MyWindow WindowInput = new Myimgui.MyWindow();
         public static Myimgui.MyWindow WindowLogDebug = new Myimgui.MyWindow();
         public static Myimgui.MyWindow WindowImage = new Myimgui.MyWindow();
         public static Myimgui.MultilineTextWindow MultilineTextWindow = new Myimgui.MultilineTextWindow();
 
         public static MyLog MyLog = new MyLog();
 
-        // Called when the node enters the scene tree for the first time.
-        public override void _Ready()
+        public override void _EnterTree()
         {
             WindowDebug.MyProperties = Myimgui.MyPropertyTest.Init();
 
@@ -109,11 +104,9 @@ namespace GodotRuntimeInspector.Scripts
             ImGuiNET.ImGui.SetNextWindowDockID(DockspaceID, ImGuiNET.ImGuiCond.Appearing);
             Myimgui.MyPropertyNode.Update(this);
 
-            WindowInput.TypeInstance = InputEvent;
             WindowLogDebug.TypeInstance = MyLog;
 
             MyWindowDictionary[WindowDebug] = Debug;
-            MyWindowDictionary[WindowInput] = Input;
             MyWindowDictionary[WindowLogDebug] = LogDebug;
 
             Myimgui.MyWindow[] keys = MyWindowDictionary.Keys.ToArray();
@@ -155,11 +148,11 @@ namespace GodotRuntimeInspector.Scripts
             }
         }
 
-        public override void _Input(Godot.InputEvent @event)
+        public override void _UnhandledKeyInput(Godot.InputEvent @event)
         {
+            base._UnhandledKeyInput(@event);
             // stops input from propagating down through each _Input call (improves performance)
             //GetViewport().SetInputAsHandled();
-            InputEvent = @event;
             if (Godot.Input.IsActionPressed(MyInputMap.gri_F1))
             {
                 Enabled = !Enabled;
