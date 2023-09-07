@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dga1nclw0c8v"]
-
-[ext_resource type="Script" path="res://GodotRuntimeInspector/Scripts/Examples/CustomWindowExample.cs" id="1_xytjn"]
-
-[node name="CustomWindowExample" type="Node3D"]
-script = ExtResource("1_xytjn")

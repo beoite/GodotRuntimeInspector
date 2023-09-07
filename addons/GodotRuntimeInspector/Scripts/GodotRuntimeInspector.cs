@@ -78,17 +78,6 @@ namespace GodotRuntimeInspector.Scripts
             Style.ButtonTextAlign = new System.Numerics.Vector2(alignX, alignY);
             Style.SelectableTextAlign = new System.Numerics.Vector2(alignX, alignY);
             Style.SeparatorTextAlign = new System.Numerics.Vector2(alignX, alignY);
-
-            IsDebug = System.String.Equals(SceneManager.DebugPath, SceneFilePath, System.StringComparison.InvariantCultureIgnoreCase);
-            if (IsDebug == true)
-            {
-                // load scenes
-                SceneManager.Init();
-                // Add the node as a child of the node the script is attached to.
-                AddChild(SceneManager.SimpleCameraNode);
-                //AddChild(SceneManager.TestNode);
-                TestCubes.Create(this);
-            }
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.
