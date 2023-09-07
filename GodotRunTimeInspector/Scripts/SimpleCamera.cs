@@ -70,31 +70,31 @@
             WASD = Godot.Vector2.Zero;
             UpDown = Godot.Vector3.Zero;
             multiplier = 1f;
-            if (Godot.Input.IsActionPressed(MyInputMap.FORWARD))
+            if (Godot.Input.IsActionPressed(MyInputMap.gri_FORWARD))
             {
                 WASD.Y = 1f;
             }
-            if (Godot.Input.IsActionPressed(MyInputMap.LEFT))
+            if (Godot.Input.IsActionPressed(MyInputMap.gri_LEFT))
             {
                 WASD.X = -1f;
             }
-            if (Godot.Input.IsActionPressed(MyInputMap.BACK))
+            if (Godot.Input.IsActionPressed(MyInputMap.gri_BACK))
             {
                 WASD.Y = -1f;
             }
-            if (Godot.Input.IsActionPressed(MyInputMap.RIGHT))
+            if (Godot.Input.IsActionPressed(MyInputMap.gri_RIGHT))
             {
                 WASD.X = 1f;
             }
-            if (Godot.Input.IsActionPressed(MyInputMap.Q))
+            if (Godot.Input.IsActionPressed(MyInputMap.gri_Q))
             {
                 UpDown.Y = -1f;
             }
-            if (Godot.Input.IsActionPressed(MyInputMap.E))
+            if (Godot.Input.IsActionPressed(MyInputMap.gri_E))
             {
                 UpDown.Y = 1f;
             }
-            if (Godot.Input.IsActionPressed(MyInputMap.LEFTSHIFT))
+            if (Godot.Input.IsActionPressed(MyInputMap.gri_LEFTSHIFT))
             {
                 multiplier = 10f;
             }

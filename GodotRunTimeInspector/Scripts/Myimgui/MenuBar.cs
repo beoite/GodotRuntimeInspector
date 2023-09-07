@@ -10,7 +10,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             {
                 if (ImGuiNET.ImGui.BeginMenu("Menu"))
                 {
-                    string txtEnabled = nameof(GodotRuntimeInspector.Enabled) + "\t(" + MyInputMap.F1 + ")";
+                    string txtEnabled = nameof(GodotRuntimeInspector.Enabled) + "\t(" + MyInputMap.gri_F1 + ")";
                     bool opacity = ImGuiNET.ImGui.SliderFloat(nameof(GodotRuntimeInspector.Opacity), ref GodotRuntimeInspector.Opacity, 0f, 1f);
                     bool enabled = ImGuiNET.ImGui.Checkbox(txtEnabled, ref GodotRuntimeInspector.Enabled);
                     bool noiseEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.Noise), ref GodotRuntimeInspector.Noise);
@@ -21,7 +21,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                     {
                         bool debugEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.Debug), ref GodotRuntimeInspector.Debug);
                         bool inputEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.Input), ref GodotRuntimeInspector.Input);
-                        bool osEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.RenderingDevice), ref GodotRuntimeInspector.RenderingDevice);
                         bool logDebugEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.LogDebug), ref GodotRuntimeInspector.LogDebug);
                         if (GodotRuntimeInspector.IsDebug == true)
                         {
