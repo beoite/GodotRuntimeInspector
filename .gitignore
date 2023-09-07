@@ -8,6 +8,7 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/addons/imgui-godot/
 
 # Visual Studio cache directory
 .vs/
