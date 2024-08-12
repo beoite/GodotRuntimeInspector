@@ -98,7 +98,7 @@
         {
             string name = nameof(DrawTable) + id;
             bool border = true;
-            if (ImGuiNET.ImGui.BeginChild(name, tableSize, border, MyPropertyFlags.TreeNodeWindowFlags()))
+            if (ImGuiNET.ImGui.BeginChild(name, tableSize)) //tableSize, border: border, MyPropertyFlags.TreeNodeWindowFlags()))
             {
                 System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
                 int numCols = fields.Length;

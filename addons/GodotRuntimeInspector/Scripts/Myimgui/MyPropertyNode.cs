@@ -16,6 +16,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
         private static System.Numerics.Vector2 topLeftSize = System.Numerics.Vector2.Zero;
         private static System.Numerics.Vector2 topRightSize = System.Numerics.Vector2.Zero;
         private static Godot.WeakRef WeakRef = new Godot.WeakRef();
+        private static Godot.Node NothingSelected = new Godot.Node() { Name = nameof(NothingSelected) };
 
         private static void Traverse(Godot.Node? node)
         {
@@ -72,7 +73,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
                     topLeftSize = new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), topSize.Y);
-                    if (ImGuiNET.ImGui.BeginChild(nameof(Traverse), topLeftSize, false, MyPropertyFlags.TreeNodeWindowFlags()))
+                    if (ImGuiNET.ImGui.BeginChild(nameof(Traverse), topLeftSize))
                     {
                         Counter = -1;
                         Traverse(SceneTree?.CurrentScene);
@@ -98,7 +99,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             }
             if (WeakRef.GetRef().Obj == null)
             {
-                SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
+                SelectedNode = NothingSelected;
             }
             if (SelectedNode.Name == nameof(SelectedNode))
             {

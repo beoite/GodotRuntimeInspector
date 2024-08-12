@@ -37,7 +37,7 @@ namespace GodotRuntimeInspector.Scripts
 
             // Godot configuration
             Godot.DisplayServer.WindowSetVsyncMode(Godot.DisplayServer.VSyncMode.Disabled);
-            Godot.Engine.MaxFps = MaxFps;
+            //Godot.Engine.MaxFps = MaxFps;
 
             // pointers to MainViewport and IO
             MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
@@ -73,6 +73,8 @@ namespace GodotRuntimeInspector.Scripts
             Style.ButtonTextAlign = new System.Numerics.Vector2(alignX, alignY);
             Style.SelectableTextAlign = new System.Numerics.Vector2(alignX, alignY);
             Style.SeparatorTextAlign = new System.Numerics.Vector2(alignX, alignY);
+
+            MyInputMap.Init();
         }
 
         // Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -14,7 +14,7 @@
                 MyProperties = MyProperty.NewArray(TypeInstance);
             }
             string strID = TypeInstance?.ToString() + "###" + ID;
-            if (ImGuiNET.ImGui.BeginChild(strID, size, false, MyPropertyFlags.TreeNodeWindowFlags()))
+            if (ImGuiNET.ImGui.BeginChild(strID, size))
             {
                 string tableID = ID + "TABLE";
                 MyPropertyTable.DrawTable(MyProperties, tableID, MyPropertyFlags.TableFlags(), size);

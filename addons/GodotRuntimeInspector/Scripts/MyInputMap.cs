@@ -11,7 +11,7 @@
         public static Godot.StringName gri_E = nameof(gri_E);
         public static Godot.StringName gri_LEFTSHIFT = nameof(gri_LEFTSHIFT);
 
-        static MyInputMap()
+        public static void Init()
         {
             InitKey(gri_F1, Godot.Key.F1);
             InitKey(gri_FORWARD, Godot.Key.W);
