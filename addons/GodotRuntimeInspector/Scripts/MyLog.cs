@@ -34,7 +34,7 @@
             FileSystemWatcher.Changed += OnChanged;
             FileSystemWatcher.Filter = System.IO.Path.GetFileName(LogPath);
             FileSystemWatcher.EnableRaisingEvents = true;
-            FileSystemWatcher.IncludeSubdirectories = true;
+            FileSystemWatcher.IncludeSubdirectories = false;
 
             ReadFile();
         }
