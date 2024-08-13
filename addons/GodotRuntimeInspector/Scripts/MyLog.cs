@@ -8,11 +8,7 @@
         public string LogPath = string.Empty;
         public string LogData = string.Empty;
         public System.IO.FileSystemWatcher? FileSystemWatcher = null;
-        public uint ReadCounter = 0;
-        public uint WriteCounter = 0;
-        public int SecondsPerRead = 5;
         public double LastLogRead = 0;
-        public double TimeSinceLastLogRead = 0;
 
         public MyLog()
         {
@@ -50,28 +46,14 @@
 
         private void ReadFile()
         {
-            ReadCounter++;
-
             using (var fileStream = new System.IO.FileStream(LogPath, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.ReadWrite))
             {
                 using (var reader = new System.IO.StreamReader(fileStream))
                 {
                     LogData = reader.ReadToEnd();
+
+                    LastLogRead = Config.TotalDelta;
                 }
-            }
-        }
-
-        public void Update()
-        {
-            uint roundedTime = (uint)System.Math.Round(Config.TotalDelta);
-            bool read = roundedTime % SecondsPerRead == 0;
-            TimeSinceLastLogRead = Config.TotalDelta - LastLogRead;
-
-            if (read == true && TimeSinceLastLogRead > SecondsPerRead)
-            {
-                LastLogRead = roundedTime;
-
-                ReadFile();
             }
         }
     }

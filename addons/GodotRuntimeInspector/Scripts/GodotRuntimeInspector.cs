@@ -78,13 +78,12 @@ namespace GodotRuntimeInspector.Scripts
             // log window
             if (Config.Log == true)
             {
-                MyLog.Update();
+                //MyLog.Update();
 
                 windowSize = new System.Numerics.Vector2(Config.MainviewPortPTR.Size.X / 2f, Config.MainviewPortPTR.Size.Y / 2f);
                 windowPos = new System.Numerics.Vector2(Config.MainviewPortPTR.Size.X / 2f, Config.MainviewPortPTR.Size.Y / 2f);
                 ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
                 ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-                MyLog.Update();
                 MultilineTextWindow.Update(MyLog.LogPath + " " + MyLog.LastLogRead, ref MyLog.LogData);
             }
 
