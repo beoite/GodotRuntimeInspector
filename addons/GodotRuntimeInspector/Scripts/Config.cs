@@ -14,10 +14,6 @@
 
         public static bool ShowDemoWindow = false;
 
-        public static float Width = 800f;
-
-        public static float Height = 200f;
-
         public static bool Log = false;
 
         public static double TotalDelta = 0;

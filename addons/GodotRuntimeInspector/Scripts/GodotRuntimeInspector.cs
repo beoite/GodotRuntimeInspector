@@ -12,10 +12,13 @@ namespace GodotRuntimeInspector.Scripts
 
         public ImGuiNET.ImGuiIOPtr IOPTR = null;
 
+        public ImGuiNET.ImGuiDockNodeFlags DockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
+
         public override void _EnterTree()
         {
             // pointers to MainViewport and IO
             MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
+
             IOPTR = ImGuiNET.ImGui.GetIO();
             IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
 
@@ -64,9 +67,7 @@ namespace GodotRuntimeInspector.Scripts
 
             Config.Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Config.Opacity);
 
-            // make the central node invisible and inputs pass-thru
-            ImGuiNET.ImGuiDockNodeFlags dockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
-            Config.DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(Config.DockspaceID, MainviewPortPTR, dockNodeFlags);
+            Config.DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(Config.DockspaceID, MainviewPortPTR, DockNodeFlags);
 
             // size, position of main window
             System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y / 4f);
@@ -79,6 +80,12 @@ namespace GodotRuntimeInspector.Scripts
             // main window
             Myimgui.MyPropertyNode.Update(this);
 
+            // demo window
+            if (Config.ShowDemoWindow == true)
+            {
+                ImGuiNET.ImGui.ShowDemoWindow();
+            }
+
             // log window
             if (Config.Log == true)
             {
@@ -87,12 +94,6 @@ namespace GodotRuntimeInspector.Scripts
                 ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
                 ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
                 MultilineTextWindow.Update(MyLog.LogPath + " " + MyLog.LastLogRead, ref MyLog.LogData);
-            }
-
-            // demo window
-            if (Config.ShowDemoWindow == true)
-            {
-                ImGuiNET.ImGui.ShowDemoWindow();
             }
         }
 
