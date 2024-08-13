@@ -94,7 +94,7 @@ namespace GodotRuntimeInspector.Scripts
 
             // make the central node invisible and inputs pass-thru
             ImGuiNET.ImGuiDockNodeFlags dockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
-            DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(MainviewPortPTR, dockNodeFlags);
+            DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(DockspaceID, MainviewPortPTR, dockNodeFlags);
 
             // size, position of next appearing window
             System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y / 4f);
