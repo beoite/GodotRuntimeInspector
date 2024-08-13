@@ -39,7 +39,7 @@
         public static Godot.Color SKYBLUE = new Godot.Color(49, 162, 242, 1);
         public static Godot.Color CLOUDBLUE = new Godot.Color(178, 220, 239, 1);
 
-        private static System.Collections.Generic.List<Godot.Color> colors = new System.Collections.Generic.List<Godot.Color>();
+        private static readonly System.Collections.Generic.List<Godot.Color> colors = new System.Collections.Generic.List<Godot.Color>();
 
         static Palette()
         {

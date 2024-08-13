@@ -10,19 +10,11 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             {
                 if (ImGuiNET.ImGui.BeginMenu("Menu"))
                 {
-                    string txtEnabled = nameof(GodotRuntimeInspector.Enabled) + "\t(F1)";
-                    bool opacity = ImGuiNET.ImGui.SliderFloat(nameof(GodotRuntimeInspector.Opacity), ref GodotRuntimeInspector.Opacity, 0f, 1f);
-                    bool enabled = ImGuiNET.ImGui.Checkbox(txtEnabled, ref GodotRuntimeInspector.Enabled);
-                    bool noiseEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.Noise), ref GodotRuntimeInspector.Noise);
-                    bool showDemoWindow = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.ShowDemoWindow), ref GodotRuntimeInspector.ShowDemoWindow);
-                    bool logEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.Log), ref GodotRuntimeInspector.Log);
+                    string txtEnabled = nameof(Config.Enabled) + "\t(F1)";
+                    bool opacity = ImGuiNET.ImGui.SliderFloat(nameof(Config.Opacity), ref Config.Opacity, 0f, 1f);
+                    bool enabled = ImGuiNET.ImGui.Checkbox(txtEnabled, ref Config.Enabled);
+                    bool showDemoWindow = ImGuiNET.ImGui.Checkbox(nameof(Config.ShowDemoWindow), ref Config.ShowDemoWindow);
 
-                    if (ImGuiNET.ImGui.BeginMenu("Debug"))
-                    {
-                        bool debugEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.Debug), ref GodotRuntimeInspector.Debug);
-                        bool logDebugEnabled = ImGuiNET.ImGui.Checkbox(nameof(GodotRuntimeInspector.LogDebug), ref GodotRuntimeInspector.LogDebug);
-                        ImGuiNET.ImGui.EndMenu();
-                    }
                     ImGuiNET.ImGui.EndMenu();
                 }
                 ImGuiNET.ImGui.EndMenuBar();

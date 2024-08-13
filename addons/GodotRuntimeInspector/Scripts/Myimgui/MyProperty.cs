@@ -11,9 +11,9 @@
 
         public static MyProperty[] NewArray(object? instance)
         {
-            System.Reflection.FieldInfo[] fields = new System.Reflection.FieldInfo[0];
-            System.Reflection.PropertyInfo[] props = new System.Reflection.PropertyInfo[0];
-            System.Reflection.MethodInfo[] methods = new System.Reflection.MethodInfo[0];
+            System.Reflection.FieldInfo[] fields = System.Array.Empty<System.Reflection.FieldInfo>();
+            System.Reflection.PropertyInfo[] props = System.Array.Empty<System.Reflection.PropertyInfo>();
+            System.Reflection.MethodInfo[] methods = System.Array.Empty<System.Reflection.MethodInfo>();
             if (instance != null)
             {
                 fields = instance.GetType().GetFields();

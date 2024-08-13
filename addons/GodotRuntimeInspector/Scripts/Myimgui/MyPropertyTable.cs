@@ -2,7 +2,7 @@
 {
     public class MyPropertyTable
     {
-        private unsafe void Sort(ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
+        private static unsafe void Sort(ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
         {
             if (myPropertyInfo.Length == 0 || myPropertyInfo.Length < 2)
             {
@@ -97,7 +97,7 @@
         public void DrawTable(MyProperty[] myProperties, string id, ImGuiNET.ImGuiTableFlags flags, System.Numerics.Vector2 tableSize)
         {
             string name = nameof(DrawTable) + id;
-            bool border = true;
+
             if (ImGuiNET.ImGui.BeginChild(name, tableSize)) //tableSize, border: border, MyPropertyFlags.TreeNodeWindowFlags()))
             {
                 System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
@@ -128,7 +128,7 @@
                             continue;
                         }
 
-                        ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), GodotRuntimeInspector.MinRowHeight);
+                        ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), Config.MinRowHeight);
 
                         if (ImGuiNET.ImGui.TableNextColumn())
                         {
@@ -154,7 +154,7 @@
                         if (ImGuiNET.ImGui.TableNextColumn())
                         {
                             float columnWidth = ImGuiNET.ImGui.GetColumnWidth();
-                            System.Numerics.Vector2 size = new System.Numerics.Vector2(columnWidth, GodotRuntimeInspector.MinRowHeight);
+                            System.Numerics.Vector2 size = new System.Numerics.Vector2(columnWidth, Config.MinRowHeight);
                             bool clicked = ImGuiNET.ImGui.Button(Utility.GetStr(myProperty.Instance) + "###" + myProperty.Name, size);
                             if (clicked)
                             {

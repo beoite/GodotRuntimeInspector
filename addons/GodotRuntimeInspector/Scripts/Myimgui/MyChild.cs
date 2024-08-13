@@ -4,7 +4,7 @@
     {
         public object? TypeInstance = null;
         public System.Guid ID = System.Guid.NewGuid();
-        public MyProperty[] MyProperties = new MyProperty[0];
+        public MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
         public MyPropertyTable MyPropertyTable = new MyPropertyTable();
 
         public void Update(System.Numerics.Vector2 size)
