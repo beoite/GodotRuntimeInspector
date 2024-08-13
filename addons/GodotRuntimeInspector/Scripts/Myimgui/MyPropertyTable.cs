@@ -23,11 +23,11 @@
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().IndexAscending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.IndexAscending);
                     }
                     else
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().IndexDescending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.IndexDescending);
                     }
                 }
 
@@ -35,11 +35,11 @@
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TagAscending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.TagAscending);
                     }
                     else
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TagDescending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.TagDescending);
                     }
                 }
 
@@ -47,11 +47,11 @@
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TypeAscending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.TypeAscending);
                     }
                     else
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().TypeDescending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.TypeDescending);
                     }
                 }
 
@@ -59,11 +59,11 @@
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().NameAscending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.NameAscending);
                     }
                     else
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().NameDescending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.NameDescending);
                     }
                 }
 
@@ -71,11 +71,11 @@
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().InstanceAscending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.InstanceAscending);
                     }
                     else
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().InstanceDescending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.InstanceDescending);
                     }
                 }
 
@@ -83,11 +83,11 @@
                 {
                     if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().ClicksAscending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.ClicksAscending);
                     }
                     else
                     {
-                        System.Array.Sort(myPropertyInfo, new MyPropertyComparer().ClicksDescending);
+                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.ClicksDescending);
                     }
                 }
                 sortsSpecs.SpecsDirty = false;

@@ -12,14 +12,14 @@
 
         //Index
 
-        public int IndexAscending(MyProperty? x, MyProperty? y)
+        public static int IndexAscending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return -1;
             if (y == null) return 1;
             return x.Index.CompareTo(y.Index);
         }
 
-        public int IndexDescending(MyProperty? x, MyProperty? y)
+        public static int IndexDescending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return 1;
             if (y == null) return -1;
@@ -28,14 +28,14 @@
 
         // Tag
 
-        public int TagAscending(MyProperty? x, MyProperty? y)
+        public static int TagAscending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return -1;
             if (y == null) return 1;
             return x.Tags.CompareTo(y.Tags);
         }
 
-        public int TagDescending(MyProperty? x, MyProperty? y)
+        public static int TagDescending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return 1;
             if (y == null) return -1;
@@ -44,14 +44,14 @@
 
         // Type
 
-        public int TypeAscending(MyProperty? x, MyProperty? y)
+        public static int TypeAscending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return -1;
             if (y == null) return 1;
             return x.Type.Name.CompareTo(y.Type.Name);
         }
 
-        public int TypeDescending(MyProperty? x, MyProperty? y)
+        public static int TypeDescending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return 1;
             if (y == null) return -1;
@@ -60,14 +60,14 @@
 
         // Name
 
-        public int NameAscending(MyProperty? x, MyProperty? y)
+        public static int NameAscending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return -1;
             if (y == null) return 1;
             return x.Name.CompareTo(y.Name);
         }
 
-        public int NameDescending(MyProperty? x, MyProperty? y)
+        public static int NameDescending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return 1;
             if (y == null) return -1;
@@ -76,14 +76,14 @@
 
         // Instance
 
-        public int InstanceAscending(MyProperty? x, MyProperty? y)
+        public static int InstanceAscending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return -1;
             if (y == null) return 1;
             return x.Name.CompareTo(y.Name);
         }
 
-        public int InstanceDescending(MyProperty? x, MyProperty? y)
+        public static int InstanceDescending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return 1;
             if (y == null) return -1;
@@ -92,14 +92,14 @@
 
         // Clicks
 
-        public int ClicksAscending(MyProperty? x, MyProperty? y)
+        public static int ClicksAscending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return -1;
             if (y == null) return 1;
             return x.Clicks.CompareTo(y.Clicks);
         }
 
-        public int ClicksDescending(MyProperty? x, MyProperty? y)
+        public static int ClicksDescending(MyProperty? x, MyProperty? y)
         {
             if (x == null) return 1;
             if (y == null) return -1;

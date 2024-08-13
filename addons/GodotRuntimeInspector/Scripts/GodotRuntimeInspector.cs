@@ -4,13 +4,12 @@ namespace GodotRuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
     {
-        public double TotalDelta = 0;
+        public MyLog MyLog = new MyLog();
+
+        public Myimgui.MultilineTextWindow MultilineTextWindow = new Myimgui.MultilineTextWindow();
 
         public override void _EnterTree()
         {
-            // Godot configuration
-            Godot.DisplayServer.WindowSetVsyncMode(Godot.DisplayServer.VSyncMode.Disabled);
-
             // pointers to MainViewport and IO
             Config.MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
             Config.IOPTR = ImGuiNET.ImGui.GetIO();
@@ -52,31 +51,44 @@ namespace GodotRuntimeInspector.Scripts
         // Called every frame. 'delta' is the elapsed time since the previous frame.
         public override void _Process(double delta)
         {
-            TotalDelta += delta;
-
             if (Config.Enabled == false)
             {
                 return;
             }
 
-            Config.FPS = 1.0 / delta;
-            Config.IOPTR.DeltaTime = (float)delta;
+            Config.TotalDelta += delta;
+
             Config.Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Config.Opacity);
 
             // make the central node invisible and inputs pass-thru
             ImGuiNET.ImGuiDockNodeFlags dockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
             Config.DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(Config.DockspaceID, Config.MainviewPortPTR, dockNodeFlags);
 
-            // size, position of next appearing window
+            // size, position of main window
             System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(Config.MainviewPortPTR.Size.X, Config.MainviewPortPTR.Size.Y / 4f);
             System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
 
-            // each window
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
             ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
             ImGuiNET.ImGui.SetNextWindowDockID(Config.DockspaceID, ImGuiNET.ImGuiCond.Appearing);
+
+            // main window
             Myimgui.MyPropertyNode.Update(this);
 
+            // log window
+            if (Config.Log == true)
+            {
+                MyLog.Update();
+
+                windowSize = new System.Numerics.Vector2(Config.MainviewPortPTR.Size.X / 2f, Config.MainviewPortPTR.Size.Y / 2f);
+                windowPos = new System.Numerics.Vector2(Config.MainviewPortPTR.Size.X / 2f, Config.MainviewPortPTR.Size.Y / 2f);
+                ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
+                ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
+                MyLog.Update();
+                MultilineTextWindow.Update(MyLog.LogPath + " " + MyLog.LastLogRead, ref MyLog.LogData);
+            }
+
+            // demo window
             if (Config.ShowDemoWindow == true)
             {
                 ImGuiNET.ImGui.ShowDemoWindow();
