@@ -8,10 +8,6 @@
         
         public static float Opacity = 0.9f;
         
-        public static ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
-        
-        public static ImGuiNET.ImGuiIOPtr IOPTR = null;
-        
         public static ImGuiNET.ImGuiStylePtr Style = null;
         
         public static uint DockspaceID = 0;

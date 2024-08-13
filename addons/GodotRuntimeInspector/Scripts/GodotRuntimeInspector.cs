@@ -8,12 +8,16 @@ namespace GodotRuntimeInspector.Scripts
 
         public Myimgui.MultilineTextWindow MultilineTextWindow = new Myimgui.MultilineTextWindow();
 
+        public ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
+
+        public ImGuiNET.ImGuiIOPtr IOPTR = null;
+
         public override void _EnterTree()
         {
             // pointers to MainViewport and IO
-            Config.MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
-            Config.IOPTR = ImGuiNET.ImGui.GetIO();
-            Config.IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
+            MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
+            IOPTR = ImGuiNET.ImGui.GetIO();
+            IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
 
             // style
             Config.Style = ImGuiNET.ImGui.GetStyle();
@@ -62,10 +66,10 @@ namespace GodotRuntimeInspector.Scripts
 
             // make the central node invisible and inputs pass-thru
             ImGuiNET.ImGuiDockNodeFlags dockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
-            Config.DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(Config.DockspaceID, Config.MainviewPortPTR, dockNodeFlags);
+            Config.DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(Config.DockspaceID, MainviewPortPTR, dockNodeFlags);
 
             // size, position of main window
-            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(Config.MainviewPortPTR.Size.X, Config.MainviewPortPTR.Size.Y / 4f);
+            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y / 4f);
             System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
 
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
@@ -78,10 +82,8 @@ namespace GodotRuntimeInspector.Scripts
             // log window
             if (Config.Log == true)
             {
-                //MyLog.Update();
-
-                windowSize = new System.Numerics.Vector2(Config.MainviewPortPTR.Size.X / 2f, Config.MainviewPortPTR.Size.Y / 2f);
-                windowPos = new System.Numerics.Vector2(Config.MainviewPortPTR.Size.X / 2f, Config.MainviewPortPTR.Size.Y / 2f);
+                windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
+                windowPos = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
                 ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
                 ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
                 MultilineTextWindow.Update(MyLog.LogPath + " " + MyLog.LastLogRead, ref MyLog.LogData);
