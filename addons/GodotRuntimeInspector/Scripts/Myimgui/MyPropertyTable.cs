@@ -1,4 +1,6 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿using static System.Net.Mime.MediaTypeNames;
+
+namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public class MyPropertyTable
     {
@@ -113,7 +115,7 @@
                     ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
                     ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
                     ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Clicks), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
+                    ImGuiNET.ImGui.TableSetupColumn("Debug", MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
 
                     ImGuiNET.ImGui.TableHeadersRow();
                     ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
@@ -151,21 +153,48 @@
                             ImGuiNET.ImGui.Text(split[split.Length - 1]);
                         }
 
+                        MyTypes mytype = Utility.GetMyType(myProperty.Instance);
+
                         if (ImGuiNET.ImGui.TableNextColumn())
                         {
                             float columnWidth = ImGuiNET.ImGui.GetColumnWidth();
                             System.Numerics.Vector2 size = new System.Numerics.Vector2(columnWidth, Config.MinRowHeight);
-                            bool clicked = ImGuiNET.ImGui.Button(Utility.GetStr(myProperty.Instance) + "###" + myProperty.Name, size);
-                            if (clicked)
+
+                            string text = Utility.GetStr(myProperty.Instance);
+                            string controlId = text + "###" + myProperty.Name;
+                            ImGuiNET.ImGuiInputTextFlags imGuiInputTextFlags = ImGuiNET.ImGuiInputTextFlags.None;
+
+                            switch (mytype)
                             {
-                                myProperty.Clicks++;
-                                myProperties[i] = myProperty;
+                                case MyTypes.None:
+                                    ImGuiNET.ImGui.Text(text);
+                                    break;
+                                case MyTypes.Boolean:
+                                    bool instance = (bool)myProperty.Instance;
+                                    if (ImGuiNET.ImGui.Checkbox(text, ref instance))
+                                    {
+                                        myProperty.Instance = instance;
+                                    }
+                                    break;
+                                case MyTypes.Number:
+                                    if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                                    {
+
+                                    }
+                                    break;
+                                case MyTypes.String:
+                                    if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                                    {
+
+                                    }
+                                    break;
                             }
+
                         }
 
                         if (ImGuiNET.ImGui.TableNextColumn())
                         {
-                            ImGuiNET.ImGui.Text(myProperty.Clicks.ToString());
+                            ImGuiNET.ImGui.Text(nameof(mytype) + " " + mytype);
                         }
                     }
                     ImGuiNET.ImGui.EndTable();

@@ -14,6 +14,7 @@
             System.Reflection.FieldInfo[] fields = System.Array.Empty<System.Reflection.FieldInfo>();
             System.Reflection.PropertyInfo[] props = System.Array.Empty<System.Reflection.PropertyInfo>();
             System.Reflection.MethodInfo[] methods = System.Array.Empty<System.Reflection.MethodInfo>();
+
             if (instance != null)
             {
                 fields = instance.GetType().GetFields();
@@ -23,6 +24,7 @@
             int length = fields.Length + props.Length + methods.Length;
             MyProperty[] myProperties = new MyProperty[length];
             int combinedIndex = -1;
+
             // Fields
             for (int i = 0; i < fields.Length; i++)
             {
@@ -44,6 +46,7 @@
                 };
                 myProperties[combinedIndex] = myProperty;
             }
+
             // Properties
             for (int i = 0; i < props.Length; i++)
             {
@@ -61,6 +64,7 @@
                 };
                 myProperties[combinedIndex] = myProperty;
             }
+
             // Methods
             for (int i = 0; i < methods.Length; i++)
             {
