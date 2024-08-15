@@ -5,16 +5,25 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
     public static class MyPropertyNode
     {
         public static Godot.Node SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
+
         public static MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
+
         public static Godot.SceneTree? SceneTree = null;
+
         public static int Counter = -1;
+
         public static MyPropertyTable MyPropertyTable = new MyPropertyTable();
 
         private static System.Numerics.Vector2 windowSize = System.Numerics.Vector2.Zero;
+
         private static System.Numerics.Vector2 topSize = System.Numerics.Vector2.Zero;
+
         private static System.Numerics.Vector2 topLeftSize = System.Numerics.Vector2.Zero;
+
         private static System.Numerics.Vector2 topRightSize = System.Numerics.Vector2.Zero;
+
         private static Godot.WeakRef WeakRef = new Godot.WeakRef();
+
         private static readonly Godot.Node NothingSelected = new Godot.Node() { Name = nameof(NothingSelected) };
 
         private static void Traverse(Godot.Node? node)

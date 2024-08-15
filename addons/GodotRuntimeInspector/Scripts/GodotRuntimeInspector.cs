@@ -18,6 +18,8 @@ namespace GodotRuntimeInspector.Scripts
 
         public int MyFieldInt = 0;
 
+        public string MyFieldString = "LOL";
+
         public override void _EnterTree()
         {
             // pointers to MainViewport and IO
