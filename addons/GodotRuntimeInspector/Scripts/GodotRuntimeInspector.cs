@@ -14,6 +14,10 @@ namespace GodotRuntimeInspector.Scripts
 
         public ImGuiNET.ImGuiDockNodeFlags DockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
 
+        public bool MyFieldBool = false;
+
+        public int MyFieldInt = 0;
+
         public override void _EnterTree()
         {
             // pointers to MainViewport and IO

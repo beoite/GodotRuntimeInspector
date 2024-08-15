@@ -98,6 +98,7 @@
                 myProperty.Instance = null;
                 myProperties[combinedIndex] = myProperty;
             }
+
             return myProperties;
         }
     }
