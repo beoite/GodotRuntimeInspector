@@ -180,6 +180,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             string text = Utility.GetStr(myProperty.Instance);
             string controlId = text + "###" + myProperty.Name;
             ImGuiNET.ImGuiInputTextFlags imGuiInputTextFlags = ImGuiNET.ImGuiInputTextFlags.None;
+            uint maxValue = int.MaxValue;
 
             switch (mytype)
             {
@@ -196,99 +197,100 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                     break;
 
                 case MyTypes.Number:
+
                     if (myProperty.Instance is sbyte)
                     {
                         sbyte value = (sbyte)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, sbyte.Parse(text));
                         }
                     }
                     if (myProperty.Instance is byte)
                     {
                         byte value = (byte)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, byte.Parse(text));
                         }
                     }
                     if (myProperty.Instance is short)
                     {
                         short value = (short)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, short.Parse(text));
                         }
                     }
                     if (myProperty.Instance is ushort)
                     {
                         ushort value = (ushort)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, ushort.Parse(text));
                         }
                     }
                     if (myProperty.Instance is int)
                     {
                         int value = (int)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, int.Parse(text));
                         }
                     }
                     if (myProperty.Instance is uint)
                     {
                         uint value = (uint)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, uint.Parse(text));
                         }
                     }
                     if (myProperty.Instance is long)
                     {
                         long value = (long)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, long.Parse(text));
                         }
                     }
                     if (myProperty.Instance is ulong)
                     {
                         ulong value = (ulong)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, ulong.Parse(text));
                         }
                     }
                     if (myProperty.Instance is float)
                     {
                         float value = (float)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, float.Parse(text));
                         }
                     }
                     if (myProperty.Instance is double)
                     {
                         double value = (double)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, double.Parse(text));
                         }
                     }
                     if (myProperty.Instance is decimal)
                     {
                         decimal value = (decimal)myProperty.Instance;
-                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, uint.MaxValue, size, imGuiInputTextFlags))
+                        if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                         {
-                            SetSelectedNodeValue(myProperty, value);
+                            SetSelectedNodeValue(myProperty, decimal.Parse(text));
                         }
                     }
                     break;
 
                 case MyTypes.String:
                     string mystring = (string)myProperty.Instance;
-                    if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref mystring, uint.MaxValue, size, imGuiInputTextFlags))
+                    if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref mystring, maxValue, size, imGuiInputTextFlags))
                     {
                         SetSelectedNodeValue(myProperty, mystring);
                     }
