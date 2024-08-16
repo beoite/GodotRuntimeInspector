@@ -20,6 +20,8 @@ namespace GodotRuntimeInspector.Scripts
 
         public string MyFieldString = "LOL";
 
+        public Myimgui.MyPropertyNode MainWindow = new Myimgui.MyPropertyNode();
+
         public override void _Ready()
         {
             base._Ready();
@@ -89,7 +91,7 @@ namespace GodotRuntimeInspector.Scripts
             ImGuiNET.ImGui.SetNextWindowDockID(Config.DockspaceID, ImGuiNET.ImGuiCond.Appearing);
 
             // main window
-            Myimgui.MyPropertyNode.Update(this);
+            MainWindow.Update(this);
 
             // demo window
             if (Config.ShowDemoWindow == true)

@@ -2,31 +2,31 @@
 
 namespace GodotRuntimeInspector.Scripts.Myimgui
 {
-    public static class MyPropertyNode
+    public class MyPropertyNode
     {
-        public static Godot.Node SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
+        public Godot.Node SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
 
-        public static MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
+        public MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
 
-        public static Godot.SceneTree? SceneTree = null;
+        public Godot.SceneTree? SceneTree = null;
 
-        public static int Counter = -1;
+        public int Counter = -1;
 
-        public static MyPropertyTable MyPropertyTable = new MyPropertyTable();
+        public MyPropertyTable MyPropertyTable = new MyPropertyTable();
 
-        private static System.Numerics.Vector2 windowSize = System.Numerics.Vector2.Zero;
+        private System.Numerics.Vector2 windowSize = System.Numerics.Vector2.Zero;
 
-        private static System.Numerics.Vector2 topSize = System.Numerics.Vector2.Zero;
+        private System.Numerics.Vector2 topSize = System.Numerics.Vector2.Zero;
 
-        private static System.Numerics.Vector2 topLeftSize = System.Numerics.Vector2.Zero;
+        private System.Numerics.Vector2 topLeftSize = System.Numerics.Vector2.Zero;
 
-        private static System.Numerics.Vector2 topRightSize = System.Numerics.Vector2.Zero;
+        private System.Numerics.Vector2 topRightSize = System.Numerics.Vector2.Zero;
 
-        private static Godot.WeakRef WeakRef = new Godot.WeakRef();
+        private Godot.WeakRef WeakRef = new Godot.WeakRef();
 
-        private static readonly Godot.Node NothingSelected = new Godot.Node() { Name = nameof(NothingSelected) };
+        private readonly Godot.Node NothingSelected = new Godot.Node() { Name = nameof(NothingSelected) };
 
-        private static void Traverse(Godot.Node? node)
+        private void Traverse(Godot.Node? node)
         {
             if (node == null)
             {
@@ -71,33 +71,32 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             Config.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = currentColor;
         }
 
-        private static void TopRow()
+        private void TopRow()
         {
             if (ImGuiNET.ImGui.BeginTable(nameof(topSize), 2, MyPropertyFlags.TableFlags(), topSize))
             {
                 ImGuiNET.ImGui.TableSetupColumn(nameof(topLeftSize), MyPropertyFlags.TableColumnFlags(), topLeftSize.X);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(topRightSize), MyPropertyFlags.TableColumnFlags(), topRightSize.X);
                 ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), topSize.Y);
+
+                // left side, scene tree view
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
-                    topLeftSize = new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), topSize.Y);
-                    if (ImGuiNET.ImGui.BeginChild(nameof(Traverse), topLeftSize))
-                    {
-                        Counter = -1;
-                        Traverse(SceneTree?.CurrentScene);
-                        ImGuiNET.ImGui.EndChild();
-                    }
+                    Counter = -1;
+                    Traverse(SceneTree?.CurrentScene);
                 }
+
+                // right side, field/property table
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
-                    topRightSize = new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), topSize.Y);
                     MyPropertyTable.DrawTable(MyProperties, nameof(topRightSize), MyPropertyFlags.TableFlags(), topRightSize);
                 }
+
                 ImGuiNET.ImGui.EndTable();
             }
         }
 
-        public static void Update(Godot.Node node)
+        public void Update(Godot.Node node)
         {
             SceneTree = node.GetTree().Root.GetTree();
             if (!ImGuiNET.ImGui.Begin(Utility.GetAnimatedTitle(SceneTree.CurrentScene.SceneFilePath), MyPropertyFlags.ContainerWindowFlags()))
@@ -105,6 +104,8 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 ImGuiNET.ImGui.End();
                 return;
             }
+
+            // build MyProperties
             if (WeakRef.GetRef().Obj == null)
             {
                 SelectedNode = NothingSelected;
@@ -115,14 +116,17 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             }
             MyProperties = MyProperty.NewArray(SelectedNode);
 
+            // menu
             Myimgui.MenuBar.Update();
 
+            // sizes
             windowSize = ImGuiNET.ImGui.GetWindowSize();
             windowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - (Config.MinRowHeight));
             topSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - Config.MinRowHeight);
             topLeftSize = new System.Numerics.Vector2(windowSize.X * 0.3f, topSize.Y);
             topRightSize = new System.Numerics.Vector2(windowSize.X * 0.7f, topSize.Y);
 
+            // window
             if (ImGuiNET.ImGui.BeginTable(nameof(MyPropertyNode), 1, MyPropertyFlags.TableFlags(), windowSize))
             {
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyPropertyNode), MyPropertyFlags.TableColumnFlags(), windowSize.X);
@@ -133,7 +137,27 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 }
                 ImGuiNET.ImGui.EndTable();
             }
+
             ImGuiNET.ImGui.End();
+        }
+
+        private void SetSelectedNodeValue(MyProperty myProperty, object value)
+        {
+            System.Reflection.BindingFlags bindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
+
+            System.Type systemType = SelectedNode.GetType();
+
+            System.Reflection.FieldInfo field = systemType.GetField(myProperty.Name, bindingFlags);
+            if (field != null)
+            {
+                field.SetValue(SelectedNode, value);
+            }
+
+            System.Reflection.PropertyInfo prop = systemType.GetProperty(myProperty.Name, bindingFlags);
+            if (null != prop && prop.CanWrite)
+            {
+                prop.SetValue(SelectedNode, value, null);
+            }
         }
     }
 }

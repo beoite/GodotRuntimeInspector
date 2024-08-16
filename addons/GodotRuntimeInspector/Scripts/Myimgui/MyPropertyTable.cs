@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using System.Text;
-
-namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public class MyPropertyTable
     {
@@ -100,75 +97,72 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
         public void DrawTable(MyProperty[] myProperties, string id, ImGuiNET.ImGuiTableFlags flags, System.Numerics.Vector2 tableSize)
         {
             string name = nameof(DrawTable) + id;
+            System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
+            int numCols = fields.Length;
 
-            if (ImGuiNET.ImGui.BeginChild(name, tableSize)) //tableSize, border: border, MyPropertyFlags.TreeNodeWindowFlags()))
+            if (ImGuiNET.ImGui.BeginTable(id, numCols, flags, tableSize))
             {
-                System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
-                int numCols = fields.Length;
-                if (ImGuiNET.ImGui.BeginTable(id, numCols, flags, tableSize))
+                float width = tableSize.X / numCols;
+                float smallWidth = width / 3f;
+                float extraSmallWidth = width / 8f;
+
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), smallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
+                ImGuiNET.ImGui.TableSetupColumn("Debug", MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
+
+                ImGuiNET.ImGui.TableHeadersRow();
+                ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
+                Sort(sortsSpecs, myProperties);
+
+                for (int i = 0; i < myProperties.Length; i++)
                 {
-                    float width = tableSize.X / numCols;
-                    float smallWidth = width / 3f;
-                    float extraSmallWidth = width / 8f;
+                    MyProperty myProperty = myProperties[i];
 
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), smallWidth);
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
-                    ImGuiNET.ImGui.TableSetupColumn("Debug", MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
-
-                    ImGuiNET.ImGui.TableHeadersRow();
-                    ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
-                    Sort(sortsSpecs, myProperties);
-
-                    for (int i = 0; i < myProperties.Length; i++)
+                    if (myProperty.Instance == null)
                     {
-                        MyProperty myProperty = myProperties[i];
-
-                        if (myProperty.Instance == null)
-                        {
-                            continue;
-                        }
-
-                        ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), Config.MinRowHeight);
-
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            ImGuiNET.ImGui.Text(myProperty.Index.ToString());
-                        }
-
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            ImGuiNET.ImGui.Text(myProperty.Tags.ToString());
-                        }
-
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            ImGuiNET.ImGui.Text(myProperty.Type.ToString());
-                        }
-
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            string[] split = myProperty.Name.Split("/");
-                            ImGuiNET.ImGui.Text(split[split.Length - 1]);
-                        }
-
-                        MyTypes mytype = Utility.GetMyType(myProperty.Instance);
-
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            DrawMyType(mytype, myProperty);
-                        }
-
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            ImGuiNET.ImGui.Text(nameof(mytype) + " " + mytype);
-                        }
+                        continue;
                     }
-                    ImGuiNET.ImGui.EndTable();
+
+                    ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), Config.MinRowHeight);
+
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        ImGuiNET.ImGui.Text(myProperty.Index.ToString());
+                    }
+
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        ImGuiNET.ImGui.Text(myProperty.Tags.ToString());
+                    }
+
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        ImGuiNET.ImGui.Text(myProperty.Type.ToString());
+                    }
+
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        string[] split = myProperty.Name.Split("/");
+                        ImGuiNET.ImGui.Text(split[split.Length - 1]);
+                    }
+
+                    MyTypes mytype = Utility.GetMyType(myProperty.Instance);
+
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        DrawMyType(mytype, myProperty);
+                    }
+
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        ImGuiNET.ImGui.Text(nameof(mytype) + " " + mytype);
+                    }
                 }
-                ImGuiNET.ImGui.EndChild();
+
+                ImGuiNET.ImGui.EndTable();
             }
         }
 
@@ -177,22 +171,29 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             switch (mytype)
             {
                 case MyTypes.None:
-                    string text = Utility.GetStr(myProperty.Instance);
-                    ImGuiNET.ImGui.Text(text);
+                    DrawDefault(myProperty);
                     break;
 
                 case MyTypes.Boolean:
-                    DrawMyBoolean(myProperty);
+                    //DrawMyBoolean(myProperty);
                     break;
 
                 case MyTypes.Number:
-                    DrawMyNumber(myProperty);
+                    //DrawMyNumber(myProperty);
+                    DrawDefault(myProperty);
                     break;
 
                 case MyTypes.String:
-                    DrawMyString(myProperty);
+                    //DrawMyString(myProperty);
+                    DrawDefault(myProperty);
                     break;
             }
+        }
+
+        private void DrawDefault(MyProperty myProperty)
+        {
+            string text = Utility.GetStr(myProperty.Instance);
+            ImGuiNET.ImGui.Text(text);
         }
 
         private void DrawMyBoolean(MyProperty myProperty)
@@ -202,7 +203,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             bool mybool = (bool)myProperty.Instance;
             if (ImGuiNET.ImGui.Checkbox(controlId, ref mybool))
             {
-                SetSelectedNodeValue(myProperty, mybool);
+
             }
         }
 
@@ -221,7 +222,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 sbyte value = (sbyte)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, sbyte.Parse(text));
+
                 }
             }
             if (myProperty.Instance is byte)
@@ -229,7 +230,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 byte value = (byte)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, byte.Parse(text));
+
                 }
             }
             if (myProperty.Instance is short)
@@ -237,7 +238,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 short value = (short)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, short.Parse(text));
+
                 }
             }
             if (myProperty.Instance is ushort)
@@ -245,7 +246,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 ushort value = (ushort)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, ushort.Parse(text));
+
                 }
             }
             if (myProperty.Instance is int)
@@ -253,7 +254,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 int value = (int)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, int.Parse(text));
+
                 }
             }
             if (myProperty.Instance is uint)
@@ -261,7 +262,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 uint value = (uint)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, uint.Parse(text));
+
                 }
             }
             if (myProperty.Instance is long)
@@ -269,7 +270,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 long value = (long)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, long.Parse(text));
+
                 }
             }
             if (myProperty.Instance is ulong)
@@ -277,7 +278,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 ulong value = (ulong)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, ulong.Parse(text));
+
                 }
             }
             if (myProperty.Instance is float)
@@ -285,7 +286,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 float value = (float)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, float.Parse(text));
+
                 }
             }
             if (myProperty.Instance is double)
@@ -293,7 +294,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 double value = (double)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, double.Parse(text));
+
                 }
             }
             if (myProperty.Instance is decimal)
@@ -301,7 +302,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 decimal value = (decimal)myProperty.Instance;
                 if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
                 {
-                    SetSelectedNodeValue(myProperty, decimal.Parse(text));
+
                 }
             }
         }
@@ -338,27 +339,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             Godot.GD.Print(nameof(MyCallBack));
 
             return 0;
-        }
-
-
-
-        private void SetSelectedNodeValue(MyProperty myProperty, object value)
-        {
-            BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public;
-
-            System.Type systemType = MyPropertyNode.SelectedNode.GetType();
-
-            FieldInfo field = systemType.GetField(myProperty.Name, bindingFlags);
-            if (field != null)
-            {
-                field.SetValue(MyPropertyNode.SelectedNode, value);
-            }
-
-            PropertyInfo prop = systemType.GetProperty(myProperty.Name, bindingFlags);
-            if (null != prop && prop.CanWrite)
-            {
-                prop.SetValue(MyPropertyNode.SelectedNode, value, null);
-            }
         }
     }
 }
