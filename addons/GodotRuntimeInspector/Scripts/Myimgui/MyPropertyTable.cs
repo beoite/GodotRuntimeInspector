@@ -2,6 +2,8 @@
 {
     public class MyPropertyTable
     {
+        private Godot.Node _selectedNode = new Godot.Node() { Name = nameof(_selectedNode) };
+
         private static unsafe void Sort(ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
         {
             if (myPropertyInfo.Length == 0 || myPropertyInfo.Length < 2)
@@ -79,28 +81,19 @@
                     }
                 }
 
-                if (sortsSpecs.Specs.ColumnIndex == 5)
-                {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.ClicksAscending);
-                    }
-                    else
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.ClicksDescending);
-                    }
-                }
                 sortsSpecs.SpecsDirty = false;
             }
         }
 
-        public void DrawTable(MyProperty[] myProperties, string id, ImGuiNET.ImGuiTableFlags flags, System.Numerics.Vector2 tableSize)
+        public void Update(Godot.Node selectedNode, MyProperty[] myProperties, string id, System.Numerics.Vector2 tableSize)
         {
-            string name = nameof(DrawTable) + id;
+            _selectedNode = selectedNode;
+
+            string name = nameof(Update) + id;
             System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
             int numCols = fields.Length;
 
-            if (ImGuiNET.ImGui.BeginTable(id, numCols, flags, tableSize))
+            if (ImGuiNET.ImGui.BeginTable(id, numCols, MyPropertyFlags.TableFlags(), tableSize))
             {
                 float width = tableSize.X / numCols;
                 float smallWidth = width / 3f;
@@ -175,7 +168,7 @@
                     break;
 
                 case MyTypes.Boolean:
-                    //DrawMyBoolean(myProperty);
+                    DrawMyBoolean(myProperty);
                     break;
 
                 case MyTypes.Number:
@@ -184,8 +177,8 @@
                     break;
 
                 case MyTypes.String:
-                    //DrawMyString(myProperty);
-                    DrawDefault(myProperty);
+                    DrawMyString(myProperty);
+                    //DrawDefault(myProperty);
                     break;
             }
         }
@@ -203,7 +196,7 @@
             bool mybool = (bool)myProperty.Instance;
             if (ImGuiNET.ImGui.Checkbox(controlId, ref mybool))
             {
-
+                SetSelectedNodeValue(myProperty, mybool);
             }
         }
 
@@ -339,6 +332,25 @@
             Godot.GD.Print(nameof(MyCallBack));
 
             return 0;
+        }
+
+        public void SetSelectedNodeValue(MyProperty myProperty, object value)
+        {
+            System.Reflection.BindingFlags bindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
+
+            System.Type systemType = _selectedNode.GetType();
+
+            System.Reflection.FieldInfo field = systemType.GetField(myProperty.Name, bindingFlags);
+            if (field != null)
+            {
+                field.SetValue(_selectedNode, value);
+            }
+
+            System.Reflection.PropertyInfo prop = systemType.GetProperty(myProperty.Name, bindingFlags);
+            if (null != prop && prop.CanWrite)
+            {
+                prop.SetValue(_selectedNode, value, null);
+            }
         }
     }
 }

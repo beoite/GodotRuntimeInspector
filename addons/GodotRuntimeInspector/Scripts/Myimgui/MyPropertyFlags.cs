@@ -94,7 +94,6 @@
             flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
             flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
             flags |= ImGuiNET.ImGuiWindowFlags.MenuBar;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoScrollbar;
             return flags;
         }
 

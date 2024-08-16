@@ -89,7 +89,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 // right side, field/property table
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
-                    MyPropertyTable.DrawTable(MyProperties, nameof(topRightSize), MyPropertyFlags.TableFlags(), topRightSize);
+                    MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyProperties), topRightSize);
                 }
 
                 ImGuiNET.ImGui.EndTable();
@@ -99,6 +99,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
         public void Update(Godot.Node node)
         {
             SceneTree = node.GetTree().Root.GetTree();
+
             if (!ImGuiNET.ImGui.Begin(Utility.GetAnimatedTitle(SceneTree.CurrentScene.SceneFilePath), MyPropertyFlags.ContainerWindowFlags()))
             {
                 ImGuiNET.ImGui.End();
@@ -139,25 +140,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             }
 
             ImGuiNET.ImGui.End();
-        }
-
-        private void SetSelectedNodeValue(MyProperty myProperty, object value)
-        {
-            System.Reflection.BindingFlags bindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
-
-            System.Type systemType = SelectedNode.GetType();
-
-            System.Reflection.FieldInfo field = systemType.GetField(myProperty.Name, bindingFlags);
-            if (field != null)
-            {
-                field.SetValue(SelectedNode, value);
-            }
-
-            System.Reflection.PropertyInfo prop = systemType.GetProperty(myProperty.Name, bindingFlags);
-            if (null != prop && prop.CanWrite)
-            {
-                prop.SetValue(SelectedNode, value, null);
-            }
         }
     }
 }
