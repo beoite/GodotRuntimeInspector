@@ -20,11 +20,17 @@ namespace GodotRuntimeInspector.Scripts
 
         public string MyFieldString = "LOL";
 
-        public override void _EnterTree()
+        public override void _Ready()
         {
+            base._Ready();
+
             // pointers to MainViewport and IO
             MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
+            IOPTR = ImGuiNET.ImGui.GetIO();
+            IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
 
+            // pointers to MainViewport and IO
+            MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
             IOPTR = ImGuiNET.ImGui.GetIO();
             IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
 
@@ -61,7 +67,6 @@ namespace GodotRuntimeInspector.Scripts
             MyInputMap.Init();
         }
 
-        // Called every frame. 'delta' is the elapsed time since the previous frame.
         public override void _Process(double delta)
         {
             if (Config.Enabled == false)

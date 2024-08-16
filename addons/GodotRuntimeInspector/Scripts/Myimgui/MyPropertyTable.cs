@@ -1,8 +1,5 @@
-﻿using Godot;
-using ImGuiNET;
-using System.Drawing;
-using System.Reflection;
-using static System.Net.Mime.MediaTypeNames;
+﻿using System.Reflection;
+using System.Text;
 
 namespace GodotRuntimeInspector.Scripts.Myimgui
 {
@@ -309,10 +306,10 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             }
         }
 
-        private void DrawMyString(MyProperty myProperty)
+        private unsafe void DrawMyString(MyProperty myProperty)
         {
             string text = Utility.GetStr(myProperty.Instance);
-            
+
             string controlId = text + "###" + myProperty.Name;
 
             float columnWidth = ImGuiNET.ImGui.GetColumnWidth();
@@ -323,12 +320,24 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
             uint maxValue = int.MaxValue;
 
-            string mystring = (string)myProperty.Instance;
+            //string mystring = (string)myProperty.Instance;
+            //byte[] buf = Encoding.ASCII.GetBytes(mystring);
+            //uint buf_size = 64;
+            //ImGuiNET.ImGuiInputTextFlags flags = ImGuiNET.ImGuiInputTextFlags.None;
 
-            if (ImGuiNET.ImGui.InputTextMultiline(controlId, ref text, maxValue, size, imGuiInputTextFlags))
-            {
-                SetSelectedNodeValue(myProperty, text);
-            }
+            //ImGuiNET.ImGuiInputTextCallback imGuiInputTextCallback = new ImGuiNET.ImGuiInputTextCallback(MyCallBack);
+
+            //if (ImGuiNET.ImGui.InputText(text, buf, buf_size, flags, imGuiInputTextCallback))
+            //{
+
+            //}
+        }
+
+        private unsafe int MyCallBack(ImGuiNET.ImGuiInputTextCallbackData* data)
+        {
+            Godot.GD.Print(nameof(MyCallBack));
+
+            return 0;
         }
 
 
