@@ -36,6 +36,12 @@ namespace GodotRuntimeInspector.Scripts
 
         public ulong Myulong = 0;
 
+        public float Myfloat = 0;
+
+        public double Mydouble = 0;
+
+        public decimal Mydecimal = 0;
+
         public string Mystring = nameof(Mystring);
 
         public override void _Ready()

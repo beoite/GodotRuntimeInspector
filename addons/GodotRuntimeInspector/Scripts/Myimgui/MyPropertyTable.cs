@@ -330,6 +330,30 @@
                         field.SetValue(_selectedNode, result);
                     }
                 }
+                else if (myProperty.Instance is float)
+                {
+                    float result;
+                    if (float.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else if (myProperty.Instance is double)
+                {
+                    double result;
+                    if (double.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else if (myProperty.Instance is decimal)
+                {
+                    decimal result;
+                    if (decimal.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
                 else
                 {
                     field.SetValue(_selectedNode, value);
@@ -337,7 +361,7 @@
             }
 
             System.Reflection.PropertyInfo prop = systemType.GetProperty(myProperty.Name, bindingFlags);
-            if (null != prop && prop.CanWrite)
+            if (prop != null && prop.CanWrite == true)
             {
                 if (myProperty.Instance is sbyte)
                 {
@@ -375,6 +399,54 @@
                 {
                     int result;
                     if (int.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is uint)
+                {
+                    uint result;
+                    if (uint.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is long)
+                {
+                    long result;
+                    if (long.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is ulong)
+                {
+                    ulong result;
+                    if (ulong.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is float)
+                {
+                    float result;
+                    if (float.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is double)
+                {
+                    double result;
+                    if (double.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is decimal)
+                {
+                    decimal result;
+                    if (decimal.TryParse(value.ToString(), out result))
                     {
                         prop.SetValue(_selectedNode, result, null);
                     }
