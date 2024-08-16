@@ -104,7 +104,7 @@
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
-                ImGuiNET.ImGui.TableSetupColumn("Debug", MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
+                ImGuiNET.ImGui.TableSetupColumn("Debug", MyPropertyFlags.TableColumnFlags(), width);
 
                 ImGuiNET.ImGui.TableHeadersRow();
                 ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
@@ -142,16 +142,16 @@
                         ImGuiNET.ImGui.Text(split[split.Length - 1]);
                     }
 
-                    MyTypes mytype = Utility.GetMyType(myProperty.Instance);
-
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
+                        MyTypes mytype = Utility.GetMyType(myProperty.Instance);
                         DrawMyType(mytype, myProperty);
                     }
 
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
-                        ImGuiNET.ImGui.Text(nameof(mytype) + " " + mytype);
+                        MyTypes mytype = Utility.GetMyType(myProperty.Instance);
+                        ImGuiNET.ImGui.Text(mytype.ToString());
                     }
                 }
 
@@ -164,7 +164,7 @@
             switch (mytype)
             {
                 case MyTypes.None:
-                    DrawDefault(myProperty);
+                    DrawText(myProperty);
                     break;
 
                 case MyTypes.Boolean:
@@ -172,16 +172,20 @@
                     break;
 
                 case MyTypes.Number:
-                    DrawMyNumber(myProperty);
+                    DrawNumber(myProperty);
                     break;
 
                 case MyTypes.String:
-                    DrawMyString(myProperty);
+                    DrawString(myProperty);
+                    break;
+
+                case MyTypes.Complex:
+                    DrawText(myProperty);
                     break;
             }
         }
 
-        private void DrawDefault(MyProperty myProperty)
+        private void DrawText(MyProperty myProperty)
         {
             string text = Utility.GetStr(myProperty.Instance);
             ImGuiNET.ImGui.Text(text);
@@ -199,9 +203,9 @@
             }
         }
 
-        private void DrawMyNumber(MyProperty myProperty)
+        private void DrawNumber(MyProperty myProperty)
         {
-            // int
+            // InputInt
             bool drawInt = myProperty.Instance is sbyte;
             drawInt = drawInt || myProperty.Instance is byte;
             drawInt = drawInt || myProperty.Instance is short;
@@ -212,57 +216,36 @@
             {
                 string text = Utility.GetStr(myProperty.Instance);
                 string controlId = text + "###" + myProperty.Name;
-                string mynumber = string.Empty;
+                int myint = System.Convert.ToInt32(myProperty.Instance);
 
-                int value = System.Convert.ToInt32(myProperty.Instance);
-                mynumber = value.ToString();
-
-                if (ImGuiNET.ImGui.InputInt(controlId, ref value))
+                if (ImGuiNET.ImGui.InputInt(controlId, ref myint))
                 {
-                    SetSelectedNodeValue(myProperty, value);
+                    SetSelectedNodeValue(myProperty, myint);
                 }
             }
 
-            // Scalar
-            // - signed/unsigned
-            // - 8/16/32/64-bits
-            // - integer/float/double
-            bool drawScalar = myProperty.Instance is uint;
-            //drawScalar = drawScalar || myProperty.Instance is long;
-            //drawScalar = drawScalar || myProperty.Instance is ulong;
-            if (drawScalar == true)
+            // InputDouble
+            bool drawDouble = myProperty.Instance is uint;
+            drawDouble = drawDouble || myProperty.Instance is long;
+            drawDouble = drawDouble || myProperty.Instance is ulong;
+            drawDouble = drawDouble || myProperty.Instance is float;
+            drawDouble = drawDouble || myProperty.Instance is double;
+            drawDouble = drawDouble || myProperty.Instance is decimal;
+
+            if (drawDouble == true)
             {
-                //ulong value = (ulong)myProperty.Instance;
                 string text = Utility.GetStr(myProperty.Instance);
                 string controlId = text + "###" + myProperty.Name;
-                System.ReadOnlySpan<char> label = new System.ReadOnlySpan<char>(controlId.ToCharArray());
+                double mydouble = System.Convert.ToDouble(myProperty.Instance);
 
-                nint myscaler = 0;
-
-                //if (ImGuiNET.ImGui.InputScalar(label, ImGuiNET.ImGuiDataType.S64, myscaler))
-                //{
-                //    SetSelectedNodeValue(myProperty, myscaler);
-                //}
+                if (ImGuiNET.ImGui.InputDouble(controlId, ref mydouble))
+                {
+                    SetSelectedNodeValue(myProperty, mydouble);
+                }
             }
-
-            // float
-            //bool drawFloat = myProperty.Instance is float;
-            //drawFloat = drawFloat || myProperty.Instance is double;
-            //drawFloat = drawFloat || myProperty.Instance is decimal;
-
-            //if (drawInt == true)
-            //{
-            //    float value = (float)myProperty.Instance;
-            //    mynumber = value.ToString();
-
-            //    if (ImGuiNET.ImGui.InputFloat(text, ref value))
-            //    {
-            //        SetSelectedNodeValue(myProperty, value);
-            //    }
-            //}
         }
 
-        private void DrawMyString(MyProperty myProperty)
+        private void DrawString(MyProperty myProperty)
         {
             string text = Utility.GetStr(myProperty.Instance);
             string controlId = text + "###" + myProperty.Name;
@@ -319,6 +302,30 @@
                 {
                     int result;
                     if (int.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else if (myProperty.Instance is uint)
+                {
+                    uint result;
+                    if (uint.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else if (myProperty.Instance is long)
+                {
+                    long result;
+                    if (long.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else if (myProperty.Instance is ulong)
+                {
+                    ulong result;
+                    if (ulong.TryParse(value.ToString(), out result))
                     {
                         field.SetValue(_selectedNode, result);
                     }

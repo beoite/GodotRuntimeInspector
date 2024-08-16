@@ -28,28 +28,15 @@ namespace GodotRuntimeInspector.Scripts
 
         public ushort Myushort = 0;
 
+        public int Myint = 0;
 
-        public int MyFieldInt0 = 0;
-        public int MyFieldInt1 = 1;
-        public int MyFieldInt2 = 2;
+        public uint Myuint = 0;
 
-        public uint MyFieldUint0 = 0;
-        public uint MyFieldUint1 = 1;
-        public uint MyFieldUint2 = 2;
+        public long Mylong = 0;
 
-        public string MyFieldString0 = nameof(MyFieldString0);
-        public string MyFieldString1 = nameof(MyFieldString1);
-        public string MyFieldString2 = nameof(MyFieldString2);
+        public ulong Myulong = 0;
 
-        public int MyPropertyInt0 { get; set; } = 0;
-        public int MyPropertyInt1 { get; set; } = 1;
-        public int MyPropertyInt2 { get; set; } = 2;
-
-        public string MyPropertyString0 { get; set; } = nameof(MyPropertyString0);
-        public string MyPropertyString1 { get; set; } = nameof(MyPropertyString1);
-        public string MyPropertyString2 { get; set; } = nameof(MyPropertyString2);
-
-        
+        public string Mystring = nameof(Mystring);
 
         public override void _Ready()
         {
