@@ -104,7 +104,7 @@
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
-                ImGuiNET.ImGui.TableSetupColumn("Debug", MyPropertyFlags.TableColumnFlags(), width);
+                //ImGuiNET.ImGui.TableSetupColumn("Debug", MyPropertyFlags.TableColumnFlags(), width);
 
                 ImGuiNET.ImGui.TableHeadersRow();
                 ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
@@ -148,11 +148,11 @@
                         DrawMyType(mytype, myProperty);
                     }
 
-                    if (ImGuiNET.ImGui.TableNextColumn())
-                    {
-                        MyTypes mytype = Utility.GetMyType(myProperty.Instance);
-                        ImGuiNET.ImGui.Text(mytype.ToString());
-                    }
+                    //if (ImGuiNET.ImGui.TableNextColumn())
+                    //{
+                    //    MyTypes mytype = Utility.GetMyType(myProperty.Instance);
+                    //    ImGuiNET.ImGui.Text(mytype.ToString());
+                    //}
                 }
 
                 ImGuiNET.ImGui.EndTable();
