@@ -14,11 +14,28 @@ namespace GodotRuntimeInspector.Scripts
 
         public ImGuiNET.ImGuiDockNodeFlags DockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
 
+        public Myimgui.MyPropertyNode MainWindow = new Myimgui.MyPropertyNode();
+
+        // test 
+
         public bool MyFieldBool = false;
+
+        public sbyte Mysbyte = 0;
+
+        public byte Mybyte = 0;
+
+        public short Myshort = 0;
+
+        public ushort Myushort = 0;
+
 
         public int MyFieldInt0 = 0;
         public int MyFieldInt1 = 1;
         public int MyFieldInt2 = 2;
+
+        public uint MyFieldUint0 = 0;
+        public uint MyFieldUint1 = 1;
+        public uint MyFieldUint2 = 2;
 
         public string MyFieldString0 = nameof(MyFieldString0);
         public string MyFieldString1 = nameof(MyFieldString1);
@@ -32,7 +49,7 @@ namespace GodotRuntimeInspector.Scripts
         public string MyPropertyString1 { get; set; } = nameof(MyPropertyString1);
         public string MyPropertyString2 { get; set; } = nameof(MyPropertyString2);
 
-        public Myimgui.MyPropertyNode MainWindow = new Myimgui.MyPropertyNode();
+        
 
         public override void _Ready()
         {

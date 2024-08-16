@@ -208,13 +208,13 @@
             drawInt = drawInt || myProperty.Instance is ushort;
             drawInt = drawInt || myProperty.Instance is int;
 
-            if(drawInt == true)
+            if (drawInt == true)
             {
                 string text = Utility.GetStr(myProperty.Instance);
                 string controlId = text + "###" + myProperty.Name;
                 string mynumber = string.Empty;
 
-                int value = (int)myProperty.Instance;
+                int value = System.Convert.ToInt32(myProperty.Instance);
                 mynumber = value.ToString();
 
                 if (ImGuiNET.ImGui.InputInt(controlId, ref value))
@@ -223,21 +223,27 @@
                 }
             }
 
-            // int64
-            //bool drawInt64 = myProperty.Instance is uint;
-            //drawInt64 = drawInt64 || myProperty.Instance is long;
-            //drawInt64 = drawInt64 || myProperty.Instance is ulong;
-            //if (drawInt == true)
-            //{
-            //    //ulong value = (ulong)myProperty.Instance;
+            // Scalar
+            // - signed/unsigned
+            // - 8/16/32/64-bits
+            // - integer/float/double
+            bool drawScalar = myProperty.Instance is uint;
+            //drawScalar = drawScalar || myProperty.Instance is long;
+            //drawScalar = drawScalar || myProperty.Instance is ulong;
+            if (drawScalar == true)
+            {
+                //ulong value = (ulong)myProperty.Instance;
+                string text = Utility.GetStr(myProperty.Instance);
+                string controlId = text + "###" + myProperty.Name;
+                System.ReadOnlySpan<char> label = new System.ReadOnlySpan<char>(controlId.ToCharArray());
 
-            //    nint myscaler = (nint)myProperty.Instance;
+                nint myscaler = 0;
 
-            //    if (ImGuiNET.ImGui.InputScalar(text, ImGuiNET.ImGuiDataType.S64, myscaler))
-            //    {
-            //        SetSelectedNodeValue(myProperty, myscaler);
-            //    }
-            //}
+                //if (ImGuiNET.ImGui.InputScalar(label, ImGuiNET.ImGuiDataType.S64, myscaler))
+                //{
+                //    SetSelectedNodeValue(myProperty, myscaler);
+                //}
+            }
 
             // float
             //bool drawFloat = myProperty.Instance is float;
@@ -277,13 +283,99 @@
             System.Reflection.FieldInfo field = systemType.GetField(myProperty.Name, bindingFlags);
             if (field != null)
             {
-                field.SetValue(_selectedNode, value);
+                if (myProperty.Instance is sbyte)
+                {
+                    sbyte result;
+                    if (sbyte.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else if (myProperty.Instance is byte)
+                {
+                    byte result;
+                    if (byte.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else if (myProperty.Instance is short)
+                {
+                    short result;
+                    if (short.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else if (myProperty.Instance is ushort)
+                {
+                    ushort result;
+                    if (ushort.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else if (myProperty.Instance is int)
+                {
+                    int result;
+                    if (int.TryParse(value.ToString(), out result))
+                    {
+                        field.SetValue(_selectedNode, result);
+                    }
+                }
+                else
+                {
+                    field.SetValue(_selectedNode, value);
+                }
             }
 
             System.Reflection.PropertyInfo prop = systemType.GetProperty(myProperty.Name, bindingFlags);
             if (null != prop && prop.CanWrite)
             {
-                prop.SetValue(_selectedNode, value, null);
+                if (myProperty.Instance is sbyte)
+                {
+                    sbyte result;
+                    if (sbyte.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is byte)
+                {
+                    byte result;
+                    if (byte.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is short)
+                {
+                    short result;
+                    if (short.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is ushort)
+                {
+                    ushort result;
+                    if (ushort.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else if (myProperty.Instance is int)
+                {
+                    int result;
+                    if (int.TryParse(value.ToString(), out result))
+                    {
+                        prop.SetValue(_selectedNode, result, null);
+                    }
+                }
+                else
+                {
+                    prop.SetValue(_selectedNode, value, null);
+                }
             }
         }
     }
