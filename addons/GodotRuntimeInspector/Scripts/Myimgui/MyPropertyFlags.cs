@@ -351,6 +351,7 @@
         {
             ImGuiNET.ImGuiInputTextFlags flags = new ImGuiNET.ImGuiInputTextFlags();
             flags |= ImGuiNET.ImGuiInputTextFlags.AllowTabInput;
+            flags |= ImGuiNET.ImGuiInputTextFlags.EnterReturnsTrue;
             return flags;
         }
 

@@ -16,9 +16,21 @@ namespace GodotRuntimeInspector.Scripts
 
         public bool MyFieldBool = false;
 
-        public int MyFieldInt = 0;
+        public int MyFieldInt0 = 0;
+        public int MyFieldInt1 = 1;
+        public int MyFieldInt2 = 2;
 
-        public string MyFieldString = "LOL";
+        public string MyFieldString0 = nameof(MyFieldString0);
+        public string MyFieldString1 = nameof(MyFieldString1);
+        public string MyFieldString2 = nameof(MyFieldString2);
+
+        public int MyPropertyInt0 { get; set; } = 0;
+        public int MyPropertyInt1 { get; set; } = 1;
+        public int MyPropertyInt2 { get; set; } = 2;
+
+        public string MyPropertyString0 { get; set; } = nameof(MyPropertyString0);
+        public string MyPropertyString1 { get; set; } = nameof(MyPropertyString1);
+        public string MyPropertyString2 { get; set; } = nameof(MyPropertyString2);
 
         public Myimgui.MyPropertyNode MainWindow = new Myimgui.MyPropertyNode();
 
