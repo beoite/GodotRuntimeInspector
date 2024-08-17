@@ -16,7 +16,7 @@ namespace GodotRuntimeInspector.Scripts
 
         // test 
 
-        public bool MyFieldBool = false;
+        public bool Mybool = false;
 
         public sbyte Mysbyte = 0;
 

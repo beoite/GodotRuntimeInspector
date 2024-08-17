@@ -100,7 +100,7 @@
                 float extraSmallWidth = width / 8f;
 
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), smallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), smallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
@@ -159,7 +159,7 @@
             switch (mytype)
             {
                 case MyTypes.Complex:
-                    DrawString(myProperty);
+                    DrawComplex(myProperty);
                     break;
 
                 case MyTypes.Boolean:
@@ -184,16 +184,13 @@
             }
         }
 
-        private void DrawString(MyProperty myProperty)
+        private void DrawComplex(MyProperty myProperty)
         {
             string text = Utility.ToString(myProperty.Instance);
             string controlId = text + "###" + myProperty.Name;
             string mystring = myProperty.Instance.ToString();
 
-            if (ImGuiNET.ImGui.InputText(text, ref mystring, Config.InputTextMaxLength, MyPropertyFlags.InputTextFlags()))
-            {
-                SetSelectedNodeValue(myProperty, mystring);
-            }
+            ImGuiNET.ImGui.Text(text);
         }
 
         private void DrawMyBoolean(MyProperty myProperty)
@@ -250,6 +247,18 @@
             }
         }
 
+        private void DrawString(MyProperty myProperty)
+        {
+            string text = Utility.ToString(myProperty.Instance);
+            string controlId = text + "###" + myProperty.Name;
+            string mystring = myProperty.Instance.ToString();
+
+            if (ImGuiNET.ImGui.InputText(text, ref mystring, Config.InputTextMaxLength, MyPropertyFlags.InputTextFlags()))
+            {
+                SetSelectedNodeValue(myProperty, mystring);
+            }
+        }
+
         private void DrawVector2(MyProperty myProperty)
         {
             string text = Utility.ToString(myProperty.Instance);
@@ -284,8 +293,30 @@
         {
             string text = Utility.ToString(myProperty.Instance);
             string controlId = text + "###" + myProperty.Name;
-            System.Numerics.Vector3 myvector3 = System.Numerics.Vector3.Zero;
+            System.Numerics.Vector3 systemvector3 = System.Numerics.Vector3.Zero;
 
+            if (myProperty.Instance is System.Numerics.Vector3)
+            {
+                systemvector3 = (System.Numerics.Vector3)myProperty.Instance;
+            }
+            else if (myProperty.Instance is Godot.Vector3)
+            {
+                Godot.Vector3 godotvector3 = (Godot.Vector3)myProperty.Instance;
+                systemvector3 = new System.Numerics.Vector3(godotvector3.X, godotvector3.Y, godotvector3.Z);
+            }
+
+            if (ImGuiNET.ImGui.DragFloat3(controlId, ref systemvector3))
+            {
+                if (myProperty.Instance is System.Numerics.Vector3)
+                {
+                    SetSelectedNodeValue(myProperty, systemvector3);
+                }
+                else if (myProperty.Instance is Godot.Vector3)
+                {
+                    Godot.Vector3 godotvector3 = new Godot.Vector3(systemvector3.X, systemvector3.Y, systemvector3.Z);
+                    SetSelectedNodeValue(myProperty, godotvector3);
+                }
+            }
         }
 
         public void SetSelectedNodeValue(MyProperty myProperty, object value)
@@ -294,17 +325,17 @@
 
             System.Type systemType = _selectedNode.GetType();
 
-            System.Reflection.FieldInfo field = systemType.GetField(myProperty.Name, bindingFlags);
+            System.Reflection.FieldInfo? field = systemType.GetField(myProperty.Name, bindingFlags);
 
             TrySetField(field, myProperty, value);
 
-            System.Reflection.PropertyInfo prop = systemType.GetProperty(myProperty.Name, bindingFlags);
+            System.Reflection.PropertyInfo? prop = systemType.GetProperty(myProperty.Name, bindingFlags);
 
             TrySetProperty(prop, myProperty, value);
 
         }
 
-        private void TrySetField(System.Reflection.FieldInfo field, MyProperty myProperty, object value)
+        private void TrySetField(System.Reflection.FieldInfo? field, MyProperty myProperty, object value)
         {
             if (field is null)
             {
@@ -398,13 +429,23 @@
                 Godot.Vector2 result = (Godot.Vector2)value;
                 field.SetValue(_selectedNode, result);
             }
+            else if (myProperty.Instance is System.Numerics.Vector3)
+            {
+                System.Numerics.Vector3 result = (System.Numerics.Vector3)value;
+                field.SetValue(_selectedNode, result);
+            }
+            else if (myProperty.Instance is Godot.Vector2)
+            {
+                Godot.Vector3 result = (Godot.Vector3)value;
+                field.SetValue(_selectedNode, result);
+            }
             else
             {
                 field.SetValue(_selectedNode, value);
             }
         }
 
-        private void TrySetProperty(System.Reflection.PropertyInfo prop, MyProperty myProperty, object value)
+        private void TrySetProperty(System.Reflection.PropertyInfo? prop, MyProperty myProperty, object value)
         {
             if (prop is null)
             {
@@ -501,6 +542,16 @@
             else if (myProperty.Instance is Godot.Vector2)
             {
                 Godot.Vector2 result = (Godot.Vector2)value;
+                prop.SetValue(_selectedNode, result, null);
+            }
+            else if (myProperty.Instance is System.Numerics.Vector3)
+            {
+                System.Numerics.Vector3 result = (System.Numerics.Vector3)value;
+                prop.SetValue(_selectedNode, result, null);
+            }
+            else if (myProperty.Instance is Godot.Vector3)
+            {
+                Godot.Vector3 result = (Godot.Vector3)value;
                 prop.SetValue(_selectedNode, result, null);
             }
             else
