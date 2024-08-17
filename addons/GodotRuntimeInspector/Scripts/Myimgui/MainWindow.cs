@@ -2,7 +2,7 @@
 
 namespace GodotRuntimeInspector.Scripts.Myimgui
 {
-    public class MyPropertyNode
+    public class MainWindow
     {
         public Godot.Node SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
 
@@ -100,7 +100,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
         {
             SceneTree = node.GetTree().Root.GetTree();
 
-            if (!ImGuiNET.ImGui.Begin(Utility.GetAnimatedTitle(SceneTree.CurrentScene.SceneFilePath), MyPropertyFlags.ContainerWindowFlags()))
+            if (!ImGuiNET.ImGui.Begin(Utility.GetAnimatedTitle(SceneTree.CurrentScene.SceneFilePath), MyPropertyFlags.WindowFlags()))
             {
                 ImGuiNET.ImGui.End();
                 return;
@@ -127,10 +127,10 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             topLeftSize = new System.Numerics.Vector2(windowSize.X * 0.3f, topSize.Y);
             topRightSize = new System.Numerics.Vector2(windowSize.X * 0.7f, topSize.Y);
 
-            // window
-            if (ImGuiNET.ImGui.BeginTable(nameof(MyPropertyNode), 1, MyPropertyFlags.TableFlags(), windowSize))
+            // table
+            if (ImGuiNET.ImGui.BeginTable(nameof(MainWindow), 1, MyPropertyFlags.TableFlags(), windowSize))
             {
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyPropertyNode), MyPropertyFlags.TableColumnFlags(), windowSize.X);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MainWindow), MyPropertyFlags.TableColumnFlags(), windowSize.X);
                 ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), topSize.Y);
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {

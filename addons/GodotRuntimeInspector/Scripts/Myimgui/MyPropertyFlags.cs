@@ -64,56 +64,8 @@
         {
             ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
             flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoTitleBar;
-            return flags;
-        }
-
-        public static ImGuiNET.ImGuiWindowFlags HUDWindowFlags()
-        {
-            ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
-            flags |= ImGuiNET.ImGuiWindowFlags.NoTitleBar;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoResize;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoMove;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoScrollbar;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoScrollWithMouse;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoCollapse;
-            flags |= ImGuiNET.ImGuiWindowFlags.AlwaysAutoResize;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoBackground;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoNavInputs;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoNavFocus;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoMouseInputs;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoBringToFrontOnFocus;
-            return flags;
-        }
-
-        public static ImGuiNET.ImGuiWindowFlags ContainerWindowFlags()
-        {
-            ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
-            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
             flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
             flags |= ImGuiNET.ImGuiWindowFlags.MenuBar;
-            return flags;
-        }
-
-        public static ImGuiNET.ImGuiWindowFlags MyPropertyWindowFlags()
-        {
-            ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
-            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoCollapse;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoScrollbar;
-            flags |= ImGuiNET.ImGuiWindowFlags.AlwaysAutoResize;
-            return flags;
-        }
-
-        public static ImGuiNET.ImGuiWindowFlags TreeNodeWindowFlags()
-        {
-            ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
-            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
-            flags |= ImGuiNET.ImGuiWindowFlags.AlwaysAutoResize;
             return flags;
         }
 
@@ -195,21 +147,8 @@
             flags |= ImGuiNET.ImGuiTableFlags.Resizable;
             flags |= ImGuiNET.ImGuiTableFlags.NoSavedSettings;
             flags |= ImGuiNET.ImGuiTableFlags.Borders;
-            //flags |= ImGuiTableFlags.RowBg;
             flags |= ImGuiNET.ImGuiTableFlags.Sortable;
             flags |= ImGuiNET.ImGuiTableFlags.SortMulti;
-            flags |= ImGuiNET.ImGuiTableFlags.NoPadOuterX;
-            flags |= ImGuiNET.ImGuiTableFlags.NoPadInnerX;
-            flags |= ImGuiNET.ImGuiTableFlags.SizingFixedFit;
-            return flags;
-        }
-
-        public static ImGuiNET.ImGuiTableFlags HUDTableFlags()
-        {
-            ImGuiNET.ImGuiTableFlags flags = new ImGuiNET.ImGuiTableFlags();
-            flags |= ImGuiNET.ImGuiTableFlags.NoSavedSettings;
-            flags |= ImGuiNET.ImGuiTableFlags.Borders;
-            flags |= ImGuiNET.ImGuiTableFlags.RowBg;
             flags |= ImGuiNET.ImGuiTableFlags.NoPadOuterX;
             flags |= ImGuiNET.ImGuiTableFlags.NoPadInnerX;
             flags |= ImGuiNET.ImGuiTableFlags.SizingFixedFit;
@@ -275,15 +214,6 @@
             flags |= ImGuiNET.ImGuiTableColumnFlags.IsVisible;
             flags |= ImGuiNET.ImGuiTableColumnFlags.WidthStretch;
             flags |= ImGuiNET.ImGuiTableColumnFlags.NoClip;
-            return flags;
-        }
-
-        public static ImGuiNET.ImGuiTableColumnFlags HUDTableColumnFlags()
-        {
-            ImGuiNET.ImGuiTableColumnFlags flags = new ImGuiNET.ImGuiTableColumnFlags();
-            flags |= ImGuiNET.ImGuiTableColumnFlags.WidthFixed;
-            flags |= ImGuiNET.ImGuiTableColumnFlags.NoResize;
-            flags |= ImGuiNET.ImGuiTableColumnFlags.NoHeaderLabel;
             return flags;
         }
 
@@ -361,32 +291,6 @@
             flags |= ImGuiNET.ImGuiTreeNodeFlags.SpanFullWidth;
             flags |= ImGuiNET.ImGuiTreeNodeFlags.OpenOnArrow;
             flags |= ImGuiNET.ImGuiTreeNodeFlags.OpenOnDoubleClick;
-            return flags;
-        }
-
-        public static ImGuiNET.ImGuiTabBarFlags TabBarFlags()
-        {
-            ImGuiNET.ImGuiTabBarFlags flags = new ImGuiNET.ImGuiTabBarFlags();
-            flags |= ImGuiNET.ImGuiTabBarFlags.Reorderable;
-            flags |= ImGuiNET.ImGuiTabBarFlags.AutoSelectNewTabs;
-            flags |= ImGuiNET.ImGuiTabBarFlags.TabListPopupButton;
-            return flags;
-        }
-
-        public static ImGuiNET.ImGuiTabItemFlags TabItemFlags()
-        {
-            ImGuiNET.ImGuiTabItemFlags flags = new ImGuiNET.ImGuiTabItemFlags();
-            flags |= ImGuiNET.ImGuiTabItemFlags.None;
-            return flags;
-        }
-
-        public static ImGuiNET.ImGuiTabItemFlags TabItemFlagsLeading()
-        {
-            ImGuiNET.ImGuiTabItemFlags flags = new ImGuiNET.ImGuiTabItemFlags();
-            flags |= ImGuiNET.ImGuiTabItemFlags.Leading;
-            flags |= ImGuiNET.ImGuiTabItemFlags.NoReorder;
-            flags |= ImGuiNET.ImGuiTabItemFlags.NoCloseWithMiddleMouseButton;
-            flags |= ImGuiNET.ImGuiTabItemFlags.NoPushId;
             return flags;
         }
     }

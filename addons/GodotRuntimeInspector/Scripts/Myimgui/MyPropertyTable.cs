@@ -1,4 +1,6 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿using System.Runtime.CompilerServices;
+
+namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public class MyPropertyTable
     {
@@ -95,18 +97,19 @@
 
             if (ImGuiNET.ImGui.BeginTable(id, numCols, MyPropertyFlags.TableFlags(), tableSize))
             {
-                float width = tableSize.X / numCols;
+                float width = tableSize.X / 2;
                 float smallWidth = width / 3f;
                 float extraSmallWidth = width / 8f;
 
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), smallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), smallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
                 //ImGuiNET.ImGui.TableSetupColumn("Debug", MyPropertyFlags.TableColumnFlags(), width);
 
                 ImGuiNET.ImGui.TableHeadersRow();
+
                 ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
                 Sort(sortsSpecs, myProperties);
 
@@ -163,8 +166,8 @@
         {
             switch (mytype)
             {
-                case MyTypes.None:
-                    DrawText(myProperty);
+                case MyTypes.Complex:
+                    DrawString(myProperty);
                     break;
 
                 case MyTypes.Boolean:
@@ -177,10 +180,6 @@
 
                 case MyTypes.String:
                     DrawString(myProperty);
-                    break;
-
-                case MyTypes.Complex:
-                    DrawText(myProperty);
                     break;
             }
         }
@@ -264,198 +263,199 @@
             System.Type systemType = _selectedNode.GetType();
 
             System.Reflection.FieldInfo field = systemType.GetField(myProperty.Name, bindingFlags);
-            if (field != null)
-            {
-                if (myProperty.Instance is sbyte)
-                {
-                    sbyte result;
-                    if (sbyte.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is byte)
-                {
-                    byte result;
-                    if (byte.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is short)
-                {
-                    short result;
-                    if (short.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is ushort)
-                {
-                    ushort result;
-                    if (ushort.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is int)
-                {
-                    int result;
-                    if (int.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is uint)
-                {
-                    uint result;
-                    if (uint.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is long)
-                {
-                    long result;
-                    if (long.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is ulong)
-                {
-                    ulong result;
-                    if (ulong.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is float)
-                {
-                    float result;
-                    if (float.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is double)
-                {
-                    double result;
-                    if (double.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else if (myProperty.Instance is decimal)
-                {
-                    decimal result;
-                    if (decimal.TryParse(value.ToString(), out result))
-                    {
-                        field.SetValue(_selectedNode, result);
-                    }
-                }
-                else
-                {
-                    field.SetValue(_selectedNode, value);
-                }
-            }
+
+            TrySetField(field, myProperty, value);
 
             System.Reflection.PropertyInfo prop = systemType.GetProperty(myProperty.Name, bindingFlags);
-            if (prop != null && prop.CanWrite == true)
+
+            TrySetProperty(prop, myProperty, value);
+
+        }
+
+        private void TrySetField(System.Reflection.FieldInfo field, MyProperty myProperty, object value)
+        {
+            if (field is null)
             {
-                if (myProperty.Instance is sbyte)
+                return;
+            }
+
+            if (myProperty.Instance is sbyte)
+            {
+                if (sbyte.TryParse(value.ToString(), out sbyte result))
                 {
-                    sbyte result;
-                    if (sbyte.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is byte)
-                {
-                    byte result;
-                    if (byte.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is short)
-                {
-                    short result;
-                    if (short.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is ushort)
-                {
-                    ushort result;
-                    if (ushort.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is int)
-                {
-                    int result;
-                    if (int.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is uint)
-                {
-                    uint result;
-                    if (uint.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is long)
-                {
-                    long result;
-                    if (long.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is ulong)
-                {
-                    ulong result;
-                    if (ulong.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is float)
-                {
-                    float result;
-                    if (float.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is double)
-                {
-                    double result;
-                    if (double.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else if (myProperty.Instance is decimal)
-                {
-                    decimal result;
-                    if (decimal.TryParse(value.ToString(), out result))
-                    {
-                        prop.SetValue(_selectedNode, result, null);
-                    }
-                }
-                else
-                {
-                    prop.SetValue(_selectedNode, value, null);
+                    field.SetValue(_selectedNode, result);
                 }
             }
+            else if (myProperty.Instance is byte)
+            {
+                if (byte.TryParse(value.ToString(), out byte result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is short)
+            {
+                if (short.TryParse(value.ToString(), out short result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is ushort)
+            {
+                if (ushort.TryParse(value.ToString(), out ushort result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is int)
+            {
+                if (int.TryParse(value.ToString(), out int result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is uint)
+            {
+                if (uint.TryParse(value.ToString(), out uint result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is long)
+            {
+                if (long.TryParse(value.ToString(), out long result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is ulong)
+            {
+                if (ulong.TryParse(value.ToString(), out ulong result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is float)
+            {
+                if (float.TryParse(value.ToString(), out float result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is double)
+            {
+                if (double.TryParse(value.ToString(), out double result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is decimal)
+            {
+                if (decimal.TryParse(value.ToString(), out decimal result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else
+            {
+                field.SetValue(_selectedNode, value);
+            }
+        }
+
+        private void TrySetProperty(System.Reflection.PropertyInfo prop, MyProperty myProperty, object value)
+        {
+            if (prop is null)
+            {
+                return;
+            }
+
+            if (prop.CanWrite == false)
+            {
+                return;
+            }
+
+            if (myProperty.Instance is sbyte)
+            {
+                if (sbyte.TryParse(value.ToString(), out sbyte result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is byte)
+            {
+                if (byte.TryParse(value.ToString(), out byte result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is short)
+            {
+                if (short.TryParse(value.ToString(), out short result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is ushort)
+            {
+                if (ushort.TryParse(value.ToString(), out ushort result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is int)
+            {
+                if (int.TryParse(value.ToString(), out int result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is uint)
+            {
+                if (uint.TryParse(value.ToString(), out uint result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is long)
+            {
+                if (long.TryParse(value.ToString(), out long result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is ulong)
+            {
+                if (ulong.TryParse(value.ToString(), out ulong result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is float)
+            {
+                if (float.TryParse(value.ToString(), out float result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is double)
+            {
+                if (double.TryParse(value.ToString(), out double result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is decimal)
+            {
+                if (decimal.TryParse(value.ToString(), out decimal result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else
+            {
+                prop.SetValue(_selectedNode, value, null);
+            }
+
         }
     }
 }

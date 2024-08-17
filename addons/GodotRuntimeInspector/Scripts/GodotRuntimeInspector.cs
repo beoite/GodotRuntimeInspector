@@ -14,7 +14,7 @@ namespace GodotRuntimeInspector.Scripts
 
         public ImGuiNET.ImGuiDockNodeFlags DockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
 
-        public Myimgui.MyPropertyNode MainWindow = new Myimgui.MyPropertyNode();
+        public Myimgui.MainWindow MainWindow = new Myimgui.MainWindow();
 
         // test 
 
@@ -43,6 +43,14 @@ namespace GodotRuntimeInspector.Scripts
         public decimal Mydecimal = 0;
 
         public string Mystring = nameof(Mystring);
+
+        public System.Numerics.Vector2 SystemVector2 = new System.Numerics.Vector2();
+
+        public System.Numerics.Vector3 SystemVector3 = new System.Numerics.Vector3();
+
+        public Godot.Vector2 GodotVector2 = new Godot.Vector2();
+
+        public Godot.Vector3 GodotVector3 = new Godot.Vector3();
 
         public override void _Ready()
         {

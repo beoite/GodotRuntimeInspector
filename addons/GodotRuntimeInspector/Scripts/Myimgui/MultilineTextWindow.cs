@@ -10,7 +10,7 @@
         {
             string strID = name + "###" + ID;
 
-            if (!ImGuiNET.ImGui.Begin(strID, MyPropertyFlags.ContainerWindowFlags()))
+            if (!ImGuiNET.ImGui.Begin(strID, MyPropertyFlags.WindowFlags()))
             {
                 ImGuiNET.ImGui.End();
                 return;

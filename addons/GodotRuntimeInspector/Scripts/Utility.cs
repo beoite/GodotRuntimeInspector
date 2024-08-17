@@ -38,12 +38,10 @@ namespace GodotRuntimeInspector.Scripts
             {
                 return MyTypes.String;
             }
-            else if (instance is not null)
+            else
             {
                 return MyTypes.Complex;
             }
-
-            return MyTypes.None;
         }
 
         public static bool IsBoolean(this object value)
