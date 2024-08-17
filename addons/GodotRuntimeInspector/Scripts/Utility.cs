@@ -5,7 +5,7 @@ namespace GodotRuntimeInspector.Scripts
 {
     public static class Utility
     {
-        public static string GetStr(object? instance)
+        public static string ToString(object? instance)
         {
             string? str = null;
             try
@@ -38,6 +38,14 @@ namespace GodotRuntimeInspector.Scripts
             {
                 return MyTypes.String;
             }
+            else if (instance?.IsVector2() == true)
+            {
+                return MyTypes.Vector2;
+            }
+            else if (instance?.IsVector3() == true)
+            {
+                return MyTypes.Vector3;
+            }
             else
             {
                 return MyTypes.Complex;
@@ -69,14 +77,26 @@ namespace GodotRuntimeInspector.Scripts
             return value is string;
         }
 
+        public static bool IsVector2(this object value)
+        {
+            return value is System.Numerics.Vector2
+                    || value is Godot.Vector2;
+        }
+
+        public static bool IsVector3(this object value)
+        {
+            return value is System.Numerics.Vector3
+                    || value is Godot.Vector3;
+        }
+
         public static string GetAnimatedTitle(string? name)
         {
             char[] spin = "|/-\\".ToCharArray();
             int frame = (int)ImGuiNET.ImGui.GetTime() % spin.Length;
             string spinFrame = spin[frame].ToString();
-            string animatedTitle = spinFrame + " " + GetStr(name);
+            string animatedTitle = spinFrame + " " + ToString(name);
             // Using "###" to display a changing title but keep a static identifier "AnimatedTitle"
-            string staticIdentifier = "###" + GetStr(name);
+            string staticIdentifier = "###" + ToString(name);
             animatedTitle = animatedTitle + staticIdentifier;
             return animatedTitle;
         }

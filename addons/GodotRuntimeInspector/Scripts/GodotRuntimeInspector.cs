@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace GodotRuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
@@ -97,6 +95,8 @@ namespace GodotRuntimeInspector.Scripts
             Config.Style.SeparatorTextAlign = new System.Numerics.Vector2(alignX, alignY);
 
             MyInputMap.Init();
+
+            //System.Diagnostics.Debugger.Launch();
         }
 
         public override void _Process(double delta)

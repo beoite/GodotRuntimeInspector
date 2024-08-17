@@ -217,6 +217,13 @@
             return flags;
         }
 
+        public static ImGuiNET.ImGuiTableRowFlags TableRowFlags()
+        {
+            ImGuiNET.ImGuiTableRowFlags flags = new ImGuiNET.ImGuiTableRowFlags();
+            return flags;
+        }
+
+
         public static ImGuiNET.ImGuiTableRowFlags NoneTableRowFlags()
         {
             ImGuiNET.ImGuiTableRowFlags flags = new ImGuiNET.ImGuiTableRowFlags();

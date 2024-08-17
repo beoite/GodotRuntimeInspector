@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-
-namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public class MyPropertyTable
     {
@@ -106,7 +104,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), smallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
-                //ImGuiNET.ImGui.TableSetupColumn("Debug", MyPropertyFlags.TableColumnFlags(), width);
 
                 ImGuiNET.ImGui.TableHeadersRow();
 
@@ -122,7 +119,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                         continue;
                     }
 
-                    ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), Config.MinRowHeight);
+                    ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.TableRowFlags(), Config.MinRowHeight);
 
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
@@ -136,34 +133,29 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
-                        ImGuiNET.ImGui.Text(myProperty.Type.ToString());
-                    }
-
-                    if (ImGuiNET.ImGui.TableNextColumn())
-                    {
-                        string[] split = myProperty.Name.Split("/");
-                        ImGuiNET.ImGui.Text(split[split.Length - 1]);
-                    }
-
-                    if (ImGuiNET.ImGui.TableNextColumn())
-                    {
                         MyTypes mytype = Utility.GetMyType(myProperty.Instance);
-                        DrawMyType(mytype, myProperty);
+                        ImGuiNET.ImGui.Text("(" + mytype.ToString() + ") " + myProperty.Type.ToString());
                     }
 
-                    //if (ImGuiNET.ImGui.TableNextColumn())
-                    //{
-                    //    MyTypes mytype = Utility.GetMyType(myProperty.Instance);
-                    //    ImGuiNET.ImGui.Text(mytype.ToString());
-                    //}
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        ImGuiNET.ImGui.Text(myProperty.Name);
+                    }
+
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        DrawMyType(myProperty);
+                    }
                 }
 
                 ImGuiNET.ImGui.EndTable();
             }
         }
 
-        private void DrawMyType(MyTypes mytype, MyProperty myProperty)
+        private void DrawMyType(MyProperty myProperty)
         {
+            MyTypes mytype = Utility.GetMyType(myProperty.Instance);
+
             switch (mytype)
             {
                 case MyTypes.Complex:
@@ -181,18 +173,32 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 case MyTypes.String:
                     DrawString(myProperty);
                     break;
+
+                case MyTypes.Vector2:
+                    DrawVector2(myProperty);
+                    break;
+
+                case MyTypes.Vector3:
+                    DrawVector3(myProperty);
+                    break;
             }
         }
 
-        private void DrawText(MyProperty myProperty)
+        private void DrawString(MyProperty myProperty)
         {
-            string text = Utility.GetStr(myProperty.Instance);
-            ImGuiNET.ImGui.Text(text);
+            string text = Utility.ToString(myProperty.Instance);
+            string controlId = text + "###" + myProperty.Name;
+            string mystring = myProperty.Instance.ToString();
+
+            if (ImGuiNET.ImGui.InputText(text, ref mystring, Config.InputTextMaxLength, MyPropertyFlags.InputTextFlags()))
+            {
+                SetSelectedNodeValue(myProperty, mystring);
+            }
         }
 
         private void DrawMyBoolean(MyProperty myProperty)
         {
-            string text = Utility.GetStr(myProperty.Instance);
+            string text = Utility.ToString(myProperty.Instance);
             string controlId = text + "###" + myProperty.Name;
             bool mybool = (bool)myProperty.Instance;
 
@@ -213,7 +219,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
             if (drawInt == true)
             {
-                string text = Utility.GetStr(myProperty.Instance);
+                string text = Utility.ToString(myProperty.Instance);
                 string controlId = text + "###" + myProperty.Name;
                 int myint = System.Convert.ToInt32(myProperty.Instance);
 
@@ -233,7 +239,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
             if (drawDouble == true)
             {
-                string text = Utility.GetStr(myProperty.Instance);
+                string text = Utility.ToString(myProperty.Instance);
                 string controlId = text + "###" + myProperty.Name;
                 double mydouble = System.Convert.ToDouble(myProperty.Instance);
 
@@ -244,16 +250,42 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             }
         }
 
-        private void DrawString(MyProperty myProperty)
+        private void DrawVector2(MyProperty myProperty)
         {
-            string text = Utility.GetStr(myProperty.Instance);
+            string text = Utility.ToString(myProperty.Instance);
             string controlId = text + "###" + myProperty.Name;
-            string mystring = myProperty.Instance.ToString();
+            System.Numerics.Vector2 systemvector2 = System.Numerics.Vector2.Zero;
 
-            if (ImGuiNET.ImGui.InputText(text, ref mystring, Config.InputTextMaxLength, MyPropertyFlags.InputTextFlags()))
+            if (myProperty.Instance is System.Numerics.Vector2)
             {
-                SetSelectedNodeValue(myProperty, mystring);
+                systemvector2 = (System.Numerics.Vector2)myProperty.Instance;
             }
+            else if (myProperty.Instance is Godot.Vector2)
+            {
+                Godot.Vector2 godotvector2 = (Godot.Vector2)myProperty.Instance;
+                systemvector2 = new System.Numerics.Vector2(godotvector2.X, godotvector2.Y);
+            }
+
+            if (ImGuiNET.ImGui.DragFloat2(controlId, ref systemvector2))
+            {
+                if (myProperty.Instance is System.Numerics.Vector2)
+                {
+                    SetSelectedNodeValue(myProperty, systemvector2);
+                }
+                else if (myProperty.Instance is Godot.Vector2)
+                {
+                    Godot.Vector2 godotvector2 = new Godot.Vector2(systemvector2.X, systemvector2.Y);
+                    SetSelectedNodeValue(myProperty, godotvector2);
+                }
+            }
+        }
+
+        private void DrawVector3(MyProperty myProperty)
+        {
+            string text = Utility.ToString(myProperty.Instance);
+            string controlId = text + "###" + myProperty.Name;
+            System.Numerics.Vector3 myvector3 = System.Numerics.Vector3.Zero;
+
         }
 
         public void SetSelectedNodeValue(MyProperty myProperty, object value)
@@ -356,6 +388,16 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                     field.SetValue(_selectedNode, result);
                 }
             }
+            else if (myProperty.Instance is System.Numerics.Vector2)
+            {
+                System.Numerics.Vector2 result = (System.Numerics.Vector2)value;
+                field.SetValue(_selectedNode, result);
+            }
+            else if (myProperty.Instance is Godot.Vector2)
+            {
+                Godot.Vector2 result = (Godot.Vector2)value;
+                field.SetValue(_selectedNode, result);
+            }
             else
             {
                 field.SetValue(_selectedNode, value);
@@ -450,6 +492,16 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 {
                     prop.SetValue(_selectedNode, result, null);
                 }
+            }
+            else if (myProperty.Instance is System.Numerics.Vector2)
+            {
+                System.Numerics.Vector2 result = (System.Numerics.Vector2)value;
+                prop.SetValue(_selectedNode, result, null);
+            }
+            else if (myProperty.Instance is Godot.Vector2)
+            {
+                Godot.Vector2 result = (Godot.Vector2)value;
+                prop.SetValue(_selectedNode, result, null);
             }
             else
             {

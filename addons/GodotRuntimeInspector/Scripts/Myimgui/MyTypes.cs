@@ -25,5 +25,7 @@
         Boolean = 1,
         Number = 2,
         String = 3,
+        Vector2 = 4,
+        Vector3 = 5
     }
 }

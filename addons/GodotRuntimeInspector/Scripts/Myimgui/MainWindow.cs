@@ -71,31 +71,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             Config.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = currentColor;
         }
 
-        private void TopRow()
-        {
-            if (ImGuiNET.ImGui.BeginTable(nameof(topSize), 2, MyPropertyFlags.TableFlags(), topSize))
-            {
-                ImGuiNET.ImGui.TableSetupColumn(nameof(topLeftSize), MyPropertyFlags.TableColumnFlags(), topLeftSize.X);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(topRightSize), MyPropertyFlags.TableColumnFlags(), topRightSize.X);
-                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), topSize.Y);
-
-                // left side, scene tree view
-                if (ImGuiNET.ImGui.TableNextColumn())
-                {
-                    Counter = -1;
-                    Traverse(SceneTree?.CurrentScene);
-                }
-
-                // right side, field/property table
-                if (ImGuiNET.ImGui.TableNextColumn())
-                {
-                    MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyProperties), topRightSize);
-                }
-
-                ImGuiNET.ImGui.EndTable();
-            }
-        }
-
         public void Update(Godot.Node node)
         {
             SceneTree = node.GetTree().Root.GetTree();
@@ -128,14 +103,26 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             topRightSize = new System.Numerics.Vector2(windowSize.X * 0.7f, topSize.Y);
 
             // table
-            if (ImGuiNET.ImGui.BeginTable(nameof(MainWindow), 1, MyPropertyFlags.TableFlags(), windowSize))
+            if (ImGuiNET.ImGui.BeginTable(nameof(topSize), 2, MyPropertyFlags.TableFlags(), topSize))
             {
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MainWindow), MyPropertyFlags.TableColumnFlags(), windowSize.X);
-                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.NoneTableRowFlags(), topSize.Y);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(topLeftSize), MyPropertyFlags.TableColumnFlags(), topLeftSize.X);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(topRightSize), MyPropertyFlags.TableColumnFlags(), topRightSize.X);
+                
+                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.TableRowFlags(), Config.MinRowHeight);
+
+                // left side, scene tree view
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
-                    TopRow();
+                    Counter = -1;
+                    Traverse(SceneTree?.CurrentScene);
                 }
+
+                // right side, field/property table
+                if (ImGuiNET.ImGui.TableNextColumn())
+                {
+                    MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyProperties), topRightSize);
+                }
+
                 ImGuiNET.ImGui.EndTable();
             }
 
