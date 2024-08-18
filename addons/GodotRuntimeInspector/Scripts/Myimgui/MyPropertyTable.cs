@@ -342,7 +342,14 @@
                 return;
             }
 
-            if (myProperty.Instance is sbyte)
+            if (myProperty.Instance is bool)
+            {
+                if (bool.TryParse(value.ToString(), out bool result))
+                {
+                    field.SetValue(_selectedNode, result);
+                }
+            }
+            else if (myProperty.Instance is sbyte)
             {
                 if (sbyte.TryParse(value.ToString(), out sbyte result))
                 {
@@ -418,6 +425,11 @@
                 {
                     field.SetValue(_selectedNode, result);
                 }
+            }
+            else if (myProperty.Instance is string)
+            {
+                field.SetValue(_selectedNode, value.ToString());
+
             }
             else if (myProperty.Instance is System.Numerics.Vector2)
             {
@@ -434,14 +446,10 @@
                 System.Numerics.Vector3 result = (System.Numerics.Vector3)value;
                 field.SetValue(_selectedNode, result);
             }
-            else if (myProperty.Instance is Godot.Vector2)
+            else if (myProperty.Instance is Godot.Vector3)
             {
                 Godot.Vector3 result = (Godot.Vector3)value;
                 field.SetValue(_selectedNode, result);
-            }
-            else
-            {
-                field.SetValue(_selectedNode, value);
             }
         }
 
@@ -457,7 +465,14 @@
                 return;
             }
 
-            if (myProperty.Instance is sbyte)
+            if (myProperty.Instance is bool)
+            {
+                if (bool.TryParse(value.ToString(), out bool result))
+                {
+                    prop.SetValue(_selectedNode, result, null);
+                }
+            }
+            else if (myProperty.Instance is sbyte)
             {
                 if (sbyte.TryParse(value.ToString(), out sbyte result))
                 {
@@ -533,6 +548,10 @@
                 {
                     prop.SetValue(_selectedNode, result, null);
                 }
+            }
+            else if (myProperty.Instance is string)
+            {
+                prop.SetValue(_selectedNode, value.ToString(), null);
             }
             else if (myProperty.Instance is System.Numerics.Vector2)
             {
@@ -554,11 +573,6 @@
                 Godot.Vector3 result = (Godot.Vector3)value;
                 prop.SetValue(_selectedNode, result, null);
             }
-            else
-            {
-                prop.SetValue(_selectedNode, value, null);
-            }
-
         }
     }
 }

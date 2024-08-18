@@ -50,6 +50,8 @@ namespace GodotRuntimeInspector.Scripts
 
         public Godot.Vector3 GodotVector3 = new Godot.Vector3();
 
+        public Godot.Quaternion GodotQuaternion = new Godot.Quaternion();
+
         public override void _Ready()
         {
             base._Ready();

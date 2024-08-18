@@ -86,10 +86,11 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             {
                 SelectedNode = NothingSelected;
             }
-            if (SelectedNode.Name == nameof(SelectedNode))
+            if (SelectedNode.Name == nameof(SelectedNode) || SelectedNode.Name == nameof(NothingSelected))
             {
                 SelectedNode = SceneTree.CurrentScene;
             }
+
             MyProperties = MyProperty.NewArray(SelectedNode);
 
             // menu
