@@ -96,14 +96,16 @@
                 return;
             }
 
-            // build MyProperties
+            // selected
+            Godot.SceneTree sceneTree = node.GetTree().Root.GetTree();
+
             if (WeakRef.GetRef().Obj == null)
             {
                 SelectedNode = NothingSelected;
             }
-            else
+            if (SelectedNode.Name == nameof(SelectedNode) || SelectedNode.Name == nameof(NothingSelected))
             {
-                SelectedNode = node;
+                SelectedNode = sceneTree.CurrentScene;
             }
 
             MyProperties = MyProperty.NewArray(SelectedNode);
@@ -130,7 +132,7 @@
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
                     Counter = -1;
-                    Traverse(node);
+                    Traverse(sceneTree.CurrentScene);
                 }
 
                 // right side, field/property table
