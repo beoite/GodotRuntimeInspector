@@ -1,13 +1,7 @@
-using GodotRuntimeInspector.Scripts.Myimgui;
-
 namespace GodotRuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
     {
-        public MyLog MyLog = new MyLog();
-
-        public Myimgui.MultilineTextWindow MultilineTextWindow = new Myimgui.MultilineTextWindow();
-
         public ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
 
         public ImGuiNET.ImGuiIOPtr IOPTR = null;
@@ -15,6 +9,10 @@ namespace GodotRuntimeInspector.Scripts
         public ImGuiNET.ImGuiDockNodeFlags DockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
 
         public Myimgui.MainWindow MainWindow = new Myimgui.MainWindow();
+
+        public MyLog MyLog = new MyLog();
+
+        public Myimgui.MultilineTextWindow MultilineTextWindow = new Myimgui.MultilineTextWindow();
 
         // test 
 
@@ -63,10 +61,7 @@ namespace GodotRuntimeInspector.Scripts
             IOPTR = ImGuiNET.ImGui.GetIO();
             IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
 
-            // pointers to MainViewport and IO
-            MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
-            IOPTR = ImGuiNET.ImGui.GetIO();
-            IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
+            MainWindow = new Myimgui.MainWindow(MainviewPortPTR);
 
             // style
             Config.Style = ImGuiNET.ImGui.GetStyle();
@@ -110,25 +105,15 @@ namespace GodotRuntimeInspector.Scripts
                 return;
             }
 
-            Config.TotalDelta += delta;
-
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Config.Opacity);
-
             Config.DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(Config.DockspaceID, MainviewPortPTR, DockNodeFlags);
 
-            // size, position of main window
-            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y / 4f);
-            System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
-
-            ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
-            ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-            ImGuiNET.ImGui.SetNextWindowDockID(Config.DockspaceID, ImGuiNET.ImGuiCond.Appearing);
+            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Config.Opacity);
 
             // main window
             MainWindow.Update(this);
 
             // child windows
-            MyWindowManager.Update();
+            Myimgui.MyWindowManager.Update();
 
             // demo window
             if (Config.ShowDemoWindow == true)
@@ -139,11 +124,7 @@ namespace GodotRuntimeInspector.Scripts
             // log window
             if (Config.Log == true)
             {
-                windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
-                windowPos = new System.Numerics.Vector2(MainviewPortPTR.Size.X / 2f, MainviewPortPTR.Size.Y / 2f);
-                ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
-                ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-                MultilineTextWindow.Update(MyLog.LogPath + " " + MyLog.LastLogRead, ref MyLog.LogData);
+                MultilineTextWindow.Update(MyLog.LogPath, ref MyLog.LogData);
             }
         }
 

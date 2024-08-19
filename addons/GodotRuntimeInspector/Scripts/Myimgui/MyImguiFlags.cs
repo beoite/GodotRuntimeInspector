@@ -1,12 +1,11 @@
 ﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
-    public static class MyPropertyFlags
+    public static class MyImguiFlags
     {
         public static ImGuiNET.ImGuiWindowFlags WindowFlags()
         {
             ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
             flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
-            flags |= ImGuiNET.ImGuiWindowFlags.NoFocusOnAppearing;
             flags |= ImGuiNET.ImGuiWindowFlags.MenuBar;
             return flags;
         }

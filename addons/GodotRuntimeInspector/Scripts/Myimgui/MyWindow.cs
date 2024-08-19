@@ -14,8 +14,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
         private MyProperty _myProperty;
 
-        private ImGuiNET.ImGuiWindowFlags imGuiWindowFlags = new ImGuiNET.ImGuiWindowFlags();
-
         public MyPropertyTable MyPropertyTable = new MyPropertyTable();
 
         public MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
@@ -25,8 +23,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
         public MyWindow(MyProperty myProperty)
         {
             _myProperty = myProperty;
-
-            imGuiWindowFlags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
 
             MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
         }
@@ -43,7 +39,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
             string controlId = Utility.ToControlId(_myProperty);
 
-            if (!ImGuiNET.ImGui.Begin(controlId, imGuiWindowFlags))
+            if (!ImGuiNET.ImGui.Begin(controlId, MyImguiFlags.WindowFlags()))
             {
                 ImGuiNET.ImGui.End();
                 return;

@@ -93,17 +93,17 @@
             System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
             int numCols = fields.Length;
 
-            if (ImGuiNET.ImGui.BeginTable(id, numCols, MyPropertyFlags.TableFlags(), tableSize))
+            if (ImGuiNET.ImGui.BeginTable(id, numCols, MyImguiFlags.TableFlags(), tableSize))
             {
                 float width = tableSize.X / 2;
                 float smallWidth = width / 3f;
                 float extraSmallWidth = width / 8f;
 
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyPropertyFlags.TableColumnFlags(), extraSmallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyPropertyFlags.TableColumnFlags(), smallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyPropertyFlags.TableColumnFlags(), smallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyPropertyFlags.TableColumnFlags(), width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), smallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyImguiFlags.TableColumnFlags(), smallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyImguiFlags.TableColumnFlags(), width);
 
                 ImGuiNET.ImGui.TableHeadersRow();
 
@@ -119,7 +119,7 @@
                         continue;
                     }
 
-                    ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.TableRowFlags(), Config.MinRowHeight);
+                    ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), Config.MinRowHeight);
 
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
@@ -251,7 +251,7 @@
             string controlId = Utility.ToControlId(myProperty);
             string mystring = myProperty.Instance.ToString();
 
-            if (ImGuiNET.ImGui.InputText(controlId, ref mystring, Config.InputTextMaxLength, MyPropertyFlags.InputTextFlags()))
+            if (ImGuiNET.ImGui.InputText(controlId, ref mystring, Config.InputTextMaxLength, MyImguiFlags.InputTextFlags()))
             {
                 SetSelectedNodeValue(myProperty, mystring);
             }

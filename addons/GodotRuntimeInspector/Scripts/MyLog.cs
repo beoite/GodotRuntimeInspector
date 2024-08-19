@@ -8,7 +8,6 @@
         public string LogPath = string.Empty;
         public string LogData = string.Empty;
         public System.IO.FileSystemWatcher? FileSystemWatcher = null;
-        public double LastLogRead = 0;
 
         public MyLog()
         {
@@ -51,8 +50,6 @@
                 using (var reader = new System.IO.StreamReader(fileStream))
                 {
                     LogData = reader.ReadToEnd();
-
-                    LastLogRead = Config.TotalDelta;
                 }
             }
         }

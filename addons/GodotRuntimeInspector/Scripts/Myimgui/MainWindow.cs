@@ -6,8 +6,6 @@
 
         public MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
 
-        public Godot.SceneTree? SceneTree = null;
-
         public int Counter = -1;
 
         public MyPropertyTable MyPropertyTable = new MyPropertyTable();
@@ -24,6 +22,18 @@
 
         private readonly Godot.Node NothingSelected = new Godot.Node() { Name = nameof(NothingSelected) };
 
+        private ImGuiNET.ImGuiViewportPtr _mainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
+
+        public MainWindow()
+        {
+
+        }
+
+        public MainWindow(ImGuiNET.ImGuiViewportPtr mainviewPortPTR)
+        {
+            _mainviewPortPTR = mainviewPortPTR;
+        }
+
         private void Traverse(Godot.Node? node)
         {
             if (node == null)
@@ -31,7 +41,7 @@
                 return;
             }
             Counter++;
-            ImGuiNET.ImGuiTreeNodeFlags baseFlags = MyPropertyFlags.TreeNodeFlags();
+            ImGuiNET.ImGuiTreeNodeFlags baseFlags = MyImguiFlags.TreeNodeFlags();
             int childCount = node.GetChildCount();
             if (SelectedNode == node)
             {
@@ -71,9 +81,16 @@
 
         public void Update(Godot.Node node)
         {
-            SceneTree = node.GetTree().Root.GetTree();
+            // size, position of main window
+            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(_mainviewPortPTR.Size.X, _mainviewPortPTR.Size.Y / 4f);
+            System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
 
-            if (!ImGuiNET.ImGui.Begin(Utility.GetAnimatedTitle(SceneTree.CurrentScene.SceneFilePath), MyPropertyFlags.WindowFlags()))
+            ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
+            ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
+            ImGuiNET.ImGui.SetNextWindowDockID(Config.DockspaceID, ImGuiNET.ImGuiCond.Appearing);
+
+            string windowTitle = node.Name + "###ssdadasd";
+            if (!ImGuiNET.ImGui.Begin(windowTitle, MyImguiFlags.WindowFlags()))
             {
                 ImGuiNET.ImGui.End();
                 return;
@@ -84,15 +101,15 @@
             {
                 SelectedNode = NothingSelected;
             }
-            if (SelectedNode.Name == nameof(SelectedNode) || SelectedNode.Name == nameof(NothingSelected))
+            else
             {
-                SelectedNode = SceneTree.CurrentScene;
+                SelectedNode = node;
             }
 
             MyProperties = MyProperty.NewArray(SelectedNode);
 
             // menu
-            Myimgui.MenuBar.Update();
+            MenuBar.Update();
 
             // sizes
             windowSize = ImGuiNET.ImGui.GetWindowSize();
@@ -102,18 +119,18 @@
             topRightSize = new System.Numerics.Vector2(windowSize.X * 0.7f, topSize.Y);
 
             // table
-            if (ImGuiNET.ImGui.BeginTable(nameof(topSize), 2, MyPropertyFlags.TableFlags(), topSize))
+            if (ImGuiNET.ImGui.BeginTable(nameof(topSize), 2, MyImguiFlags.TableFlags(), topSize))
             {
-                ImGuiNET.ImGui.TableSetupColumn(nameof(topLeftSize), MyPropertyFlags.TableColumnFlags(), topLeftSize.X);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(topRightSize), MyPropertyFlags.TableColumnFlags(), topRightSize.X);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(topLeftSize), MyImguiFlags.TableColumnFlags(), topLeftSize.X);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(topRightSize), MyImguiFlags.TableColumnFlags(), topRightSize.X);
                 
-                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.TableRowFlags(), Config.MinRowHeight);
+                ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), Config.MinRowHeight);
 
                 // left side, scene tree view
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
                     Counter = -1;
-                    Traverse(SceneTree?.CurrentScene);
+                    Traverse(node);
                 }
 
                 // right side, field/property table

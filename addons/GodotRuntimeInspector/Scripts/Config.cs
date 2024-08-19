@@ -16,8 +16,6 @@
 
         public static bool Log = false;
 
-        public static double TotalDelta = 0;
-
         public static uint InputTextMaxLength = 64;
     }
 }
