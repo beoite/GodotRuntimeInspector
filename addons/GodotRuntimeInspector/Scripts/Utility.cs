@@ -5,7 +5,7 @@ namespace GodotRuntimeInspector.Scripts
 {
     public static class Utility
     {
-        public static string ToString(object? instance)
+        private static string ToString(object? instance)
         {
             string? str = null;
             try
@@ -22,6 +22,13 @@ namespace GodotRuntimeInspector.Scripts
                 strval = str.Trim();
             }
             return strval;
+        }
+
+        public static string ToControlId(MyProperty myProperty)
+        {
+            string text = ToString(myProperty.Instance);
+            string controlId = text + "###" + myProperty.Name;
+            return controlId;
         }
 
         public static MyTypes GetMyType(object? instance)

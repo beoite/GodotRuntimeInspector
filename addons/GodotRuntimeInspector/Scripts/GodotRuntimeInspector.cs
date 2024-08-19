@@ -1,3 +1,5 @@
+using GodotRuntimeInspector.Scripts.Myimgui;
+
 namespace GodotRuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
@@ -124,6 +126,9 @@ namespace GodotRuntimeInspector.Scripts
 
             // main window
             MainWindow.Update(this);
+
+            // child windows
+            MyWindowManager.Update();
 
             // demo window
             if (Config.ShowDemoWindow == true)

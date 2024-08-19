@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public class MainWindow
     {
@@ -53,7 +51,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             bool processModeDisabled = node.ProcessMode == Godot.Node.ProcessModeEnum.Disabled;
             if (processModeDisabled == true)
             {
-                Config.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.NIGHTBLUE.ToVector4();
+                Config.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.MEAT.ToVector4();
             }
             if (ImGuiNET.ImGui.TreeNodeEx(node.Name + " | " + node.GetPath(), baseFlags))
             {

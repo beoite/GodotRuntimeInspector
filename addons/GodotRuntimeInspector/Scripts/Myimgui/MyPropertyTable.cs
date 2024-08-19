@@ -186,17 +186,18 @@
 
         private void DrawComplex(MyProperty myProperty)
         {
-            string text = Utility.ToString(myProperty.Instance);
-            string controlId = text + "###" + myProperty.Name;
+            string controlId = Utility.ToControlId(myProperty);
             string mystring = myProperty.Instance.ToString();
 
-            ImGuiNET.ImGui.Text(text);
+            if (ImGuiNET.ImGui.Button(controlId, new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), Config.MinRowHeight)))
+            {
+                MyWindowManager.Add(myProperty);
+            }
         }
 
         private void DrawMyBoolean(MyProperty myProperty)
         {
-            string text = Utility.ToString(myProperty.Instance);
-            string controlId = text + "###" + myProperty.Name;
+            string controlId = Utility.ToControlId(myProperty);
             bool mybool = (bool)myProperty.Instance;
 
             if (ImGuiNET.ImGui.Checkbox(controlId, ref mybool))
@@ -207,6 +208,8 @@
 
         private void DrawNumber(MyProperty myProperty)
         {
+            string controlId = Utility.ToControlId(myProperty);
+
             // InputInt
             bool drawInt = myProperty.Instance is sbyte;
             drawInt = drawInt || myProperty.Instance is byte;
@@ -216,8 +219,6 @@
 
             if (drawInt == true)
             {
-                string text = Utility.ToString(myProperty.Instance);
-                string controlId = text + "###" + myProperty.Name;
                 int myint = System.Convert.ToInt32(myProperty.Instance);
 
                 if (ImGuiNET.ImGui.InputInt(controlId, ref myint))
@@ -236,8 +237,6 @@
 
             if (drawDouble == true)
             {
-                string text = Utility.ToString(myProperty.Instance);
-                string controlId = text + "###" + myProperty.Name;
                 double mydouble = System.Convert.ToDouble(myProperty.Instance);
 
                 if (ImGuiNET.ImGui.InputDouble(controlId, ref mydouble))
@@ -249,11 +248,10 @@
 
         private void DrawString(MyProperty myProperty)
         {
-            string text = Utility.ToString(myProperty.Instance);
-            string controlId = text + "###" + myProperty.Name;
+            string controlId = Utility.ToControlId(myProperty);
             string mystring = myProperty.Instance.ToString();
 
-            if (ImGuiNET.ImGui.InputText(text, ref mystring, Config.InputTextMaxLength, MyPropertyFlags.InputTextFlags()))
+            if (ImGuiNET.ImGui.InputText(controlId, ref mystring, Config.InputTextMaxLength, MyPropertyFlags.InputTextFlags()))
             {
                 SetSelectedNodeValue(myProperty, mystring);
             }
@@ -261,8 +259,7 @@
 
         private void DrawVector2(MyProperty myProperty)
         {
-            string text = Utility.ToString(myProperty.Instance);
-            string controlId = text + "###" + myProperty.Name;
+            string controlId = Utility.ToControlId(myProperty);
             System.Numerics.Vector2 systemvector2 = System.Numerics.Vector2.Zero;
 
             if (myProperty.Instance is System.Numerics.Vector2)
@@ -291,8 +288,7 @@
 
         private void DrawVector3(MyProperty myProperty)
         {
-            string text = Utility.ToString(myProperty.Instance);
-            string controlId = text + "###" + myProperty.Name;
+            string controlId = Utility.ToControlId(myProperty);
             System.Numerics.Vector3 systemvector3 = System.Numerics.Vector3.Zero;
 
             if (myProperty.Instance is System.Numerics.Vector3)
