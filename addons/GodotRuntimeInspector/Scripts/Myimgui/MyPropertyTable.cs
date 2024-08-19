@@ -2,7 +2,7 @@
 {
     public class MyPropertyTable
     {
-        private Godot.Node _selectedNode = new Godot.Node() { Name = nameof(_selectedNode) };
+        private Godot.Node? _selectedNode = new Godot.Node() { Name = nameof(_selectedNode) };
 
         private static unsafe void Sort(ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
         {
@@ -85,7 +85,7 @@
             }
         }
 
-        public void Update(Godot.Node selectedNode, MyProperty[] myProperties, string id, System.Numerics.Vector2 tableSize)
+        public void Update(Godot.Node? selectedNode, MyProperty[] myProperties, string id, System.Numerics.Vector2 tableSize)
         {
             _selectedNode = selectedNode;
 
@@ -317,6 +317,11 @@
 
         public void SetSelectedNodeValue(MyProperty myProperty, object value)
         {
+            if(_selectedNode is null)
+            {
+                return;
+            }
+
             System.Reflection.BindingFlags bindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
 
             System.Type systemType = _selectedNode.GetType();

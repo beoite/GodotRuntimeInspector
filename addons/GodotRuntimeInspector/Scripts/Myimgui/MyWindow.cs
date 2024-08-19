@@ -14,17 +14,33 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
         private MyProperty _myProperty;
 
-        ImGuiNET.ImGuiWindowFlags imGuiWindowFlags = new ImGuiNET.ImGuiWindowFlags();
+        private ImGuiNET.ImGuiWindowFlags imGuiWindowFlags = new ImGuiNET.ImGuiWindowFlags();
+
+        public MyPropertyTable MyPropertyTable = new MyPropertyTable();
+
+        public MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
+
+        public ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
 
         public MyWindow(MyProperty myProperty)
         {
             _myProperty = myProperty;
 
             imGuiWindowFlags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
+
+            MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
         }
 
         public void Update()
         {
+            // size, position of main window
+            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y / 4f);
+            System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
+
+            ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
+            ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
+            ImGuiNET.ImGui.SetNextWindowDockID(Config.DockspaceID, ImGuiNET.ImGuiCond.Appearing);
+
             string controlId = Utility.ToControlId(_myProperty);
 
             if (!ImGuiNET.ImGui.Begin(controlId, imGuiWindowFlags))
@@ -33,36 +49,13 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 return;
             }
 
-            windowSize = new System.Numerics.Vector2(600, 400);
-            windowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - (Config.MinRowHeight));
-            topSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - Config.MinRowHeight);
-            topLeftSize = new System.Numerics.Vector2(windowSize.X * 0.5f, topSize.Y);
-            topRightSize = new System.Numerics.Vector2(windowSize.X * 0.5f, topSize.Y);
-
-            if (ImGuiNET.ImGui.BeginTable(nameof(topSize), 2, MyPropertyFlags.TableFlags(), topSize))
+            if (ImGuiNET.ImGui.Button("Close", new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), Config.MinRowHeight)))
             {
-                ImGuiNET.ImGui.TableSetupColumn(nameof(topLeftSize), MyPropertyFlags.TableColumnFlags(), topLeftSize.X);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(topRightSize), MyPropertyFlags.TableColumnFlags(), topRightSize.X);
-
-                ImGuiNET.ImGui.TableNextRow(MyPropertyFlags.TableRowFlags(), Config.MinRowHeight);
-
-                // left side, scene tree view
-                if (ImGuiNET.ImGui.TableNextColumn())
-                {
-
-                }
-
-                // right side, field/property table
-                if (ImGuiNET.ImGui.TableNextColumn())
-                {
-                    if (ImGuiNET.ImGui.Button("Close", new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), Config.MinRowHeight)))
-                    {
-                        MyWindowManager.Remove(_myProperty);
-                    }
-                }
-
-                ImGuiNET.ImGui.EndTable();
+                MyWindowManager.Remove(_myProperty);
             }
+
+            MyProperties = MyProperty.NewArray(_myProperty.Instance);
+            MyPropertyTable.Update(null, MyProperties, nameof(MyProperties), topRightSize);
 
             ImGuiNET.ImGui.End();
 
