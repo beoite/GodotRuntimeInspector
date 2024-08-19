@@ -1,43 +1,29 @@
-﻿using System;
-
-namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public class MyWindow
     {
-        private System.Numerics.Vector2 windowSize = System.Numerics.Vector2.Zero;
+        public MyProperty MyProperty;
 
-        private System.Numerics.Vector2 topSize = System.Numerics.Vector2.Zero;
+        public System.Numerics.Vector2 WindowSize = System.Numerics.Vector2.Zero;
 
-        private System.Numerics.Vector2 topLeftSize = System.Numerics.Vector2.Zero;
+        public System.Numerics.Vector2 TopSize = System.Numerics.Vector2.Zero;
 
-        private System.Numerics.Vector2 topRightSize = System.Numerics.Vector2.Zero;
+        public System.Numerics.Vector2 TopLeftSize = System.Numerics.Vector2.Zero;
 
-        private MyProperty _myProperty;
+        public System.Numerics.Vector2 TopRightSize = System.Numerics.Vector2.Zero;
 
         public MyPropertyTable MyPropertyTable = new MyPropertyTable();
 
         public MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
 
-        public ImGuiNET.ImGuiViewportPtr MainviewPortPTR = new ImGuiNET.ImGuiViewportPtr();
-
         public MyWindow(MyProperty myProperty)
         {
-            _myProperty = myProperty;
-
-            MainviewPortPTR = ImGuiNET.ImGui.GetMainViewport();
+            MyProperty = myProperty;
         }
 
         public void Update()
         {
-            // size, position of main window
-            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(MainviewPortPTR.Size.X, MainviewPortPTR.Size.Y / 4f);
-            System.Numerics.Vector2 windowPos = new System.Numerics.Vector2(0f, 0f);
-
-            ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
-            ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-            ImGuiNET.ImGui.SetNextWindowDockID(Config.DockspaceID, ImGuiNET.ImGuiCond.Appearing);
-
-            string controlId = Utility.ToControlId(_myProperty);
+            string controlId = Utility.ToControlId(MyProperty);
 
             if (!ImGuiNET.ImGui.Begin(controlId, MyImguiFlags.WindowFlags()))
             {
@@ -47,11 +33,12 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
             if (ImGuiNET.ImGui.Button("Close", new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), Config.MinRowHeight)))
             {
-                MyWindowManager.Remove(_myProperty);
+                WindowManager.Remove(MyProperty);
             }
 
-            MyProperties = MyProperty.NewArray(_myProperty.Instance);
-            MyPropertyTable.Update(null, MyProperties, nameof(MyProperties), topRightSize);
+            MyProperties = MyProperty.NewArray(MyProperty.Instance);
+
+            MyPropertyTable.Update(null, MyProperties, nameof(MyProperties), TopRightSize);
 
             ImGuiNET.ImGui.End();
 

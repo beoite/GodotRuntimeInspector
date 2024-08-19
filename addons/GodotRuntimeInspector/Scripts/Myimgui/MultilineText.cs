@@ -8,7 +8,9 @@
         {
             ImGuiNET.ImGuiInputTextFlags flags = ImGuiNET.ImGuiInputTextFlags.None;
             flags |= ImGuiNET.ImGuiInputTextFlags.ReadOnly;
+
             string textID = "###" + ID;
+
             if (ImGuiNET.ImGui.InputTextMultiline(textID, ref input, uint.MaxValue, size, flags))
             {
 

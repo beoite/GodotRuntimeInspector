@@ -2,7 +2,7 @@
 {
     public class MyPropertyTable
     {
-        private Godot.Node? _selectedNode = new Godot.Node() { Name = nameof(_selectedNode) };
+        public Godot.Node? SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
 
         private static unsafe void Sort(ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
         {
@@ -87,7 +87,7 @@
 
         public void Update(Godot.Node? selectedNode, MyProperty[] myProperties, string id, System.Numerics.Vector2 tableSize)
         {
-            _selectedNode = selectedNode;
+            SelectedNode = selectedNode;
 
             string name = nameof(Update) + id;
             System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
@@ -191,7 +191,7 @@
 
             if (ImGuiNET.ImGui.Button(controlId, new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), Config.MinRowHeight)))
             {
-                MyWindowManager.Add(myProperty);
+                WindowManager.Add(myProperty);
             }
         }
 
@@ -317,14 +317,14 @@
 
         public void SetSelectedNodeValue(MyProperty myProperty, object value)
         {
-            if(_selectedNode is null)
+            if(SelectedNode is null)
             {
                 return;
             }
 
             System.Reflection.BindingFlags bindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
 
-            System.Type systemType = _selectedNode.GetType();
+            System.Type systemType = SelectedNode.GetType();
 
             System.Reflection.FieldInfo? field = systemType.GetField(myProperty.Name, bindingFlags);
 
@@ -347,110 +347,110 @@
             {
                 if (bool.TryParse(value.ToString(), out bool result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is sbyte)
             {
                 if (sbyte.TryParse(value.ToString(), out sbyte result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is byte)
             {
                 if (byte.TryParse(value.ToString(), out byte result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is short)
             {
                 if (short.TryParse(value.ToString(), out short result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is ushort)
             {
                 if (ushort.TryParse(value.ToString(), out ushort result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is int)
             {
                 if (int.TryParse(value.ToString(), out int result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is uint)
             {
                 if (uint.TryParse(value.ToString(), out uint result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is long)
             {
                 if (long.TryParse(value.ToString(), out long result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is ulong)
             {
                 if (ulong.TryParse(value.ToString(), out ulong result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is float)
             {
                 if (float.TryParse(value.ToString(), out float result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is double)
             {
                 if (double.TryParse(value.ToString(), out double result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is decimal)
             {
                 if (decimal.TryParse(value.ToString(), out decimal result))
                 {
-                    field.SetValue(_selectedNode, result);
+                    field.SetValue(SelectedNode, result);
                 }
             }
             else if (myProperty.Instance is string)
             {
-                field.SetValue(_selectedNode, value.ToString());
+                field.SetValue(SelectedNode, value.ToString());
 
             }
             else if (myProperty.Instance is System.Numerics.Vector2)
             {
                 System.Numerics.Vector2 result = (System.Numerics.Vector2)value;
-                field.SetValue(_selectedNode, result);
+                field.SetValue(SelectedNode, result);
             }
             else if (myProperty.Instance is Godot.Vector2)
             {
                 Godot.Vector2 result = (Godot.Vector2)value;
-                field.SetValue(_selectedNode, result);
+                field.SetValue(SelectedNode, result);
             }
             else if (myProperty.Instance is System.Numerics.Vector3)
             {
                 System.Numerics.Vector3 result = (System.Numerics.Vector3)value;
-                field.SetValue(_selectedNode, result);
+                field.SetValue(SelectedNode, result);
             }
             else if (myProperty.Instance is Godot.Vector3)
             {
                 Godot.Vector3 result = (Godot.Vector3)value;
-                field.SetValue(_selectedNode, result);
+                field.SetValue(SelectedNode, result);
             }
         }
 
@@ -470,109 +470,109 @@
             {
                 if (bool.TryParse(value.ToString(), out bool result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is sbyte)
             {
                 if (sbyte.TryParse(value.ToString(), out sbyte result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is byte)
             {
                 if (byte.TryParse(value.ToString(), out byte result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is short)
             {
                 if (short.TryParse(value.ToString(), out short result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is ushort)
             {
                 if (ushort.TryParse(value.ToString(), out ushort result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is int)
             {
                 if (int.TryParse(value.ToString(), out int result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is uint)
             {
                 if (uint.TryParse(value.ToString(), out uint result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is long)
             {
                 if (long.TryParse(value.ToString(), out long result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is ulong)
             {
                 if (ulong.TryParse(value.ToString(), out ulong result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is float)
             {
                 if (float.TryParse(value.ToString(), out float result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is double)
             {
                 if (double.TryParse(value.ToString(), out double result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is decimal)
             {
                 if (decimal.TryParse(value.ToString(), out decimal result))
                 {
-                    prop.SetValue(_selectedNode, result, null);
+                    prop.SetValue(SelectedNode, result, null);
                 }
             }
             else if (myProperty.Instance is string)
             {
-                prop.SetValue(_selectedNode, value.ToString(), null);
+                prop.SetValue(SelectedNode, value.ToString(), null);
             }
             else if (myProperty.Instance is System.Numerics.Vector2)
             {
                 System.Numerics.Vector2 result = (System.Numerics.Vector2)value;
-                prop.SetValue(_selectedNode, result, null);
+                prop.SetValue(SelectedNode, result, null);
             }
             else if (myProperty.Instance is Godot.Vector2)
             {
                 Godot.Vector2 result = (Godot.Vector2)value;
-                prop.SetValue(_selectedNode, result, null);
+                prop.SetValue(SelectedNode, result, null);
             }
             else if (myProperty.Instance is System.Numerics.Vector3)
             {
                 System.Numerics.Vector3 result = (System.Numerics.Vector3)value;
-                prop.SetValue(_selectedNode, result, null);
+                prop.SetValue(SelectedNode, result, null);
             }
             else if (myProperty.Instance is Godot.Vector3)
             {
                 Godot.Vector3 result = (Godot.Vector3)value;
-                prop.SetValue(_selectedNode, result, null);
+                prop.SetValue(SelectedNode, result, null);
             }
         }
     }

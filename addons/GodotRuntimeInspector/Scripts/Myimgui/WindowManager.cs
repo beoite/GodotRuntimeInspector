@@ -2,9 +2,15 @@
 
 namespace GodotRuntimeInspector.Scripts.Myimgui
 {
-    public static class MyWindowManager
+    public static class WindowManager
     {
-        private static System.Collections.Generic.Dictionary<string, MyWindow> MyWindows = new System.Collections.Generic.Dictionary<string, MyWindow>();
+        public static MainWindow MainWindow = new MainWindow();
+
+        public static MultilineTextWindow MultilineTextWindow = new MultilineTextWindow();
+
+        public static System.Collections.Generic.Dictionary<string, MyWindow> MyWindows = new System.Collections.Generic.Dictionary<string, MyWindow>();
+
+        public static MyLog MyLog = new MyLog();
 
         public static void Add(MyProperty myProperty)
         {
@@ -27,8 +33,10 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             bool removed = MyWindows.Remove(controlId);
         }
 
-        public static void Update()
+        public static void Update(Godot.Node node)
         {
+            MainWindow.Update(node);
+
             string[] keys = MyWindows.Keys.ToArray();
 
             for (int i = 0; i < keys.Length; i++)
@@ -36,6 +44,18 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 string key = keys[i];
                 MyWindow myWindow = MyWindows[key];
                 myWindow.Update();
+            }
+
+            // log window
+            if (Config.Log == true)
+            {
+                MultilineTextWindow.Update(MyLog.LogPath, ref MyLog.LogData);
+            }
+
+            // demo window
+            if (Config.ShowDemoWindow == true)
+            {
+                ImGuiNET.ImGui.ShowDemoWindow();
             }
         }
     }
