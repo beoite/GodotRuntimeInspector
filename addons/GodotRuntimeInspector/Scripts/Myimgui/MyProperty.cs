@@ -3,10 +3,15 @@
     public class MyProperty
     {
         public int Index = 0;
+
         public Tags Tags = Tags.None;
+
         public System.Type Type = typeof(MyProperty);
+
         public string Name = string.Empty;
+
         public object? Instance = null;
+
         public int Clicks = 0;
 
         public static MyProperty[] NewArray(object? instance)
@@ -52,17 +57,20 @@
             {
                 combinedIndex++;
                 System.Reflection.PropertyInfo prop = props[i];
-                object? val = prop.GetValue(instance);
-                Tags tags = Tags.Property;
-                MyProperty myProperty = new MyProperty
+                if (prop.CanRead == true)
                 {
-                    Index = combinedIndex,
-                    Tags = tags,
-                    Type = prop.PropertyType,
-                    Name = prop.Name,
-                    Instance = val
-                };
-                myProperties[combinedIndex] = myProperty;
+                    object? val = prop.GetValue(instance);
+                    Tags tags = Tags.Property;
+                    MyProperty myProperty = new MyProperty
+                    {
+                        Index = combinedIndex,
+                        Tags = tags,
+                        Type = prop.PropertyType,
+                        Name = prop.Name,
+                        Instance = val
+                    };
+                    myProperties[combinedIndex] = myProperty;
+                }
             }
 
             // Methods

@@ -16,15 +16,7 @@
 
         public void Update(Godot.Node node)
         {
-            // size
-            Godot.Vector2 visibleRect = node.GetViewport().GetVisibleRect().Size;
-            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(visibleRect.X, visibleRect.Y * 0.3f);
-            ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
-
-            // position
-            System.Numerics.Vector2 windowPos = System.Numerics.Vector2.Zero;
-            ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-
+            // window start
             string controlId = node.SceneFilePath;
 
             if (!ImGuiNET.ImGui.Begin(controlId, MyImguiFlags.WindowFlags()))
@@ -49,12 +41,12 @@
 
             // menu
             MenuBar.Update();
-
-            System.Numerics.Vector2 topSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - Config.MinRowHeight);
-            System.Numerics.Vector2 topLeftSize = new System.Numerics.Vector2(windowSize.X * 0.3f, topSize.Y);
-            System.Numerics.Vector2 topRightSize = new System.Numerics.Vector2(windowSize.X * 0.7f, topSize.Y);
-
+            
             // table
+            System.Numerics.Vector2 topSize = new System.Numerics.Vector2(WindowManager.WindowSize.X, WindowManager.WindowSize.Y - Config.MinRowHeight);
+            System.Numerics.Vector2 topLeftSize = new System.Numerics.Vector2(WindowManager.WindowSize.X * 0.3f, topSize.Y);
+            System.Numerics.Vector2 topRightSize = new System.Numerics.Vector2(WindowManager.WindowSize.X * 0.7f, topSize.Y);
+
             if (ImGuiNET.ImGui.BeginTable(nameof(topSize), 2, MyImguiFlags.TableFlags(), topSize))
             {
                 ImGuiNET.ImGui.TableSetupColumn(nameof(topLeftSize), MyImguiFlags.TableColumnFlags(), topLeftSize.X);

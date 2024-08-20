@@ -101,8 +101,8 @@
 
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), smallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyImguiFlags.TableColumnFlags(), smallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyImguiFlags.TableColumnFlags(), width);
 
                 ImGuiNET.ImGui.TableHeadersRow();
@@ -328,12 +328,17 @@
 
             System.Reflection.FieldInfo? field = systemType.GetField(myProperty.Name, bindingFlags);
 
-            TrySetField(field, myProperty, value);
+            if (field is not null)
+            {
+                TrySetField(field, myProperty, value);
+            }
 
             System.Reflection.PropertyInfo? prop = systemType.GetProperty(myProperty.Name, bindingFlags);
 
-            TrySetProperty(prop, myProperty, value);
-
+            if (prop is not null)
+            {
+                TrySetProperty(prop, myProperty, value);
+            }
         }
 
         private void TrySetField(System.Reflection.FieldInfo? field, MyProperty myProperty, object value)
