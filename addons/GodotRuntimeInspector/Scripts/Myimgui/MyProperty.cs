@@ -2,6 +2,8 @@
 {
     public class MyProperty
     {
+        public System.Guid Id = System.Guid.NewGuid();
+
         public int Index = 0;
 
         public Tags Tags = Tags.None;
@@ -26,6 +28,7 @@
                 props = instance.GetType().GetProperties();
                 methods = instance.GetType().GetMethods();
             }
+
             int length = fields.Length + props.Length + methods.Length;
             MyProperty[] myProperties = new MyProperty[length];
             int combinedIndex = -1;

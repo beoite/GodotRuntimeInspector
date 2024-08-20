@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public static class WindowManager
     {
@@ -8,7 +6,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
         public static MultilineTextWindow MultilineTextWindow = new MultilineTextWindow();
 
-        public static System.Collections.Generic.Dictionary<string, MyWindow> MyWindows = new System.Collections.Generic.Dictionary<string, MyWindow>();
+        public static System.Collections.Generic.Dictionary<System.Guid, MyPropertyInspector> MyPropertyInspectors = new System.Collections.Generic.Dictionary<System.Guid, MyPropertyInspector>();
 
         public static MyLog MyLog = new MyLog();
 
@@ -18,28 +16,26 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
         {
             string controlId = Utility.ToControlId(myProperty);
 
-            bool contains = MyWindows.ContainsKey(controlId);
+            bool contains = MyPropertyInspectors.ContainsKey(myProperty.Id);
 
             if (contains == false)
             {
-                MyWindow myWindow = new MyWindow(myProperty);
+                MyPropertyInspector myPropertyInspector = new MyPropertyInspector(myProperty);
 
-                MyWindows.Add(controlId, myWindow);
+                MyPropertyInspectors.Add(myProperty.Id, myPropertyInspector);
             }
         }
 
         public static void Remove(MyProperty myProperty)
         {
-            string controlId = Utility.ToControlId(myProperty);
-
-            bool removed = MyWindows.Remove(controlId);
+            bool removed = MyPropertyInspectors.Remove(myProperty.Id);
         }
 
         public static void Update(Godot.Node node)
         {
             // size
             Godot.Vector2 visibleRect = node.GetViewport().GetVisibleRect().Size;
-            WindowSize = new System.Numerics.Vector2(visibleRect.X, visibleRect.Y * 0.3f);
+            WindowSize = new System.Numerics.Vector2(visibleRect.X, visibleRect.Y * Config.MainWindowSize);
             ImGuiNET.ImGui.SetNextWindowSize(WindowSize, ImGuiNET.ImGuiCond.Appearing);
 
             // position
@@ -48,23 +44,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
             // main window
             MainWindow.Update(node);
-
-            // child windows
-            string[] keys = MyWindows.Keys.ToArray();
-
-            for (int i = 0; i < keys.Length; i++)
-            {
-                // size
-                ImGuiNET.ImGui.SetNextWindowSize(WindowSize, ImGuiNET.ImGuiCond.Appearing);
-
-                // position
-                windowPos = new System.Numerics.Vector2(0, visibleRect.Y - WindowSize.Y);
-                ImGuiNET.ImGui.SetNextWindowPos(windowPos, ImGuiNET.ImGuiCond.Appearing);
-
-                string key = keys[i];
-                MyWindow myWindow = MyWindows[key];
-                myWindow.Update();
-            }
 
             // log window
             if (Config.Log == true)

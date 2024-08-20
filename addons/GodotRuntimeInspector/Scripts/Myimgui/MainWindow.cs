@@ -1,4 +1,6 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿using System.Linq;
+
+namespace GodotRuntimeInspector.Scripts.Myimgui
 {
     public class MainWindow
     {
@@ -68,6 +70,18 @@
                 }
 
                 ImGuiNET.ImGui.EndTable();
+            }
+
+            // children
+            System.Guid[] keys = WindowManager.MyPropertyInspectors.Keys.ToArray();
+
+            for (int i = 0; i < keys.Length; i++)
+            {
+                System.Guid key = keys[i];
+
+                MyPropertyInspector myPropertyInspector = WindowManager.MyPropertyInspectors[key];
+
+                myPropertyInspector.Update();
             }
 
             ImGuiNET.ImGui.End();

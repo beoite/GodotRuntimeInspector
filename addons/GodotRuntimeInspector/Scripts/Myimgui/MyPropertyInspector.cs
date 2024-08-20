@@ -1,6 +1,6 @@
 ﻿namespace GodotRuntimeInspector.Scripts.Myimgui
 {
-    public class MyWindow
+    public class MyPropertyInspector
     {
         public MyProperty MyProperty;
 
@@ -16,7 +16,7 @@
 
         public MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
 
-        public MyWindow(MyProperty myProperty)
+        public MyPropertyInspector(MyProperty myProperty)
         {
             MyProperty = myProperty;
         }
@@ -24,12 +24,6 @@
         public void Update()
         {
             string controlId = Utility.ToControlId(MyProperty);
-
-            if (!ImGuiNET.ImGui.Begin(controlId, MyImguiFlags.WindowFlags()))
-            {
-                ImGuiNET.ImGui.End();
-                return;
-            }
 
             if (ImGuiNET.ImGui.Button("Close", new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), Config.MinRowHeight)))
             {
@@ -39,9 +33,6 @@
             MyProperties = MyProperty.NewArray(MyProperty.Instance);
 
             MyPropertyTable.Update(null, MyProperties, nameof(MyProperties), TopRightSize);
-
-            ImGuiNET.ImGui.End();
-
         }
     }
 }

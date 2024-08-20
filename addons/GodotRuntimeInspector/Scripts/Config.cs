@@ -17,5 +17,7 @@
         public static bool Log = false;
 
         public static uint InputTextMaxLength = 64;
+
+        public static float MainWindowSize = 0.5f;
     }
 }
