@@ -49,7 +49,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
             if (ImGuiNET.ImGui.BeginTable(nameof(MainWindow), 1, MyImguiFlags.TableFlags(), rowSize))
             {
-                ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), Config.MinRowHeight);
+                ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), rowSize.Y);
 
                 // left side, scene tree view
                 if (ImGuiNET.ImGui.TableNextColumn())
@@ -58,7 +58,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                     Traverse(sceneTree.CurrentScene);
                 }
 
-                ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), Config.MinRowHeight);
+                ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), rowSize.Y);
 
                 // right side, field/property table
                 if (ImGuiNET.ImGui.TableNextColumn())
