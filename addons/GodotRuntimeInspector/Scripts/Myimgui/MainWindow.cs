@@ -45,15 +45,10 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             MenuBar.Update();
             
             // table
-            System.Numerics.Vector2 topSize = new System.Numerics.Vector2(WindowManager.WindowSize.X, WindowManager.WindowSize.Y - Config.MinRowHeight);
-            System.Numerics.Vector2 topLeftSize = new System.Numerics.Vector2(WindowManager.WindowSize.X * 0.3f, topSize.Y);
-            System.Numerics.Vector2 topRightSize = new System.Numerics.Vector2(WindowManager.WindowSize.X * 0.7f, topSize.Y);
+            System.Numerics.Vector2 rowSize = new System.Numerics.Vector2(WindowManager.WindowSize.X, WindowManager.WindowSize.Y *.33f);
 
-            if (ImGuiNET.ImGui.BeginTable(nameof(topSize), 2, MyImguiFlags.TableFlags(), topSize))
+            if (ImGuiNET.ImGui.BeginTable(nameof(MainWindow), 1, MyImguiFlags.TableFlags(), rowSize))
             {
-                ImGuiNET.ImGui.TableSetupColumn(nameof(topLeftSize), MyImguiFlags.TableColumnFlags(), topLeftSize.X);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(topRightSize), MyImguiFlags.TableColumnFlags(), topRightSize.X);
-
                 ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), Config.MinRowHeight);
 
                 // left side, scene tree view
@@ -63,10 +58,12 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                     Traverse(sceneTree.CurrentScene);
                 }
 
+                ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), Config.MinRowHeight);
+
                 // right side, field/property table
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
-                    MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyProperties), topRightSize);
+                    MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyProperties), rowSize);
                 }
 
                 ImGuiNET.ImGui.EndTable();

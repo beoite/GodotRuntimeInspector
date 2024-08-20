@@ -25,7 +25,7 @@
         {
             string controlId = Utility.ToControlId(MyProperty);
 
-            if (ImGuiNET.ImGui.Button("Close", new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), Config.MinRowHeight)))
+            if (ImGuiNET.ImGui.Button(MyProperty.Name + " (Close)", new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), Config.MinRowHeight)))
             {
                 WindowManager.Remove(MyProperty);
             }
