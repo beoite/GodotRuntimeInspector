@@ -16,10 +16,16 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
         public readonly Godot.Node NothingSelected = new Godot.Node() { Name = nameof(NothingSelected) };
 
+        public Godot.SceneTree SceneTree = new Godot.SceneTree();
+
+        public Godot.Node Node = new Godot.Node();
+
         public void Update(Godot.Node node)
         {
+            Node = node;
+
             // window start
-            string controlId = node.SceneFilePath;
+            string controlId = Node.SceneFilePath;
 
             if (!ImGuiNET.ImGui.Begin(controlId, MyImguiFlags.WindowFlags()))
             {
@@ -27,26 +33,14 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 return;
             }
 
-            // selected
-            Godot.SceneTree sceneTree = node.GetTree().Root.GetTree();
-
-            if (WeakRef.GetRef().Obj == null)
-            {
-                SelectedNode = NothingSelected;
-            }
-            if (SelectedNode.Name == nameof(SelectedNode) || SelectedNode.Name == nameof(NothingSelected))
-            {
-                SelectedNode = sceneTree.CurrentScene;
-            }
-
-            MyProperties = MyProperty.NewArray(SelectedNode);
+            SetSelectedNode();
 
             // menu
             MenuBar.Update();
 
             // table
             System.Numerics.Vector2 windowSize = ImGuiNET.ImGui.GetWindowSize();
-            float bottomRowHeight = Config.MinRowHeight * 8;
+            float bottomRowHeight = Config.MinRowHeight * 2;
             System.Numerics.Vector2 topRowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - bottomRowHeight);
             System.Numerics.Vector2 bottomRowSize = new System.Numerics.Vector2(windowSize.X, bottomRowHeight);
 
@@ -64,29 +58,22 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
                     Counter = -1;
-                    Traverse(sceneTree.CurrentScene);
+                    Traverse(SceneTree.CurrentScene);
                 }
 
                 // right side, field/property table
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
-                    //if (ImGuiNET.ImGui.BeginChild(nameof(MyPropertyTable)))
-                    //{
                     float colWidth = ImGuiNET.ImGui.GetColumnWidth();
                     System.Numerics.Vector2 propertyTableSize = new System.Numerics.Vector2(colWidth, topRowSize.Y - Config.MinRowHeight);
 
                     MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyProperties), propertyTableSize);
-
-                    //    ImGuiNET.ImGui.EndChild();
-                    //}
                 }
 
                 ImGuiNET.ImGui.EndTable();
             }
 
             // children
-            //if (ImGuiNET.ImGui.BeginChild(nameof(WindowManager.MyPropertyInspectors)))
-            //{
             System.Guid[] keys = WindowManager.MyPropertyInspectors.Keys.ToArray();
 
             for (int i = 0; i < keys.Length; i++)
@@ -95,13 +82,28 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
                 MyPropertyInspector myPropertyInspector = WindowManager.MyPropertyInspectors[key];
 
-                myPropertyInspector.Update(bottomRowSize);
+                System.Numerics.Vector2 inspectorSize = new System.Numerics.Vector2(windowSize.X, Config.MinRowHeight * 8);
+
+                myPropertyInspector.Update(inspectorSize);
             }
 
-            //ImGuiNET.ImGui.EndChild();
-            //}
-
             ImGuiNET.ImGui.End();
+        }
+
+        private void SetSelectedNode()
+        {
+            SceneTree = Node.GetTree().Root.GetTree();
+
+            if (WeakRef.GetRef().Obj == null)
+            {
+                SelectedNode = NothingSelected;
+            }
+            if (SelectedNode.Name == nameof(SelectedNode) || SelectedNode.Name == nameof(NothingSelected))
+            {
+                SelectedNode = SceneTree.CurrentScene;
+            }
+
+            MyProperties = MyProperty.NewArray(SelectedNode);
         }
 
         private void Traverse(Godot.Node? node)
