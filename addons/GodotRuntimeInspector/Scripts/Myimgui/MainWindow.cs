@@ -43,13 +43,22 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
             // menu
             MenuBar.Update();
-            
-            // table
-            System.Numerics.Vector2 rowSize = new System.Numerics.Vector2(WindowManager.WindowSize.X, WindowManager.WindowSize.Y *.33f);
 
-            if (ImGuiNET.ImGui.BeginTable(nameof(MainWindow), 1, MyImguiFlags.TableFlags(), rowSize))
+            // table
+            System.Numerics.Vector2 windowSize = ImGuiNET.ImGui.GetWindowSize();
+            float bottomRowHeight = Config.MinRowHeight * 8;
+            System.Numerics.Vector2 topRowSize = new System.Numerics.Vector2(windowSize.X, windowSize.Y - bottomRowHeight);
+            System.Numerics.Vector2 bottomRowSize = new System.Numerics.Vector2(windowSize.X, bottomRowHeight);
+
+            if (ImGuiNET.ImGui.BeginTable(nameof(MainWindow), 2, MyImguiFlags.TableFlags(), topRowSize))
             {
-                ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), rowSize.Y);
+                float col1Width = 0.33f;
+                float col2Width = 0.66f;
+
+                ImGuiNET.ImGui.TableSetupColumn(nameof(Traverse), MyImguiFlags.TableColumnFlags(), topRowSize.X * col1Width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyPropertyTable), MyImguiFlags.TableColumnFlags(), topRowSize.X * col2Width);
+
+                ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags());
 
                 // left side, scene tree view
                 if (ImGuiNET.ImGui.TableNextColumn())
@@ -58,18 +67,26 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                     Traverse(sceneTree.CurrentScene);
                 }
 
-                ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), rowSize.Y);
-
                 // right side, field/property table
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
-                    MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyProperties), rowSize);
+                    //if (ImGuiNET.ImGui.BeginChild(nameof(MyPropertyTable)))
+                    //{
+                    float colWidth = ImGuiNET.ImGui.GetColumnWidth();
+                    System.Numerics.Vector2 propertyTableSize = new System.Numerics.Vector2(colWidth, topRowSize.Y - Config.MinRowHeight);
+
+                    MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyProperties), propertyTableSize);
+
+                    //    ImGuiNET.ImGui.EndChild();
+                    //}
                 }
 
                 ImGuiNET.ImGui.EndTable();
             }
 
             // children
+            //if (ImGuiNET.ImGui.BeginChild(nameof(WindowManager.MyPropertyInspectors)))
+            //{
             System.Guid[] keys = WindowManager.MyPropertyInspectors.Keys.ToArray();
 
             for (int i = 0; i < keys.Length; i++)
@@ -78,8 +95,11 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
                 MyPropertyInspector myPropertyInspector = WindowManager.MyPropertyInspectors[key];
 
-                myPropertyInspector.Update();
+                myPropertyInspector.Update(bottomRowSize);
             }
+
+            //ImGuiNET.ImGui.EndChild();
+            //}
 
             ImGuiNET.ImGui.End();
         }

@@ -4,14 +4,6 @@
     {
         public MyProperty MyProperty;
 
-        public System.Numerics.Vector2 WindowSize = System.Numerics.Vector2.Zero;
-
-        public System.Numerics.Vector2 TopSize = System.Numerics.Vector2.Zero;
-
-        public System.Numerics.Vector2 TopLeftSize = System.Numerics.Vector2.Zero;
-
-        public System.Numerics.Vector2 TopRightSize = System.Numerics.Vector2.Zero;
-
         public MyPropertyTable MyPropertyTable = new MyPropertyTable();
 
         public MyProperty[] MyProperties = System.Array.Empty<MyProperty>();
@@ -21,7 +13,7 @@
             MyProperty = myProperty;
         }
 
-        public void Update()
+        public void Update(System.Numerics.Vector2 size)
         {
             string controlId = Utility.ToControlId(MyProperty);
 
@@ -32,7 +24,7 @@
 
             MyProperties = MyProperty.NewArray(MyProperty.Instance);
 
-            MyPropertyTable.Update(null, MyProperties, nameof(MyProperties), TopRightSize);
+            MyPropertyTable.Update(null, MyProperties, nameof(MyProperties), size);
         }
     }
 }

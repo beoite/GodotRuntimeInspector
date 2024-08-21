@@ -20,6 +20,8 @@
             flags |= ImGuiNET.ImGuiTableFlags.SortMulti;
             flags |= ImGuiNET.ImGuiTableFlags.NoPadOuterX;
             flags |= ImGuiNET.ImGuiTableFlags.NoPadInnerX;
+            flags |= ImGuiNET.ImGuiTableFlags.ScrollX;
+            flags |= ImGuiNET.ImGuiTableFlags.ScrollY;
             flags |= ImGuiNET.ImGuiTableFlags.SizingFixedFit;
             return flags;
         }
