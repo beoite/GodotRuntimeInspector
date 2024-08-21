@@ -1,7 +1,7 @@
 # GodotRuntimeInspector
 
 <p>
-View field, property and method information for scripts attached to Nodes in the Godot game engine.
+View/edit fields and properties for scripts attached to Nodes in the Godot game engine.
 </p>
 
 <p>
