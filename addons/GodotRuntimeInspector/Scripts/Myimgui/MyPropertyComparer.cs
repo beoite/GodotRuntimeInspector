@@ -89,21 +89,5 @@
             if (y == null) return -1;
             return y.Name.CompareTo(x.Name);
         }
-
-        // Clicks
-
-        public static int ClicksAscending(MyProperty? x, MyProperty? y)
-        {
-            if (x == null) return -1;
-            if (y == null) return 1;
-            return x.Clicks.CompareTo(y.Clicks);
-        }
-
-        public static int ClicksDescending(MyProperty? x, MyProperty? y)
-        {
-            if (x == null) return 1;
-            if (y == null) return -1;
-            return y.Clicks.CompareTo(x.Clicks);
-        }
     }
 }

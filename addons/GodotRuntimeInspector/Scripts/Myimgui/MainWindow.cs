@@ -46,11 +46,11 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
 
             if (ImGuiNET.ImGui.BeginTable(nameof(MainWindow), 2, MyImguiFlags.TableFlags(), topRowSize))
             {
-                float col1Width = 0.33f;
-                float col2Width = 0.66f;
+                float col1Width = topRowSize.X * 0.33f;
+                float col2Width = topRowSize.X * 0.66f;
 
-                ImGuiNET.ImGui.TableSetupColumn(nameof(Traverse), MyImguiFlags.TableColumnFlags(), topRowSize.X * col1Width);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyPropertyTable), MyImguiFlags.TableColumnFlags(), topRowSize.X * col2Width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(Traverse), MyImguiFlags.TableColumnFlags(), col1Width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyPropertyTable), MyImguiFlags.TableColumnFlags(), col2Width);
 
                 ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags());
 

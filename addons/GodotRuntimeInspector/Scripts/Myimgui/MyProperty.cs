@@ -14,8 +14,6 @@
 
         public object? Instance = null;
 
-        public int Clicks = 0;
-
         public static MyProperty[] NewArray(object? instance)
         {
             System.Reflection.FieldInfo[] fields = System.Array.Empty<System.Reflection.FieldInfo>();

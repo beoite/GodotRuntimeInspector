@@ -89,21 +89,20 @@
         {
             SelectedNode = selectedNode;
 
-            string name = nameof(Update) + id;
-            System.Reflection.FieldInfo[] fields = typeof(Myimgui.MyProperty).GetFields();
+            System.Reflection.FieldInfo[] fields = typeof(MyProperty).GetFields();
             int numCols = fields.Length;
 
             if (ImGuiNET.ImGui.BeginTable(id, numCols, MyImguiFlags.TableFlags(), tableSize))
             {
-                float width = tableSize.X / 2;
-                float smallWidth = width / 3f;
-                float extraSmallWidth = width / 8f;
+                float col1Width = tableSize.X * 0.1f;
+                float col2Width = tableSize.X * 0.2f;
+                float col3Width = tableSize.X * 0.6f;
 
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyImguiFlags.TableColumnFlags(), extraSmallWidth);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyImguiFlags.TableColumnFlags(), width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyImguiFlags.TableColumnFlags(), col1Width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyImguiFlags.TableColumnFlags(), col1Width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), col1Width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyImguiFlags.TableColumnFlags(), col2Width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyImguiFlags.TableColumnFlags(), col3Width);
 
                 ImGuiNET.ImGui.TableHeadersRow();
 
@@ -184,10 +183,9 @@
             }
         }
 
-        private void DrawComplex(MyProperty myProperty)
+        private static void DrawComplex(MyProperty myProperty)
         {
             string controlId = Utility.ToControlId(myProperty);
-            string mystring = myProperty.Instance.ToString();
 
             if (ImGuiNET.ImGui.Button(controlId, new System.Numerics.Vector2(ImGuiNET.ImGui.GetColumnWidth(), Config.MinRowHeight)))
             {
@@ -317,7 +315,7 @@
 
         public void SetSelectedNodeValue(MyProperty myProperty, object value)
         {
-            if(SelectedNode is null)
+            if (SelectedNode is null)
             {
                 return;
             }
