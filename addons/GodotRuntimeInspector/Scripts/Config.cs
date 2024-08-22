@@ -19,5 +19,7 @@
         public static uint InputTextMaxLength = 64;
 
         public static float MainWindowSize = 0.5f;
+
+        public static float VectorDragSpeed = 0.001f;
     }
 }

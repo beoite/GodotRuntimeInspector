@@ -270,7 +270,7 @@
                 systemvector2 = new System.Numerics.Vector2(godotvector2.X, godotvector2.Y);
             }
 
-            if (ImGuiNET.ImGui.DragFloat2(controlId, ref systemvector2))
+            if (ImGuiNET.ImGui.DragFloat2(controlId, ref systemvector2, Config.VectorDragSpeed))
             {
                 if (myProperty.Instance is System.Numerics.Vector2)
                 {
@@ -299,7 +299,7 @@
                 systemvector3 = new System.Numerics.Vector3(godotvector3.X, godotvector3.Y, godotvector3.Z);
             }
 
-            if (ImGuiNET.ImGui.DragFloat3(controlId, ref systemvector3))
+            if (ImGuiNET.ImGui.DragFloat3(controlId, ref systemvector3, Config.VectorDragSpeed))
             {
                 if (myProperty.Instance is System.Numerics.Vector3)
                 {
