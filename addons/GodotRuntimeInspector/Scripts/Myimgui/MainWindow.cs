@@ -128,12 +128,12 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 baseFlags |= ImGuiNET.ImGuiTreeNodeFlags.DefaultOpen;
             }
 
-            System.Numerics.Vector4 currentColor = Config.Style.Colors[(int)ImGuiNET.ImGuiCol.Text];
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.CLOUDBLUE.ToVector4();
+            System.Numerics.Vector4 currentColor = GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text];
+            GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.CLOUDBLUE.ToVector4();
             bool processModeDisabled = node.ProcessMode == Godot.Node.ProcessModeEnum.Disabled;
             if (processModeDisabled == true)
             {
-                Config.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.MEAT.ToVector4();
+                GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.MEAT.ToVector4();
             }
             if (ImGuiNET.ImGui.TreeNodeEx(node.Name + " | " + node.GetPath(), baseFlags))
             {
@@ -148,7 +148,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 }
                 ImGuiNET.ImGui.TreePop();
             }
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = currentColor;
+            GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = currentColor;
         }
 
     }

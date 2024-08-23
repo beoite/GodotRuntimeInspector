@@ -2,6 +2,10 @@ namespace GodotRuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
     {
+        public static ImGuiNET.ImGuiStylePtr Style = ImGuiNET.ImGui.GetStyle();
+
+        public static ImGuiNET.ImGuiIOPtr IOPTR = ImGuiNET.ImGui.GetIO();
+
         public bool Mybool = false;
 
         public sbyte Mysbyte = 0;
@@ -38,39 +42,43 @@ namespace GodotRuntimeInspector.Scripts
 
         public Godot.Quaternion GodotQuaternion = new Godot.Quaternion();
 
+        public ImGuiNET.ImGuiDockNodeFlags DockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
+
+        public uint DockspaceID = 0;
+
         public override void _Ready()
         {
             base._Ready();
 
             // style
-            Config.Style = ImGuiNET.ImGui.GetStyle();
-            Config.Style.WindowPadding = new System.Numerics.Vector2(0f, 0f);
-            Config.Style.FramePadding = new System.Numerics.Vector2(0f, 0f);
-            Config.Style.CellPadding = new System.Numerics.Vector2(0f, 0f);
-            Config.Style.WindowRounding = 0f;
-            Config.Style.ChildRounding = 0f;
-            Config.Style.PopupRounding = 0f;
-            Config.Style.FrameRounding = 0f;
-            Config.Style.ScrollbarRounding = 0f;
-            Config.Style.GrabRounding = 0f;
-            Config.Style.TabRounding = 0f;
-            Config.Style.WindowBorderSize = 0f;
-            Config.Style.ChildBorderSize = 0f;
-            Config.Style.FrameBorderSize = 0f;
-            Config.Style.TabBorderSize = 0f;
-            Config.Style.CellPadding = new System.Numerics.Vector2(0f, 0f);
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.CLOUDBLUE.ToVector4();
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Config.Opacity);
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.TableHeaderBg] = Palette.NIGHTBLUE.ToVector4();
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.TableBorderStrong] = Palette.SEABLUE.ToVector4();
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.TableBorderLight] = Palette.SKYBLUE.ToVector4();
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.TableRowBg] = Palette.NIGHTBLUE.ToVector4();
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.TableRowBgAlt] = Palette.SEABLUE.ToVector4();
+            Style = ImGuiNET.ImGui.GetStyle();
+            Style.WindowPadding = new System.Numerics.Vector2(0f, 0f);
+            Style.FramePadding = new System.Numerics.Vector2(0f, 0f);
+            Style.CellPadding = new System.Numerics.Vector2(0f, 0f);
+            Style.WindowRounding = 0f;
+            Style.ChildRounding = 0f;
+            Style.PopupRounding = 0f;
+            Style.FrameRounding = 0f;
+            Style.ScrollbarRounding = 0f;
+            Style.GrabRounding = 0f;
+            Style.TabRounding = 0f;
+            Style.WindowBorderSize = 0f;
+            Style.ChildBorderSize = 0f;
+            Style.FrameBorderSize = 0f;
+            Style.TabBorderSize = 0f;
+            Style.CellPadding = new System.Numerics.Vector2(0f, 0f);
+            Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.CLOUDBLUE.ToVector4();
+            Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Config.Opacity);
+            Style.Colors[(int)ImGuiNET.ImGuiCol.TableHeaderBg] = Palette.NIGHTBLUE.ToVector4();
+            Style.Colors[(int)ImGuiNET.ImGuiCol.TableBorderStrong] = Palette.SEABLUE.ToVector4();
+            Style.Colors[(int)ImGuiNET.ImGuiCol.TableBorderLight] = Palette.SKYBLUE.ToVector4();
+            Style.Colors[(int)ImGuiNET.ImGuiCol.TableRowBg] = Palette.NIGHTBLUE.ToVector4();
+            Style.Colors[(int)ImGuiNET.ImGuiCol.TableRowBgAlt] = Palette.SEABLUE.ToVector4();
             float alignX = 0f;
             float alignY = 0f;
-            Config.Style.ButtonTextAlign = new System.Numerics.Vector2(alignX, alignY);
-            Config.Style.SelectableTextAlign = new System.Numerics.Vector2(alignX, alignY);
-            Config.Style.SeparatorTextAlign = new System.Numerics.Vector2(alignX, alignY);
+            Style.ButtonTextAlign = new System.Numerics.Vector2(alignX, alignY);
+            Style.SelectableTextAlign = new System.Numerics.Vector2(alignX, alignY);
+            Style.SeparatorTextAlign = new System.Numerics.Vector2(alignX, alignY);
 
             MyInputMap.Init();
 
@@ -84,7 +92,12 @@ namespace GodotRuntimeInspector.Scripts
                 return;
             }
 
-            Config.Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Config.Opacity);
+            Style.Colors[(int)ImGuiNET.ImGuiCol.WindowBg] = Palette.VOID.ToVector4(Config.Opacity);
+
+            if (Config.Docking == true)
+            {
+                Docking();
+            }
 
             Myimgui.WindowManager.Update(this);
         }
@@ -97,6 +110,15 @@ namespace GodotRuntimeInspector.Scripts
             {
                 Config.Enabled = !Config.Enabled;
             }
+        }
+
+        private void Docking()
+        {
+            IOPTR = ImGuiNET.ImGui.GetIO();
+
+            IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
+
+            DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(DockspaceID, ImGuiNET.ImGui.GetMainViewport(), DockNodeFlags);
         }
     }
 }

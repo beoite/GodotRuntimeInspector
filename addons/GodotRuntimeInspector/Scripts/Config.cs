@@ -7,8 +7,8 @@
         public static float MinRowHeight = 25f;
         
         public static float Opacity = 0.9f;
-        
-        public static ImGuiNET.ImGuiStylePtr Style = null;
+
+        public static bool Docking = true;
         
         public static uint DockspaceID = 0;
 
