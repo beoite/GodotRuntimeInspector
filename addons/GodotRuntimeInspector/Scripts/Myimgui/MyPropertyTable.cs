@@ -98,9 +98,9 @@
                 float col2Width = tableSize.X * 0.2f;
                 float col3Width = tableSize.X * 0.6f;
 
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyImguiFlags.TableColumnFlags(), col1Width);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyImguiFlags.TableColumnFlags(), col1Width);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), col1Width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyImguiFlags.TableColumnFlags(), 0f);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyImguiFlags.TableColumnFlags(), 0f);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), 0f);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyImguiFlags.TableColumnFlags(), col2Width);
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyImguiFlags.TableColumnFlags(), col3Width);
 
@@ -113,7 +113,12 @@
                 {
                     MyProperty myProperty = myProperties[i];
 
-                    if (myProperty.Instance == null)
+                    if (myProperty is null)
+                    {
+                        continue;
+                    }
+
+                    if (myProperty.Instance is null)
                     {
                         continue;
                     }

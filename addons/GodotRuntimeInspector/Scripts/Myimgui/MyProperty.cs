@@ -16,16 +16,18 @@
 
         public static MyProperty[] NewArray(object? instance)
         {
+            if (instance is null)
+            {
+                return System.Array.Empty<MyProperty>();
+            }
+
             System.Reflection.FieldInfo[] fields = System.Array.Empty<System.Reflection.FieldInfo>();
             System.Reflection.PropertyInfo[] props = System.Array.Empty<System.Reflection.PropertyInfo>();
             System.Reflection.MethodInfo[] methods = System.Array.Empty<System.Reflection.MethodInfo>();
 
-            if (instance != null)
-            {
-                fields = instance.GetType().GetFields();
-                props = instance.GetType().GetProperties();
-                methods = instance.GetType().GetMethods();
-            }
+            fields = instance.GetType().GetFields();
+            props = instance.GetType().GetProperties();
+            methods = instance.GetType().GetMethods();
 
             int length = fields.Length + props.Length + methods.Length;
             MyProperty[] myProperties = new MyProperty[length];
@@ -60,7 +62,13 @@
                 System.Reflection.PropertyInfo prop = props[i];
                 if (prop.CanRead == true)
                 {
-                    object? val = prop.GetValue(instance);
+                    System.Reflection.ParameterInfo[] indexParams = prop.GetIndexParameters();
+                    if(indexParams.Length > 0)
+                    {
+                        continue;
+                    }
+
+                    object? val = prop.GetValue(instance, null);
                     Tags tags = Tags.Property;
                     MyProperty myProperty = new MyProperty
                     {

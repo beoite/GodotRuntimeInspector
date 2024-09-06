@@ -24,6 +24,11 @@
 
             MyProperties = MyProperty.NewArray(MyProperty.Instance);
 
+            if (MyProperties.Length == 0)
+            {
+                return;
+            }
+
             MyPropertyTable.Update(null, MyProperties, nameof(MyProperties), size);
         }
     }
