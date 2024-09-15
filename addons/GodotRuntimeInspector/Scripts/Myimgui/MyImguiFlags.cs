@@ -5,7 +5,6 @@
         public static ImGuiNET.ImGuiWindowFlags WindowFlags()
         {
             ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
-            flags |= ImGuiNET.ImGuiWindowFlags.NoSavedSettings;
             flags |= ImGuiNET.ImGuiWindowFlags.MenuBar;
             return flags;
         }
