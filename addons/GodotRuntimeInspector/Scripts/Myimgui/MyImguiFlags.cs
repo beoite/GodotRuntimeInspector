@@ -14,7 +14,6 @@
         {
             ImGuiNET.ImGuiTableFlags flags = new ImGuiNET.ImGuiTableFlags();
             flags |= ImGuiNET.ImGuiTableFlags.Resizable;
-            flags |= ImGuiNET.ImGuiTableFlags.NoSavedSettings;
             flags |= ImGuiNET.ImGuiTableFlags.Borders;
             flags |= ImGuiNET.ImGuiTableFlags.Sortable;
             flags |= ImGuiNET.ImGuiTableFlags.SortMulti;

@@ -27,6 +27,11 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
             // window start
             string controlId = Node.SceneFilePath;
 
+            if (SceneTree.CurrentScene is not null)
+            {
+                controlId = SceneTree.CurrentScene.SceneFilePath;
+            }
+
             if (!ImGuiNET.ImGui.Begin(controlId, MyImguiFlags.WindowFlags()))
             {
                 ImGuiNET.ImGui.End();
