@@ -90,19 +90,23 @@
             SelectedNode = selectedNode;
 
             System.Reflection.FieldInfo[] fields = typeof(MyProperty).GetFields();
-            int numCols = fields.Length;
+            int numCols = 2;
+            if (Config.ShowDebugColumns == true)
+            {
+                numCols = 5;
+            }
 
             if (ImGuiNET.ImGui.BeginTable(id, numCols, MyImguiFlags.TableFlags(), tableSize))
             {
-                float col1Width = tableSize.X * 0.1f;
-                float col2Width = tableSize.X * 0.2f;
-                float col3Width = tableSize.X * 0.6f;
+                if (Config.ShowDebugColumns == true)
+                {
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyImguiFlags.TableColumnFlags(), 0f);
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyImguiFlags.TableColumnFlags(), 0f);
+                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), 0f);
+                }
 
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyImguiFlags.TableColumnFlags(), 0f);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyImguiFlags.TableColumnFlags(), 0f);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), 0f);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyImguiFlags.TableColumnFlags(), col2Width);
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyImguiFlags.TableColumnFlags(), col3Width);
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyImguiFlags.TableColumnFlags());
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyImguiFlags.TableColumnFlags());
 
                 ImGuiNET.ImGui.TableHeadersRow();
 
@@ -125,27 +129,27 @@
 
                     ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), Config.MinRowHeight);
 
-                    if (ImGuiNET.ImGui.TableNextColumn())
+                    if (Config.ShowDebugColumns == true)
                     {
-                        ImGuiNET.ImGui.Text(myProperty.Index.ToString());
-                    }
-
-                    if (ImGuiNET.ImGui.TableNextColumn())
-                    {
-                        ImGuiNET.ImGui.Text(myProperty.Tags.ToString());
-                    }
-
-                    if (ImGuiNET.ImGui.TableNextColumn())
-                    {
-                        MyTypes mytype = Utility.GetMyType(myProperty.Instance);
-                        ImGuiNET.ImGui.Text("(" + mytype.ToString() + ") " + myProperty.Type.ToString());
+                        if (ImGuiNET.ImGui.TableNextColumn())
+                        {
+                            ImGuiNET.ImGui.Text(myProperty.Index.ToString());
+                        }
+                        if (ImGuiNET.ImGui.TableNextColumn())
+                        {
+                            ImGuiNET.ImGui.Text(myProperty.Tags.ToString());
+                        }
+                        if (ImGuiNET.ImGui.TableNextColumn())
+                        {
+                            MyTypes mytype = Utility.GetMyType(myProperty.Instance);
+                            ImGuiNET.ImGui.Text("(" + mytype.ToString() + ") " + myProperty.Type.ToString());
+                        }
                     }
 
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
                         ImGuiNET.ImGui.Text(myProperty.Name);
                     }
-
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
                         DrawMyType(myProperty);
