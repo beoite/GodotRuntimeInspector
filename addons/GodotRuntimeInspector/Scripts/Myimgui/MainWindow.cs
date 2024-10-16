@@ -70,6 +70,7 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 if (ImGuiNET.ImGui.TableNextColumn())
                 {
                     float colWidth = ImGuiNET.ImGui.GetColumnWidth();
+
                     System.Numerics.Vector2 propertyTableSize = new System.Numerics.Vector2(colWidth, topRowSize.Y - Config.MinRowHeight);
 
                     MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyProperties), propertyTableSize);
@@ -133,13 +134,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 baseFlags |= ImGuiNET.ImGuiTreeNodeFlags.DefaultOpen;
             }
 
-            System.Numerics.Vector4 currentColor = GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text];
-            GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.CLOUDBLUE.ToVector4();
-            bool processModeDisabled = node.ProcessMode == Godot.Node.ProcessModeEnum.Disabled;
-            if (processModeDisabled == true)
-            {
-                GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = Palette.MEAT.ToVector4();
-            }
             if (ImGuiNET.ImGui.TreeNodeEx(node.Name + " | " + node.GetPath(), baseFlags))
             {
                 if (ImGuiNET.ImGui.IsItemClicked())
@@ -153,7 +147,6 @@ namespace GodotRuntimeInspector.Scripts.Myimgui
                 }
                 ImGuiNET.ImGui.TreePop();
             }
-            GodotRuntimeInspector.Style.Colors[(int)ImGuiNET.ImGuiCol.Text] = currentColor;
         }
 
     }

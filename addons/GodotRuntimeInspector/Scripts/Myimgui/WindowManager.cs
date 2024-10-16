@@ -16,7 +16,7 @@
 
         public static void Add(MyProperty myProperty)
         {
-            string controlId = Utility.ToControlId(myProperty);
+            string controlId =Utility.ToControlId(myProperty);
 
             bool contains = MyPropertyInspectors.ContainsKey(myProperty.Id);
 

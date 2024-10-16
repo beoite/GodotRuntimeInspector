@@ -5,8 +5,6 @@
         public static bool Enabled = true;
         
         public static float MinRowHeight = 25f;
-        
-        public static float Opacity = 0.9f;
 
         public static bool Docking = true;
         
