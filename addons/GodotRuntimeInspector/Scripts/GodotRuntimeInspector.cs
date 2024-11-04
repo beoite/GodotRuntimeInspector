@@ -2,8 +2,6 @@ namespace GodotRuntimeInspector.Scripts
 {
     public partial class GodotRuntimeInspector : Godot.Node
     {
-        public static ImGuiNET.ImGuiIOPtr IOPTR = ImGuiNET.ImGui.GetIO();
-
         public bool Mybool = false;
 
         public sbyte Mysbyte = 0;
@@ -40,10 +38,6 @@ namespace GodotRuntimeInspector.Scripts
 
         public Godot.Quaternion GodotQuaternion = new Godot.Quaternion();
 
-        public ImGuiNET.ImGuiDockNodeFlags DockNodeFlags = ImGuiNET.ImGuiDockNodeFlags.PassthruCentralNode;
-
-        public uint DockspaceID = 0;
-
         public override void _Ready()
         {
             base._Ready();
@@ -60,11 +54,6 @@ namespace GodotRuntimeInspector.Scripts
                 return;
             }
 
-            if (Config.Docking == true)
-            {
-                Docking();
-            }
-
             Myimgui.WindowManager.Update(this);
         }
 
@@ -76,15 +65,6 @@ namespace GodotRuntimeInspector.Scripts
             {
                 Config.Enabled = !Config.Enabled;
             }
-        }
-
-        private void Docking()
-        {
-            IOPTR = ImGuiNET.ImGui.GetIO();
-
-            IOPTR.ConfigFlags |= ImGuiNET.ImGuiConfigFlags.DockingEnable;
-
-            DockspaceID = ImGuiNET.ImGui.DockSpaceOverViewport(DockspaceID, ImGuiNET.ImGui.GetMainViewport(), DockNodeFlags);
         }
     }
 }

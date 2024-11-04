@@ -14,7 +14,6 @@
                     bool log = ImGuiNET.ImGui.Checkbox(nameof(Config.Log), ref Config.Log);
                     bool showDebugColumns = ImGuiNET.ImGui.Checkbox(nameof(Config.ShowDebugColumns), ref Config.ShowDebugColumns);
 
-
                     ImGuiNET.ImGui.EndMenu();
                 }
                 ImGuiNET.ImGui.EndMenuBar();

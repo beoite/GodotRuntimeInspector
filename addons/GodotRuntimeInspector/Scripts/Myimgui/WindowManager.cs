@@ -10,13 +10,9 @@
 
         public static MyLog MyLog = new MyLog();
 
-        public static System.Numerics.Vector2 WindowSize = new System.Numerics.Vector2(600, 200);
-
-        public static System.Numerics.Vector2 WindowPosition = new System.Numerics.Vector2(Config.MinRowHeight, Config.MinRowHeight);
-
         public static void Add(MyProperty myProperty)
         {
-            string controlId =Utility.ToControlId(myProperty);
+            string controlId = Utility.ToControlId(myProperty);
 
             bool contains = MyPropertyInspectors.ContainsKey(myProperty.Id);
 
@@ -35,11 +31,14 @@
 
         public static void Update(Godot.Node node)
         {
+            ImGuiNET.ImGuiViewportPtr imGuiViewportPtr = ImGuiNET.ImGui.GetMainViewport();
+
             // size
-            ImGuiNET.ImGui.SetNextWindowSize(WindowSize, ImGuiNET.ImGuiCond.Appearing);
+            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(Config.WindowSizeX, Config.WindowSizeY);
+            ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
 
             // position
-            ImGuiNET.ImGui.SetNextWindowPos(WindowPosition, ImGuiNET.ImGuiCond.Appearing);
+            ImGuiNET.ImGui.SetNextWindowPos(System.Numerics.Vector2.Zero, ImGuiNET.ImGuiCond.Appearing);
 
             // main window
             MainWindow.Update(node);
