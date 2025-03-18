@@ -8,7 +8,6 @@
             flags |= ImGuiNET.ImGuiWindowFlags.MenuBar;
             return flags;
         }
-
         public static ImGuiNET.ImGuiTableFlags TableFlags()
         {
             ImGuiNET.ImGuiTableFlags flags = new ImGuiNET.ImGuiTableFlags();
@@ -23,7 +22,6 @@
             flags |= ImGuiNET.ImGuiTableFlags.SizingFixedFit;
             return flags;
         }
-
         public static ImGuiNET.ImGuiTableColumnFlags TableColumnFlags()
         {
             ImGuiNET.ImGuiTableColumnFlags flags = new ImGuiNET.ImGuiTableColumnFlags();
@@ -33,21 +31,17 @@
             flags |= ImGuiNET.ImGuiTableColumnFlags.NoClip;
             return flags;
         }
-
         public static ImGuiNET.ImGuiTableRowFlags TableRowFlags()
         {
             ImGuiNET.ImGuiTableRowFlags flags = new ImGuiNET.ImGuiTableRowFlags();
             return flags;
         }
-
-
         public static ImGuiNET.ImGuiTableRowFlags NoneTableRowFlags()
         {
             ImGuiNET.ImGuiTableRowFlags flags = new ImGuiNET.ImGuiTableRowFlags();
             flags |= ImGuiNET.ImGuiTableRowFlags.None;
             return flags;
         }
-
         public static ImGuiNET.ImGuiInputTextFlags InputTextFlags()
         {
             ImGuiNET.ImGuiInputTextFlags flags = new ImGuiNET.ImGuiInputTextFlags();
@@ -55,7 +49,6 @@
             flags |= ImGuiNET.ImGuiInputTextFlags.EnterReturnsTrue;
             return flags;
         }
-
         public static ImGuiNET.ImGuiTreeNodeFlags TreeNodeFlags()
         {
             ImGuiNET.ImGuiTreeNodeFlags flags = new ImGuiNET.ImGuiTreeNodeFlags();

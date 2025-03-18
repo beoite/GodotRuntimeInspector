@@ -1,5 +1,4 @@
 ﻿using GodotRuntimeInspector.Scripts.Myimgui;
-
 namespace GodotRuntimeInspector.Scripts
 {
     public static class Utility
@@ -22,14 +21,12 @@ namespace GodotRuntimeInspector.Scripts
             }
             return strval;
         }
-
         public static string ToControlId(MyProperty myProperty)
         {
             string text = ToString(myProperty.Instance);
             string controlId = text + "###" + myProperty.Name;
             return controlId;
         }
-
         public static MyTypes GetMyType(object? instance)
         {
             if (instance?.IsBoolean() == true)
@@ -57,12 +54,10 @@ namespace GodotRuntimeInspector.Scripts
                 return MyTypes.Complex;
             }
         }
-
         public static bool IsBoolean(this object value)
         {
             return value is bool;
         }
-
         public static bool IsNumber(this object value)
         {
             return value is sbyte
@@ -77,34 +72,19 @@ namespace GodotRuntimeInspector.Scripts
                     || value is double
                     || value is decimal;
         }
-
         public static bool IsString(this object value)
         {
             return value is string;
         }
-
         public static bool IsVector2(this object value)
         {
             return value is System.Numerics.Vector2
                     || value is Godot.Vector2;
         }
-
         public static bool IsVector3(this object value)
         {
             return value is System.Numerics.Vector3
                     || value is Godot.Vector3;
-        }
-
-        public static string GetAnimatedTitle(string? name)
-        {
-            char[] spin = "|/-\\".ToCharArray();
-            int frame = (int)ImGuiNET.ImGui.GetTime() % spin.Length;
-            string spinFrame = spin[frame].ToString();
-            string animatedTitle = spinFrame + " " + ToString(name);
-            // Using "###" to display a changing title but keep a static identifier "AnimatedTitle"
-            string staticIdentifier = "###" + ToString(name);
-            animatedTitle = animatedTitle + staticIdentifier;
-            return animatedTitle;
         }
     }
 }

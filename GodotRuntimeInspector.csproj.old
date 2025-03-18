@@ -1,0 +1,22 @@
+<Project Sdk="Godot.NET.Sdk/4.3.0">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <EnableDynamicLoading>true</EnableDynamicLoading>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <Nullable>enable</Nullable>
+    <AssemblyVersion>1.0.0.1</AssemblyVersion>
+    <FileVersion>1.0.0.1</FileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ExportRelease|AnyCPU'">
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='ExportDebug|AnyCPU'">
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <LangVersion>preview</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="ImGui.NET" Version="1.91.0.1" />
+  </ItemGroup>
+</Project>

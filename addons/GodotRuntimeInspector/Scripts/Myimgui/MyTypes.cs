@@ -12,13 +12,11 @@
         ulong 	0 to 18,446,744,073,709,551,615 	                    Unsigned 64-bit integer 	        System.UInt64
         nint 	Depends on platform (computed at runtime) 	            Signed 32-bit or 64-bit integer 	System.IntPtr
         nuint 	Depends on platform (computed at runtime) 	            Unsigned 32-bit or 64-bit integer 	System.UIntPtr
-
         C#      Approximate range 	            Precision 	    Size 	    .NET type
         float 	±1.5 x 10−45 to ±3.4 x 1038 	~6-9 digits 	4 bytes 	System.Single
         double 	±5.0 × 10−324 to ±1.7 × 10308 	~15-17 digits 	8 bytes 	System.Double
         decimal ±1.0 x 10-28 to ±7.9228 x 1028 	28-29 digits 	16 bytes 	System.Decimal
      */
-
     public enum MyTypes 
     {
         Complex = 0,
