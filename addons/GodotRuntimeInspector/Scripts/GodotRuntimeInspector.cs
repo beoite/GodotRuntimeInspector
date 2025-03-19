@@ -20,20 +20,11 @@ namespace GodotRuntimeInspector.Scripts
         public Godot.Vector2 GodotVector2 = new();
         public Godot.Vector3 GodotVector3 = new();
         public Godot.Quaternion GodotQuaternion = new();
-        public MyProperty[] MyProperties = [];
-        public MyPropertyTable MyPropertyTable = new();
         public static readonly Godot.Node NothingSelected = new() { Name = nameof(NothingSelected) };
         public Godot.Node SelectedNode = NothingSelected;
+        public MyProperty[] MyProperties = [];
+        public MyPropertyTable MyPropertyTable = new();
         public Godot.SceneTree SceneTree = new();
-        private void SetSelectedNode()
-        {
-            SceneTree = GetTree().Root.GetTree();
-            if (SelectedNode == NothingSelected)
-            {
-                SelectedNode = SceneTree.CurrentScene;
-            }
-            MyProperties = MyProperty.NewArray(SelectedNode);
-        }
         private void Traverse(Godot.Node? node)
         {
             if (node == null)
@@ -78,8 +69,13 @@ namespace GodotRuntimeInspector.Scripts
             System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(windowGetSize.X / 2, windowGetSize.Y / 3f);
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
             ImGuiNET.ImGui.SetNextWindowPos(System.Numerics.Vector2.Zero, ImGuiNET.ImGuiCond.Appearing);
-            SetSelectedNode();
-            string name = SceneTree.CurrentScene.SceneFilePath;
+            SceneTree = GetTree().Root.GetTree();
+            if (SelectedNode == NothingSelected)
+            {
+                SelectedNode = SceneTree.CurrentScene;
+            }
+            MyProperties = MyProperty.NewArray(SelectedNode);
+            string name = SelectedNode.Name + " " + SceneTree.CurrentScene.SceneFilePath;
             bool begin = ImGuiNET.ImGui.Begin(name + "###" + nameof(GodotRuntimeInspector), Flags.WindowFlags());
             if (begin)
             {
