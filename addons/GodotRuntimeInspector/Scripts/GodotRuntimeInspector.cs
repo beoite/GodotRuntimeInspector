@@ -21,7 +21,6 @@ namespace GodotRuntimeInspector.Scripts
         public Godot.Vector3 GodotVector3 = new();
         public Godot.Quaternion GodotQuaternion = new();
         public MyProperty[] MyProperties = [];
-        public int Counter = -1;
         public MyPropertyTable MyPropertyTable = new();
         public static readonly Godot.Node NothingSelected = new() { Name = nameof(NothingSelected) };
         public Godot.Node SelectedNode = NothingSelected;
@@ -29,7 +28,7 @@ namespace GodotRuntimeInspector.Scripts
         private void SetSelectedNode()
         {
             SceneTree = GetTree().Root.GetTree();
-            if (SelectedNode.Name == NothingSelected.Name)
+            if (SelectedNode == NothingSelected)
             {
                 SelectedNode = SceneTree.CurrentScene;
             }
@@ -41,7 +40,6 @@ namespace GodotRuntimeInspector.Scripts
             {
                 return;
             }
-            Counter++;
             ImGuiNET.ImGuiTreeNodeFlags baseFlags = Flags.TreeNodeFlags();
             int childCount = node.GetChildCount();
             if (SelectedNode == node)
@@ -51,10 +49,6 @@ namespace GodotRuntimeInspector.Scripts
             if (childCount == 0)
             {
                 baseFlags |= ImGuiNET.ImGuiTreeNodeFlags.Leaf;
-            }
-            if (Counter == 0)
-            {
-                baseFlags |= ImGuiNET.ImGuiTreeNodeFlags.DefaultOpen;
             }
             if (ImGuiNET.ImGui.TreeNodeEx(node.GetPath(), baseFlags))
             {
