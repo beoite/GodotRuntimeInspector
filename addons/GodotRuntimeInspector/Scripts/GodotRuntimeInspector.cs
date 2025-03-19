@@ -92,7 +92,7 @@ namespace GodotRuntimeInspector.Scripts
                     ImGuiNET.ImGui.TableNextRow();
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
-                        Traverse(this);
+                        Traverse(GetTree().Root);
                     }
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
