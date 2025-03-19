@@ -3,80 +3,6 @@
     public class MyPropertyTable
     {
         public Godot.Node? SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
-        private static unsafe void Sort(ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs, MyProperty[] myPropertyInfo)
-        {
-            if (myPropertyInfo.Length == 0 || myPropertyInfo.Length < 2)
-            {
-                return;
-            }
-            if (sortsSpecs.NativePtr == null)
-            {
-                return;
-            }
-            if (sortsSpecs.SpecsCount == 0)
-            {
-                return;
-            }
-            if (sortsSpecs.SpecsDirty == true)
-            {
-                if (sortsSpecs.Specs.ColumnIndex == 0)
-                {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.IndexAscending);
-                    }
-                    else
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.IndexDescending);
-                    }
-                }
-                if (sortsSpecs.Specs.ColumnIndex == 1)
-                {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.TagAscending);
-                    }
-                    else
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.TagDescending);
-                    }
-                }
-                if (sortsSpecs.Specs.ColumnIndex == 2)
-                {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.TypeAscending);
-                    }
-                    else
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.TypeDescending);
-                    }
-                }
-                if (sortsSpecs.Specs.ColumnIndex == 3)
-                {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.NameAscending);
-                    }
-                    else
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.NameDescending);
-                    }
-                }
-                if (sortsSpecs.Specs.ColumnIndex == 4)
-                {
-                    if (sortsSpecs.Specs.SortDirection == ImGuiNET.ImGuiSortDirection.Ascending)
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.InstanceAscending);
-                    }
-                    else
-                    {
-                        System.Array.Sort(myPropertyInfo, MyPropertyComparer.InstanceDescending);
-                    }
-                }
-                sortsSpecs.SpecsDirty = false;
-            }
-        }
         private void DrawMyType(MyProperty myProperty)
         {
             MyTypes mytype = Utility.GetMyType(myProperty.Instance);
@@ -466,7 +392,6 @@
         public void Update(Godot.Node? selectedNode, MyProperty[] myProperties, string id, System.Numerics.Vector2 tableSize)
         {
             SelectedNode = selectedNode;
-            System.Reflection.FieldInfo[] fields = typeof(MyProperty).GetFields();
             int numCols = 2;
             if (ImGuiNET.ImGui.BeginTable(id, numCols, Flags.TableFlags(), tableSize))
             {

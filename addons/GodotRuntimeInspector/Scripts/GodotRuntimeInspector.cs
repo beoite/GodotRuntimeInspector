@@ -74,19 +74,15 @@ namespace GodotRuntimeInspector.Scripts
             {
                 return;
             }
-            string name = SceneFilePath;
-            if (SceneTree.CurrentScene is not null)
-            {
-                name = SceneTree.CurrentScene.SceneFilePath;
-            }
             Godot.Vector2I windowGetSize = Godot.DisplayServer.WindowGetSize();
             System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(windowGetSize.X / 2, windowGetSize.Y / 3f);
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
             ImGuiNET.ImGui.SetNextWindowPos(System.Numerics.Vector2.Zero, ImGuiNET.ImGuiCond.Appearing);
+            SetSelectedNode();
+            string name = SceneTree.CurrentScene.SceneFilePath;
             bool begin = ImGuiNET.ImGui.Begin(name + "###" + nameof(GodotRuntimeInspector), Flags.WindowFlags());
             if (begin)
             {
-                SetSelectedNode();
                 System.Numerics.Vector2 contentRegionAvail = ImGuiNET.ImGui.GetContentRegionAvail();
                 // table
                 int cols = 2;
