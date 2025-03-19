@@ -7,7 +7,7 @@
         public void Update(string name, ref string input)
         {
             string strID = name + "###" + ID;
-            if (!ImGuiNET.ImGui.Begin(strID, MyImguiFlags.WindowFlags()))
+            if (!ImGuiNET.ImGui.Begin(strID, Flags.WindowFlags()))
             {
                 ImGuiNET.ImGui.End();
                 return;

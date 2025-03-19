@@ -4,3 +4,9 @@
 
 [node name="RuntimeInspector" type="Node"]
 script = ExtResource("1_5tyvv")
+
+[node name="Node" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Node"]
+
+[node name="SubViewport" type="SubViewport" parent="Node"]

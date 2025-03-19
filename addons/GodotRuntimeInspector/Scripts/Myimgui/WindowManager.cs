@@ -2,7 +2,6 @@
 {
     public static class WindowManager
     {
-        public static MainWindow MainWindow = new MainWindow();
         public static MultilineTextWindow MultilineTextWindow = new MultilineTextWindow();
         public static System.Collections.Generic.Dictionary<System.Guid, MyPropertyInspector> MyPropertyInspectors = new System.Collections.Generic.Dictionary<System.Guid, MyPropertyInspector>();
         public static void Add(MyProperty myProperty)
@@ -18,21 +17,6 @@
         public static void Remove(MyProperty myProperty)
         {
             bool removed = MyPropertyInspectors.Remove(myProperty.Id);
-        }
-        public static void Update(Godot.Node node)
-        {
-            // size
-            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(Config.WindowSizeX, Config.WindowSizeY);
-            ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
-            // position
-            ImGuiNET.ImGui.SetNextWindowPos(System.Numerics.Vector2.Zero, ImGuiNET.ImGuiCond.Appearing);
-            // main window
-            MainWindow.Update(node);
-            // demo window
-            if (Config.ShowDemoWindow == true)
-            {
-                ImGuiNET.ImGui.ShowDemoWindow();
-            }
         }
     }
 }

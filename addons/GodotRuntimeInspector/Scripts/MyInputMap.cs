@@ -2,10 +2,9 @@
 {
     public static class MyInputMap
     {
-        public static Godot.StringName gri_F1 = nameof(gri_F1);
         public static void Init()
         {
-            InitKey(gri_F1, Godot.Key.F1);
+            InitKey(nameof(Config.EnabledKey), Config.EnabledKey);
         }
         private static void InitKey(Godot.StringName name, Godot.Key key)
         {

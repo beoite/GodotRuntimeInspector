@@ -82,20 +82,10 @@
             SelectedNode = selectedNode;
             System.Reflection.FieldInfo[] fields = typeof(MyProperty).GetFields();
             int numCols = 2;
-            if (Config.ShowDebugColumns == true)
+            if (ImGuiNET.ImGui.BeginTable(id, numCols, Flags.TableFlags(), tableSize))
             {
-                numCols = 5;
-            }
-            if (ImGuiNET.ImGui.BeginTable(id, numCols, MyImguiFlags.TableFlags(), tableSize))
-            {
-                if (Config.ShowDebugColumns == true)
-                {
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Index), MyImguiFlags.TableColumnFlags(), 0f);
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Tags), MyImguiFlags.TableColumnFlags(), 0f);
-                    ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Type), MyImguiFlags.TableColumnFlags(), 0f);
-                }
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), MyImguiFlags.TableColumnFlags());
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), MyImguiFlags.TableColumnFlags());
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), Flags.TableColumnFlags());
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), Flags.TableColumnFlags());
                 ImGuiNET.ImGui.TableHeadersRow();
                 ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
                 Sort(sortsSpecs, myProperties);
@@ -110,23 +100,7 @@
                     {
                         continue;
                     }
-                    ImGuiNET.ImGui.TableNextRow(MyImguiFlags.TableRowFlags(), Config.MinRowHeight);
-                    if (Config.ShowDebugColumns == true)
-                    {
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            ImGuiNET.ImGui.Text(myProperty.Index.ToString());
-                        }
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            ImGuiNET.ImGui.Text(myProperty.Tags.ToString());
-                        }
-                        if (ImGuiNET.ImGui.TableNextColumn())
-                        {
-                            MyTypes mytype = Utility.GetMyType(myProperty.Instance);
-                            ImGuiNET.ImGui.Text("(" + mytype.ToString() + ") " + myProperty.Type.ToString());
-                        }
-                    }
+                    ImGuiNET.ImGui.TableNextRow(Flags.TableRowFlags(), Config.MinRowHeight);
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
                         ImGuiNET.ImGui.Text(myProperty.Name);
@@ -215,7 +189,7 @@
         {
             string controlId = Utility.ToControlId(myProperty);
             string mystring = myProperty.Instance.ToString();
-            if (ImGuiNET.ImGui.InputText(controlId, ref mystring, Config.InputTextMaxLength, MyImguiFlags.InputTextFlags()))
+            if (ImGuiNET.ImGui.InputText(controlId, ref mystring, Config.InputTextMaxLength, Flags.InputTextFlags()))
             {
                 SetSelectedNodeValue(myProperty, mystring);
             }

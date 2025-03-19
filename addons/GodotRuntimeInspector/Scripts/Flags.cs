@@ -1,11 +1,11 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts
 {
-    public static class MyImguiFlags
+    public static class Flags
     {
         public static ImGuiNET.ImGuiWindowFlags WindowFlags()
         {
             ImGuiNET.ImGuiWindowFlags flags = new ImGuiNET.ImGuiWindowFlags();
-            flags |= ImGuiNET.ImGuiWindowFlags.MenuBar;
+            flags |= ImGuiNET.ImGuiWindowFlags.None;
             return flags;
         }
         public static ImGuiNET.ImGuiTableFlags TableFlags()
@@ -19,16 +19,12 @@
             flags |= ImGuiNET.ImGuiTableFlags.NoPadInnerX;
             flags |= ImGuiNET.ImGuiTableFlags.ScrollX;
             flags |= ImGuiNET.ImGuiTableFlags.ScrollY;
-            flags |= ImGuiNET.ImGuiTableFlags.SizingFixedFit;
             return flags;
         }
         public static ImGuiNET.ImGuiTableColumnFlags TableColumnFlags()
         {
             ImGuiNET.ImGuiTableColumnFlags flags = new ImGuiNET.ImGuiTableColumnFlags();
-            flags |= ImGuiNET.ImGuiTableColumnFlags.NoReorder;
-            flags |= ImGuiNET.ImGuiTableColumnFlags.IsVisible;
             flags |= ImGuiNET.ImGuiTableColumnFlags.WidthStretch;
-            flags |= ImGuiNET.ImGuiTableColumnFlags.NoClip;
             return flags;
         }
         public static ImGuiNET.ImGuiTableRowFlags TableRowFlags()

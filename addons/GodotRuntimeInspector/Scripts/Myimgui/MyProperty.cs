@@ -52,7 +52,7 @@
                 if (prop.CanRead == true)
                 {
                     System.Reflection.ParameterInfo[] indexParams = prop.GetIndexParameters();
-                    if(indexParams.Length > 0)
+                    if (indexParams.Length > 0)
                     {
                         continue;
                     }
