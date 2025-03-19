@@ -3,158 +3,6 @@
     public class MyPropertyTable
     {
         public Godot.Node? SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
-        private void DrawMyType(MyProperty myProperty)
-        {
-            MyTypes mytype = Utility.GetMyType(myProperty.Instance);
-            switch (mytype)
-            {
-                case MyTypes.Complex:
-                    DrawComplex(myProperty);
-                    break;
-                case MyTypes.Boolean:
-                    DrawMyBoolean(myProperty);
-                    break;
-                case MyTypes.Number:
-                    DrawNumber(myProperty);
-                    break;
-                case MyTypes.String:
-                    DrawString(myProperty);
-                    break;
-                case MyTypes.Vector2:
-                    DrawVector2(myProperty);
-                    break;
-                case MyTypes.Vector3:
-                    DrawVector3(myProperty);
-                    break;
-            }
-        }
-        private static void DrawComplex(MyProperty myProperty)
-        {
-            string controlId = Utility.ToControlId(myProperty);
-            ImGuiNET.ImGui.SeparatorText(controlId);
-        }
-        private void DrawMyBoolean(MyProperty myProperty)
-        {
-            string controlId = Utility.ToControlId(myProperty);
-            bool mybool = (bool)myProperty.Instance;
-            if (ImGuiNET.ImGui.Checkbox(controlId, ref mybool))
-            {
-                SetSelectedNodeValue(myProperty, mybool);
-            }
-        }
-        private void DrawNumber(MyProperty myProperty)
-        {
-            string controlId = Utility.ToControlId(myProperty);
-            // InputInt
-            bool drawInt = myProperty.Instance is sbyte;
-            drawInt = drawInt || myProperty.Instance is byte;
-            drawInt = drawInt || myProperty.Instance is short;
-            drawInt = drawInt || myProperty.Instance is ushort;
-            drawInt = drawInt || myProperty.Instance is int;
-            if (drawInt == true)
-            {
-                int myint = System.Convert.ToInt32(myProperty.Instance);
-                if (ImGuiNET.ImGui.InputInt(controlId, ref myint))
-                {
-                    SetSelectedNodeValue(myProperty, myint);
-                }
-            }
-            // InputDouble
-            bool drawDouble = myProperty.Instance is uint;
-            drawDouble = drawDouble || myProperty.Instance is long;
-            drawDouble = drawDouble || myProperty.Instance is ulong;
-            drawDouble = drawDouble || myProperty.Instance is float;
-            drawDouble = drawDouble || myProperty.Instance is double;
-            drawDouble = drawDouble || myProperty.Instance is decimal;
-            if (drawDouble == true)
-            {
-                double mydouble = System.Convert.ToDouble(myProperty.Instance);
-                if (ImGuiNET.ImGui.InputDouble(controlId, ref mydouble))
-                {
-                    SetSelectedNodeValue(myProperty, mydouble);
-                }
-            }
-        }
-        private void DrawString(MyProperty myProperty)
-        {
-            string controlId = Utility.ToControlId(myProperty);
-            string mystring = myProperty.Instance.ToString();
-            if (ImGuiNET.ImGui.InputText(controlId, ref mystring, Config.InputTextMaxLength, Flags.InputTextFlags()))
-            {
-                SetSelectedNodeValue(myProperty, mystring);
-            }
-        }
-        private void DrawVector2(MyProperty myProperty)
-        {
-            string controlId = Utility.ToControlId(myProperty);
-            System.Numerics.Vector2 systemvector2 = System.Numerics.Vector2.Zero;
-            if (myProperty.Instance is System.Numerics.Vector2)
-            {
-                systemvector2 = (System.Numerics.Vector2)myProperty.Instance;
-            }
-            else if (myProperty.Instance is Godot.Vector2)
-            {
-                Godot.Vector2 godotvector2 = (Godot.Vector2)myProperty.Instance;
-                systemvector2 = new System.Numerics.Vector2(godotvector2.X, godotvector2.Y);
-            }
-            if (ImGuiNET.ImGui.DragFloat2(controlId, ref systemvector2, Config.VectorDragSpeed))
-            {
-                if (myProperty.Instance is System.Numerics.Vector2)
-                {
-                    SetSelectedNodeValue(myProperty, systemvector2);
-                }
-                else if (myProperty.Instance is Godot.Vector2)
-                {
-                    Godot.Vector2 godotvector2 = new Godot.Vector2(systemvector2.X, systemvector2.Y);
-                    SetSelectedNodeValue(myProperty, godotvector2);
-                }
-            }
-        }
-        private void DrawVector3(MyProperty myProperty)
-        {
-            string controlId = Utility.ToControlId(myProperty);
-            System.Numerics.Vector3 systemvector3 = System.Numerics.Vector3.Zero;
-            if (myProperty.Instance is System.Numerics.Vector3)
-            {
-                systemvector3 = (System.Numerics.Vector3)myProperty.Instance;
-            }
-            else if (myProperty.Instance is Godot.Vector3)
-            {
-                Godot.Vector3 godotvector3 = (Godot.Vector3)myProperty.Instance;
-                systemvector3 = new System.Numerics.Vector3(godotvector3.X, godotvector3.Y, godotvector3.Z);
-            }
-            if (ImGuiNET.ImGui.DragFloat3(controlId, ref systemvector3, Config.VectorDragSpeed))
-            {
-                if (myProperty.Instance is System.Numerics.Vector3)
-                {
-                    SetSelectedNodeValue(myProperty, systemvector3);
-                }
-                else if (myProperty.Instance is Godot.Vector3)
-                {
-                    Godot.Vector3 godotvector3 = new Godot.Vector3(systemvector3.X, systemvector3.Y, systemvector3.Z);
-                    SetSelectedNodeValue(myProperty, godotvector3);
-                }
-            }
-        }
-        public void SetSelectedNodeValue(MyProperty myProperty, object value)
-        {
-            if (SelectedNode is null)
-            {
-                return;
-            }
-            System.Reflection.BindingFlags bindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
-            System.Type systemType = SelectedNode.GetType();
-            System.Reflection.FieldInfo? field = systemType.GetField(myProperty.Name, bindingFlags);
-            if (field is not null)
-            {
-                TrySetField(field, myProperty, value);
-            }
-            System.Reflection.PropertyInfo? prop = systemType.GetProperty(myProperty.Name, bindingFlags);
-            if (prop is not null)
-            {
-                TrySetProperty(prop, myProperty, value);
-            }
-        }
         private void TrySetField(System.Reflection.FieldInfo? field, MyProperty myProperty, object value)
         {
             if (field is null)
@@ -387,6 +235,158 @@
             {
                 Godot.Vector3 result = (Godot.Vector3)value;
                 prop.SetValue(SelectedNode, result, null);
+            }
+        }
+        public void SetSelectedNodeValue(MyProperty myProperty, object value)
+        {
+            if (SelectedNode is null)
+            {
+                return;
+            }
+            System.Reflection.BindingFlags bindingFlags = System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.Public;
+            System.Type systemType = SelectedNode.GetType();
+            System.Reflection.FieldInfo? field = systemType.GetField(myProperty.Name, bindingFlags);
+            if (field is not null)
+            {
+                TrySetField(field, myProperty, value);
+            }
+            System.Reflection.PropertyInfo? prop = systemType.GetProperty(myProperty.Name, bindingFlags);
+            if (prop is not null)
+            {
+                TrySetProperty(prop, myProperty, value);
+            }
+        }
+        private static void DrawComplex(MyProperty myProperty)
+        {
+            string controlId = Utility.ToControlId(myProperty);
+            ImGuiNET.ImGui.SeparatorText(controlId);
+        }
+        private void DrawMyBoolean(MyProperty myProperty)
+        {
+            string controlId = Utility.ToControlId(myProperty);
+            bool mybool = (bool)myProperty.Instance;
+            if (ImGuiNET.ImGui.Checkbox(controlId, ref mybool))
+            {
+                SetSelectedNodeValue(myProperty, mybool);
+            }
+        }
+        private void DrawNumber(MyProperty myProperty)
+        {
+            string controlId = Utility.ToControlId(myProperty);
+            // InputInt
+            bool drawInt = myProperty.Instance is sbyte;
+            drawInt = drawInt || myProperty.Instance is byte;
+            drawInt = drawInt || myProperty.Instance is short;
+            drawInt = drawInt || myProperty.Instance is ushort;
+            drawInt = drawInt || myProperty.Instance is int;
+            if (drawInt == true)
+            {
+                int myint = System.Convert.ToInt32(myProperty.Instance);
+                if (ImGuiNET.ImGui.InputInt(controlId, ref myint))
+                {
+                    SetSelectedNodeValue(myProperty, myint);
+                }
+            }
+            // InputDouble
+            bool drawDouble = myProperty.Instance is uint;
+            drawDouble = drawDouble || myProperty.Instance is long;
+            drawDouble = drawDouble || myProperty.Instance is ulong;
+            drawDouble = drawDouble || myProperty.Instance is float;
+            drawDouble = drawDouble || myProperty.Instance is double;
+            drawDouble = drawDouble || myProperty.Instance is decimal;
+            if (drawDouble == true)
+            {
+                double mydouble = System.Convert.ToDouble(myProperty.Instance);
+                if (ImGuiNET.ImGui.InputDouble(controlId, ref mydouble))
+                {
+                    SetSelectedNodeValue(myProperty, mydouble);
+                }
+            }
+        }
+        private void DrawString(MyProperty myProperty)
+        {
+            string controlId = Utility.ToControlId(myProperty);
+            string mystring = myProperty.Instance.ToString();
+            if (ImGuiNET.ImGui.InputText(controlId, ref mystring, Config.InputTextMaxLength, Flags.InputTextFlags()))
+            {
+                SetSelectedNodeValue(myProperty, mystring);
+            }
+        }
+        private void DrawVector2(MyProperty myProperty)
+        {
+            string controlId = Utility.ToControlId(myProperty);
+            System.Numerics.Vector2 systemvector2 = System.Numerics.Vector2.Zero;
+            if (myProperty.Instance is System.Numerics.Vector2)
+            {
+                systemvector2 = (System.Numerics.Vector2)myProperty.Instance;
+            }
+            else if (myProperty.Instance is Godot.Vector2)
+            {
+                Godot.Vector2 godotvector2 = (Godot.Vector2)myProperty.Instance;
+                systemvector2 = new System.Numerics.Vector2(godotvector2.X, godotvector2.Y);
+            }
+            if (ImGuiNET.ImGui.DragFloat2(controlId, ref systemvector2, Config.VectorDragSpeed))
+            {
+                if (myProperty.Instance is System.Numerics.Vector2)
+                {
+                    SetSelectedNodeValue(myProperty, systemvector2);
+                }
+                else if (myProperty.Instance is Godot.Vector2)
+                {
+                    Godot.Vector2 godotvector2 = new Godot.Vector2(systemvector2.X, systemvector2.Y);
+                    SetSelectedNodeValue(myProperty, godotvector2);
+                }
+            }
+        }
+        private void DrawVector3(MyProperty myProperty)
+        {
+            string controlId = Utility.ToControlId(myProperty);
+            System.Numerics.Vector3 systemvector3 = System.Numerics.Vector3.Zero;
+            if (myProperty.Instance is System.Numerics.Vector3)
+            {
+                systemvector3 = (System.Numerics.Vector3)myProperty.Instance;
+            }
+            else if (myProperty.Instance is Godot.Vector3)
+            {
+                Godot.Vector3 godotvector3 = (Godot.Vector3)myProperty.Instance;
+                systemvector3 = new System.Numerics.Vector3(godotvector3.X, godotvector3.Y, godotvector3.Z);
+            }
+            if (ImGuiNET.ImGui.DragFloat3(controlId, ref systemvector3, Config.VectorDragSpeed))
+            {
+                if (myProperty.Instance is System.Numerics.Vector3)
+                {
+                    SetSelectedNodeValue(myProperty, systemvector3);
+                }
+                else if (myProperty.Instance is Godot.Vector3)
+                {
+                    Godot.Vector3 godotvector3 = new Godot.Vector3(systemvector3.X, systemvector3.Y, systemvector3.Z);
+                    SetSelectedNodeValue(myProperty, godotvector3);
+                }
+            }
+        }
+        private void DrawMyType(MyProperty myProperty)
+        {
+            MyTypes mytype = Utility.GetMyType(myProperty.Instance);
+            switch (mytype)
+            {
+                case MyTypes.Complex:
+                    DrawComplex(myProperty);
+                    break;
+                case MyTypes.Boolean:
+                    DrawMyBoolean(myProperty);
+                    break;
+                case MyTypes.Number:
+                    DrawNumber(myProperty);
+                    break;
+                case MyTypes.String:
+                    DrawString(myProperty);
+                    break;
+                case MyTypes.Vector2:
+                    DrawVector2(myProperty);
+                    break;
+                case MyTypes.Vector3:
+                    DrawVector3(myProperty);
+                    break;
             }
         }
         public void Update(Godot.Node? selectedNode, MyProperty[] myProperties, string id)
