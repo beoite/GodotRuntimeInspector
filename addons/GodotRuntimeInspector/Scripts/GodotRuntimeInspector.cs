@@ -20,9 +20,9 @@ namespace GodotRuntimeInspector.Scripts
         public Godot.Vector2 GodotVector2 = new();
         public Godot.Vector3 GodotVector3 = new();
         public Godot.Quaternion GodotQuaternion = new();
-        public Myimgui.MyProperty[] MyProperties = [];
+        public MyProperty[] MyProperties = [];
         public int Counter = -1;
-        public Myimgui.MyPropertyTable MyPropertyTable = new();
+        public MyPropertyTable MyPropertyTable = new();
         public static readonly Godot.Node NothingSelected = new() { Name = nameof(NothingSelected) };
         public Godot.Node SelectedNode = NothingSelected;
         public Godot.SceneTree SceneTree = new();
@@ -33,7 +33,7 @@ namespace GodotRuntimeInspector.Scripts
             {
                 SelectedNode = SceneTree.CurrentScene;
             }
-            MyProperties = Myimgui.MyProperty.NewArray(SelectedNode);
+            MyProperties = MyProperty.NewArray(SelectedNode);
         }
         private void Traverse(Godot.Node? node)
         {

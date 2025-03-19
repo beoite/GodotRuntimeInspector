@@ -1,5 +1,4 @@
-﻿using GodotRuntimeInspector.Scripts.Myimgui;
-namespace GodotRuntimeInspector.Scripts
+﻿namespace GodotRuntimeInspector.Scripts
 {
     public static class Utility
     {

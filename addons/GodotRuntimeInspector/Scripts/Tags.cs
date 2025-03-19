@@ -1,4 +1,4 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts
 {
     [System.Flags]
     public enum Tags

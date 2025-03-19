@@ -1,4 +1,4 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts
 {
     /*
         C#      Range 	                                                Size 	                            .NET type

@@ -1,4 +1,4 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts
 {
     public class MyPropertyComparer : System.Collections.Generic.Comparer<MyProperty>
     {

@@ -1,4 +1,4 @@
-﻿namespace GodotRuntimeInspector.Scripts.Myimgui
+﻿namespace GodotRuntimeInspector.Scripts
 {
     public class MyPropertyTable
     {
@@ -75,42 +75,6 @@
                     }
                 }
                 sortsSpecs.SpecsDirty = false;
-            }
-        }
-        public void Update(Godot.Node? selectedNode, MyProperty[] myProperties, string id, System.Numerics.Vector2 tableSize)
-        {
-            SelectedNode = selectedNode;
-            System.Reflection.FieldInfo[] fields = typeof(MyProperty).GetFields();
-            int numCols = 2;
-            if (ImGuiNET.ImGui.BeginTable(id, numCols, Flags.TableFlags(), tableSize))
-            {
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), Flags.TableColumnFlags());
-                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), Flags.TableColumnFlags());
-                ImGuiNET.ImGui.TableHeadersRow();
-                ImGuiNET.ImGuiTableSortSpecsPtr sortsSpecs = ImGuiNET.ImGui.TableGetSortSpecs();
-                Sort(sortsSpecs, myProperties);
-                for (int i = 0; i < myProperties.Length; i++)
-                {
-                    MyProperty myProperty = myProperties[i];
-                    if (myProperty is null)
-                    {
-                        continue;
-                    }
-                    if (myProperty.Instance is null)
-                    {
-                        continue;
-                    }
-                    ImGuiNET.ImGui.TableNextRow(Flags.TableRowFlags(), Config.MinRowHeight);
-                    if (ImGuiNET.ImGui.TableNextColumn())
-                    {
-                        ImGuiNET.ImGui.Text(myProperty.Name);
-                    }
-                    if (ImGuiNET.ImGui.TableNextColumn())
-                    {
-                        DrawMyType(myProperty);
-                    }
-                }
-                ImGuiNET.ImGui.EndTable();
             }
         }
         private void DrawMyType(MyProperty myProperty)
@@ -497,6 +461,39 @@
             {
                 Godot.Vector3 result = (Godot.Vector3)value;
                 prop.SetValue(SelectedNode, result, null);
+            }
+        }
+        public void Update(Godot.Node? selectedNode, MyProperty[] myProperties, string id, System.Numerics.Vector2 tableSize)
+        {
+            SelectedNode = selectedNode;
+            System.Reflection.FieldInfo[] fields = typeof(MyProperty).GetFields();
+            int numCols = 2;
+            if (ImGuiNET.ImGui.BeginTable(id, numCols, Flags.TableFlags(), tableSize))
+            {
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), Flags.TableColumnFlags());
+                ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), Flags.TableColumnFlags());
+                for (int i = 0; i < myProperties.Length; i++)
+                {
+                    MyProperty myProperty = myProperties[i];
+                    if (myProperty is null)
+                    {
+                        continue;
+                    }
+                    if (myProperty.Instance is null)
+                    {
+                        continue;
+                    }
+                    ImGuiNET.ImGui.TableNextRow(Flags.TableRowFlags(), Config.MinRowHeight);
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        ImGuiNET.ImGui.Text(myProperty.Name);
+                    }
+                    if (ImGuiNET.ImGui.TableNextColumn())
+                    {
+                        DrawMyType(myProperty);
+                    }
+                }
+                ImGuiNET.ImGui.EndTable();
             }
         }
     }
