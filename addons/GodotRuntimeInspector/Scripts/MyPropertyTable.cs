@@ -389,11 +389,12 @@
                 prop.SetValue(SelectedNode, result, null);
             }
         }
-        public void Update(Godot.Node? selectedNode, MyProperty[] myProperties, string id, System.Numerics.Vector2 tableSize)
+        public void Update(Godot.Node? selectedNode, MyProperty[] myProperties, string id)
         {
             SelectedNode = selectedNode;
+            System.Numerics.Vector2 contentRegionAvail = ImGuiNET.ImGui.GetContentRegionAvail();
             int numCols = 2;
-            if (ImGuiNET.ImGui.BeginTable(id, numCols, Flags.TableFlags(), tableSize))
+            if (ImGuiNET.ImGui.BeginTable(id, numCols, Flags.TableFlags(), contentRegionAvail))
             {
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Name), Flags.TableColumnFlags());
                 ImGuiNET.ImGui.TableSetupColumn(nameof(MyProperty.Instance), Flags.TableColumnFlags());

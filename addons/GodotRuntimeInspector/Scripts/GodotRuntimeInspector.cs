@@ -80,7 +80,6 @@ namespace GodotRuntimeInspector.Scripts
             if (begin)
             {
                 System.Numerics.Vector2 contentRegionAvail = ImGuiNET.ImGui.GetContentRegionAvail();
-                // table
                 int cols = 2;
                 if (ImGuiNET.ImGui.BeginTable(nameof(GodotRuntimeInspector), cols, Flags.TableFlags(), contentRegionAvail))
                 {
@@ -96,8 +95,7 @@ namespace GodotRuntimeInspector.Scripts
                     }
                     if (ImGuiNET.ImGui.TableNextColumn())
                     {
-                        contentRegionAvail = ImGuiNET.ImGui.GetContentRegionAvail();
-                        MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyPropertyTable), contentRegionAvail);
+                        MyPropertyTable.Update(SelectedNode, MyProperties, nameof(MyPropertyTable));
                     }
                     ImGuiNET.ImGui.EndTable();
                 }
