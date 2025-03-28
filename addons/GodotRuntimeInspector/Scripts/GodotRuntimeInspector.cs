@@ -70,6 +70,11 @@ namespace GodotRuntimeInspector.Scripts
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
             ImGuiNET.ImGui.SetNextWindowPos(System.Numerics.Vector2.Zero, ImGuiNET.ImGuiCond.Appearing);
             SceneTree = GetTree().Root.GetTree();
+            Godot.WeakRef? weakRef = Godot.WeakRef.WeakRef(SelectedNode);
+            if (weakRef?.GetRef().Obj is null)
+            {
+                SelectedNode = SceneTree.CurrentScene;
+            }
             if (SelectedNode == NothingSelected)
             {
                 SelectedNode = SceneTree.CurrentScene;
