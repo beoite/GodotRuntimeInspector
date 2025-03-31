@@ -20,8 +20,7 @@ namespace GodotRuntimeInspector.Scripts
         public Godot.Vector2 GodotVector2 = new();
         public Godot.Vector3 GodotVector3 = new();
         public Godot.Quaternion GodotQuaternion = new();
-        public static readonly Godot.Node NothingSelected = new() { Name = nameof(NothingSelected) };
-        public Godot.Node SelectedNode = NothingSelected;
+        public Godot.Node? SelectedNode = null;
         public MyProperty[] MyProperties = [];
         public MyPropertyTable MyPropertyTable = new();
         public Godot.SceneTree? SceneTree = null;
@@ -70,12 +69,12 @@ namespace GodotRuntimeInspector.Scripts
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
             ImGuiNET.ImGui.SetNextWindowPos(System.Numerics.Vector2.Zero, ImGuiNET.ImGuiCond.Appearing);
             SceneTree = GetTree().Root.GetTree();
-            bool selectedNodeInstanceValid = Godot.GodotObject.IsInstanceValid(SelectedNode);
-            if(selectedNodeInstanceValid is false)
+            if (SelectedNode is null)
             {
                 SelectedNode = SceneTree.CurrentScene;
             }
-            if (SelectedNode == NothingSelected)
+            bool selectedNodeInstanceValid = Godot.GodotObject.IsInstanceValid(SelectedNode);
+            if(selectedNodeInstanceValid is false)
             {
                 SelectedNode = SceneTree.CurrentScene;
             }

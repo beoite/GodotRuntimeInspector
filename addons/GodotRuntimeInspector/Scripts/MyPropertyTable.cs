@@ -2,7 +2,7 @@
 {
     public class MyPropertyTable
     {
-        public Godot.Node? SelectedNode = new Godot.Node() { Name = nameof(SelectedNode) };
+        public Godot.Node? SelectedNode = null;
         private void TrySetField(System.Reflection.FieldInfo? field, MyProperty myProperty, object value)
         {
             if (field is null)
@@ -237,7 +237,7 @@
                 prop.SetValue(SelectedNode, result, null);
             }
         }
-        public void SetSelectedNodeValue(MyProperty myProperty, object value)
+        private void SetSelectedNodeValue(MyProperty myProperty, object value)
         {
             if (SelectedNode is null)
             {
