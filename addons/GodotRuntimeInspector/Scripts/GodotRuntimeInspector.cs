@@ -24,7 +24,7 @@ namespace GodotRuntimeInspector.Scripts
         public Godot.Node SelectedNode = NothingSelected;
         public MyProperty[] MyProperties = [];
         public MyPropertyTable MyPropertyTable = new();
-        public Godot.SceneTree SceneTree = new();
+        public Godot.SceneTree? SceneTree = null;
         private void Traverse(Godot.Node? node)
         {
             if (node == null)
