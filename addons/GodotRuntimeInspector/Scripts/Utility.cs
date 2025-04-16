@@ -2,7 +2,7 @@
 {
     public static class Utility
     {
-        private static string ToString(object? instance)
+        public static string ToString(object? instance)
         {
             string? str = null;
             try

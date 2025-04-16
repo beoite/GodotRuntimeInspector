@@ -263,6 +263,10 @@
         }
         private void DrawMyBoolean(MyProperty myProperty)
         {
+            if (myProperty.Instance is null)
+            {
+                return;
+            }
             string controlId = Utility.ToControlId(myProperty);
             bool mybool = (bool)myProperty.Instance;
             if (ImGuiNET.ImGui.Checkbox(controlId, ref mybool))
@@ -306,7 +310,7 @@
         private void DrawString(MyProperty myProperty)
         {
             string controlId = Utility.ToControlId(myProperty);
-            string mystring = myProperty.Instance.ToString();
+            string mystring = Utility.ToString(myProperty.Instance);
             if (ImGuiNET.ImGui.InputText(controlId, ref mystring, Config.InputTextMaxLength, Flags.InputTextFlags()))
             {
                 SetSelectedNodeValue(myProperty, mystring);
