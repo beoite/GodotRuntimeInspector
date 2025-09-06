@@ -24,21 +24,26 @@ namespace GodotRuntimeInspector.Scripts
         public MyProperty[] MyProperties = [];
         public MyPropertyTable MyPropertyTable = new();
         public Godot.SceneTree? SceneTree = null;
-        private void Traverse(Godot.Node? node)
+        private void Traverse(Godot.Node? node, int depth = 0)
         {
             if (node == null)
             {
                 return;
             }
             ImGuiNET.ImGuiTreeNodeFlags baseFlags = Flags.TreeNodeFlags();
-            int childCount = node.GetChildCount();
             if (SelectedNode == node)
             {
                 baseFlags |= ImGuiNET.ImGuiTreeNodeFlags.Selected;
             }
+            int childCount = node.GetChildCount();
             if (childCount == 0)
             {
                 baseFlags |= ImGuiNET.ImGuiTreeNodeFlags.Leaf;
+            }
+            depth++;
+            if (depth < 3)
+            {
+                baseFlags |= ImGuiNET.ImGuiTreeNodeFlags.DefaultOpen;
             }
             if (ImGuiNET.ImGui.TreeNodeEx(node.GetPath(), baseFlags))
             {
@@ -48,7 +53,7 @@ namespace GodotRuntimeInspector.Scripts
                 }
                 for (int i = 0; i < childCount; i++)
                 {
-                    Traverse(node.GetChild(i));
+                    Traverse(node.GetChild(i), depth);
                 }
                 ImGuiNET.ImGui.TreePop();
             }
@@ -65,7 +70,7 @@ namespace GodotRuntimeInspector.Scripts
                 return;
             }
             Godot.Vector2I windowGetSize = Godot.DisplayServer.WindowGetSize();
-            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(windowGetSize.X / 2, windowGetSize.Y / 3f);
+            System.Numerics.Vector2 windowSize = new System.Numerics.Vector2(windowGetSize.X / 2f, windowGetSize.Y / 2f);
             ImGuiNET.ImGui.SetNextWindowSize(windowSize, ImGuiNET.ImGuiCond.Appearing);
             ImGuiNET.ImGui.SetNextWindowPos(System.Numerics.Vector2.Zero, ImGuiNET.ImGuiCond.Appearing);
             SceneTree = GetTree().Root.GetTree();
@@ -74,7 +79,7 @@ namespace GodotRuntimeInspector.Scripts
                 SelectedNode = SceneTree.CurrentScene;
             }
             bool selectedNodeInstanceValid = Godot.GodotObject.IsInstanceValid(SelectedNode);
-            if(selectedNodeInstanceValid is false)
+            if (selectedNodeInstanceValid is false)
             {
                 SelectedNode = SceneTree.CurrentScene;
             }
